@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:background="#FF0">
+    android:background="#FF0"
+    android:id="@+id/trip_list_item">
 
     <RelativeLayout
         android:layout_width="wrap_content"
