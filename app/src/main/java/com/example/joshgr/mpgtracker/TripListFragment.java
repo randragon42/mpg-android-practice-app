@@ -1,9 +1,12 @@
 package com.example.joshgr.mpgtracker;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +49,25 @@ public class TripListFragment extends Fragment {
 
         TripArrayAdapter tripArrayAdapter = new TripArrayAdapter(view.getContext(), R.layout.trip_item, tripList);
         tripListView.setAdapter(tripArrayAdapter);
+
+        FloatingActionButton addTripButton = (FloatingActionButton) view.findViewById(R.id.addTripButton);
+        addTripButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                AlertDialog ad = new AlertDialog.Builder(view.getContext())
+                        .create();
+                ad.setCancelable(false);
+                ad.setTitle("Dialog");
+                ad.setMessage("Message");
+                ad.setButton("ok", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                ad.show();
+            }
+        });
     }
 
     private TripDataItem createNewTrip(){
