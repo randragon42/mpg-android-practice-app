@@ -34,7 +34,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_input_add"
-        android:backgroundTint="#222"
+        android:backgroundTint="?attr/colorPrimaryDark"
         android:tint="#FFF"/>
 
 </FrameLayout>

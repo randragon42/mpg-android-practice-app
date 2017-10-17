@@ -54,20 +54,29 @@ public class TripListFragment extends Fragment {
         addTripButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                AlertDialog ad = new AlertDialog.Builder(view.getContext())
-                        .create();
-                ad.setCancelable(false);
-                ad.setTitle("Dialog");
-                ad.setMessage("Message");
-                ad.setButton("ok", new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                ad.show();
+//                AlertDialog ad = new AlertDialog.Builder(view.getContext())
+//                        .create();
+//                ad.setCancelable(false);
+//                ad.setTitle("Dialog");
+//                ad.setMessage("Message");
+//                ad.setButton("ok", new DialogInterface.OnClickListener() {
+//
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//                ad.show();
+                  showTripEditFragment();
             }
         });
+    }
+
+    private void showTripEditFragment(){
+        TripEditFragment tripEditFragment = new TripEditFragment();
+        getFragmentManager().beginTransaction()
+                            .replace(R.id.fragmentContainer, tripEditFragment, "edit")
+                            .addToBackStack(null)
+                            .commit();
     }
 
     private TripDataItem createNewTrip(){

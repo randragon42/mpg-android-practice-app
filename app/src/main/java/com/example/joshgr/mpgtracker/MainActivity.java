@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.widget.Toolbar;
 
 public class MainActivity extends Activity {
 
@@ -12,10 +13,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setActionBar(toolbar);
+
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         TripListFragment tripListFragment = new TripListFragment();
-        fragmentTransaction.add(R.id.listFragmentContainer, tripListFragment, "tripList");
+        fragmentTransaction.add(R.id.fragmentContainer, tripListFragment, "tripList");
         fragmentTransaction.commit();
     }
 }
