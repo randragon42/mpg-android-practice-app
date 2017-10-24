@@ -44,7 +44,10 @@ public class TripListFragment extends Fragment {
         ArrayList<TripDataItem> tripList = db.getAllTrips();
 
         if(tripList.size() == 0){
-            tripList.add(createNewTrip());
+            tripList.add(createNewTrip(0));
+            tripList.add(createNewTrip(1));
+            tripList.add(createNewTrip(2));
+            tripList.add(createNewTrip(3));
         }
 
         TripArrayAdapter tripArrayAdapter = new TripArrayAdapter(view.getContext(), R.layout.trip_item, tripList);
@@ -79,7 +82,9 @@ public class TripListFragment extends Fragment {
                             .commit();
     }
 
-    private TripDataItem createNewTrip(){
-        return new TripDataItem(new Date(), 14.123, 403.2, 30.45);
+    private TripDataItem createNewTrip(int hours){
+        Date date = new Date();
+        date.setHours(date.getHours() - hours);
+        return new TripDataItem(date, 14.123, 403.2, 30.45);
     }
 }

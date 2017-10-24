@@ -5,27 +5,20 @@
     android:layout_height="match_parent"
     tools:context="com.example.joshgr.mpgtracker.TripListFragment">
 
-
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:id="@+id/tripListView">
 
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tripListView">
+            <!-- Add things here -->
 
-                <!-- Add things here -->
-
-            </ListView>
-        </LinearLayout>
-
-    </ScrollView>
+        </ListView>
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addTripButton"
