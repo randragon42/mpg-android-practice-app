@@ -11,6 +11,7 @@
         android:orientation="vertical">
 
         <ListView
+            android:theme="@style/TripListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tripListView">
@@ -27,7 +28,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_input_add"
-        android:backgroundTint="?attr/colorPrimaryDark"
+        android:backgroundTint="@color/colorPrimary"
         android:tint="#FFF"/>
 
 </FrameLayout>

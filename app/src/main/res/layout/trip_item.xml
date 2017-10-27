@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:background="#FF0"
     android:id="@+id/trip_list_item">
 
     <RelativeLayout
@@ -15,14 +14,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="75.34"
+            tools:text="75.34"
             android:id="@+id/mpg"
-            android:textSize="18dp"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="mpg"
+            tools:text="mpg"
             android:id="@+id/mpgLabel"
             android:layout_below="@id/mpg"
             android:layout_centerHorizontal="true"/>
@@ -32,8 +31,8 @@
         android:id="@+id/cost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/mpgContainer"
-        android:layout_marginLeft="15dp"
+        android:layout_toEndOf="@id/mpgContainer"
+        android:layout_marginStart="15dp"
         tools:text = "$25.34"/>
 
     <TextView
@@ -41,16 +40,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/cost"
-        android:layout_toRightOf="@id/mpgContainer"
-        android:layout_marginLeft="15dp"
+        android:layout_toEndOf="@id/mpgContainer"
+        android:layout_marginStart="15dp"
         tools:text = "12.254 gallons"/>
 
     <TextView
         android:id="@+id/cost_per_gallon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/gallons"
-        android:layout_marginLeft="15dp"
+        android:layout_toEndOf="@id/gallons"
+        android:layout_marginStart="15dp"
         tools:text = "$2.78 per gallon"/>
 
     <TextView
@@ -58,8 +57,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/cost_per_gallon"
-        android:layout_toRightOf="@id/gallons"
-        android:layout_marginLeft="15dp"
+        android:layout_toEndOf="@id/gallons"
+        android:layout_marginStart="15dp"
         tools:text = "200 miles"/>
 
 </RelativeLayout>

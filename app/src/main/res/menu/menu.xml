@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+        android:id="@+id/add_trip_favorite"
+        android:icon="@drawable/add_sans_circle"
+        android:title="@string/add_trip"
+        app:showAsAction="ifRoom|withText"/>
+
+    <!-- Settings, should always be in the overflow -->
+    <item android:id="@+id/delete_all_trips_setting"
+        android:title="@string/delete_all_trips"
+        app:showAsAction="never"/>
+
+</menu>

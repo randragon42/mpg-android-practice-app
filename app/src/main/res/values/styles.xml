@@ -1,8 +1,25 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- Light Indigo -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!-- Dark Indigo -->
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- Blue -->
+    </style>
+
+    <style name="AppToolbar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:titleTextColor">@android:color/white</item>
+    </style>
+
+    <style name="TripListView">
+        <item name="android:background">@color/light_grey</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:divider">@android:color/transparent</item>
+        <item name="android:dividerHeight">0dp</item>
     </style>
 
 </resources>
