@@ -20,27 +20,52 @@ public class TripArrayAdapter extends ArrayAdapter<TripDataItem> {
         mTrips = trips;
     }
 
+    @Nullable
+    @Override
+    public TripDataItem getItem(int position) {
+        return mTrips.get(position);
+    }
+
+    @Override
+    public int getCount() {
+        return mTrips.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        View rowView = inflater.inflate(R.layout.trip_item, parent, false);
+        View view = convertView;
+        if(view == null){
+            view = LayoutInflater.from(mContext).inflate(R.layout.trip_item, parent, false);
 
-        TextView mpg = (TextView) rowView.findViewById(R.id.mpg);
-        mpg.setText(String.format("%.2f", mTrips.get(position).getMilesPerGallon()));
+            TextView mpg = (TextView) view.findViewById(R.id.mpg);
+            TextView cost = (TextView) view.findViewById(R.id.cost);
+            TextView gallons = (TextView) view.findViewById(R.id.gallons);
+            TextView cost_per_gallon = (TextView) view.findViewById(R.id.cost_per_gallon);
+            TextView miles = (TextView) view.findViewById(R.id.miles);
 
-        TextView cost = (TextView) rowView.findViewById(R.id.cost);
-        cost.setText(String.format("$%.2f", mTrips.get(position).getTripCost()));
+            TripViewHolder tripViewHolder = new TripViewHolder();
+            tripViewHolder.MPG = mpg;
+            tripViewHolder.Cost = cost;
+            tripViewHolder.Gallons = gallons;
+            tripViewHolder.Cost_Per_Gallon = cost_per_gallon;
+            tripViewHolder.Miles = miles;
+            view.setTag(tripViewHolder);
+        }
 
-        TextView gallons = (TextView) rowView.findViewById(R.id.gallons);
-        gallons.setText(String.format("%.3f gallons", mTrips.get(position).getGallons()));
+        TripViewHolder tripViewHolder = (TripViewHolder)view.getTag();
 
-        TextView cost_per_gallon = (TextView) rowView.findViewById(R.id.cost_per_gallon);
-        cost_per_gallon.setText(String.format("$%.3f per gallon", mTrips.get(position).getCostPerGallon()));
+        tripViewHolder.MPG.setText(String.format("%.2f", mTrips.get(position).getMilesPerGallon()));
+        tripViewHolder.Cost.setText(String.format("$%.2f", mTrips.get(position).getTripCost()));
+        tripViewHolder.Gallons.setText(String.format("%.3f gallons", mTrips.get(position).getGallons()));
+        tripViewHolder.Cost_Per_Gallon.setText(String.format("$%.3f per gallon", mTrips.get(position).getCostPerGallon()));
+        tripViewHolder.Miles.setText(String.format("%.1f miles", mTrips.get(position).getMiles()));
 
-        TextView miles = (TextView) rowView.findViewById(R.id.miles);
-        miles.setText(String.format("%.1f miles", mTrips.get(position).getMiles()));
-
-        return rowView;
+        return view;
     }
 }

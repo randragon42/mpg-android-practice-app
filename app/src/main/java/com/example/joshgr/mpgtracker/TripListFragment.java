@@ -15,8 +15,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import java.util.ArrayList;
@@ -28,6 +30,8 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class TripListFragment extends Fragment {
+
+    private ArrayList<TripDataItem> mTripList;
 
     public TripListFragment() {
         // Required empty public constructor
@@ -51,40 +55,31 @@ public class TripListFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ListView tripListView = (ListView) view.findViewById(R.id.tripListView);
-
         // Update Toolbar
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Trip List");
         getActivity().setActionBar((toolbar));
 
         MpgDbHelper db = new MpgDbHelper(view.getContext());
-        ArrayList<TripDataItem> tripList = db.getAllTrips();
+        mTripList = db.getAllTrips();
 
-        if(tripList.size() == 0){
-            tripList.add(createNewTrip(0));
-            tripList.add(createNewTrip(1));
-            tripList.add(createNewTrip(2));
-            tripList.add(createNewTrip(3));
-            tripList.add(createNewTrip(4));
-            tripList.add(createNewTrip(5));
-            tripList.add(createNewTrip(6));
-            tripList.add(createNewTrip(7));
-            tripList.add(createNewTrip(8));
-            tripList.add(createNewTrip(9));
-            tripList.add(createNewTrip(10));
-            tripList.add(createNewTrip(11));
-        }
-
-        TripArrayAdapter tripArrayAdapter = new TripArrayAdapter(view.getContext(), R.layout.trip_item, tripList);
+        // Set up list adapter
+        ListView tripListView = (ListView) view.findViewById(R.id.tripListView);
+        TripArrayAdapter tripArrayAdapter = new TripArrayAdapter(view.getContext(), R.layout.trip_item, mTripList);
         tripListView.setAdapter(tripArrayAdapter);
+        tripListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(parent.getContext(), "Hi", Toast.LENGTH_LONG).show();
+            }
+        });
 
+        // Set up floating action button
         FloatingActionButton addTripButton = (FloatingActionButton) view.findViewById(R.id.addTripButton);
         addTripButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 showTripEditFragment();
-                //showTripEditPopUp(view);
             }
         });
     }
@@ -115,11 +110,5 @@ public class TripListFragment extends Fragment {
                             .replace(R.id.fragmentContainer, tripEditFragment, "edit")
                             .addToBackStack(null)
                             .commit();
-    }
-
-    private TripDataItem createNewTrip(int hours){
-        Date date = new Date();
-        date.setHours(date.getHours() - hours);
-        return new TripDataItem(date, 14.123, 403.2, 30.45);
     }
 }
