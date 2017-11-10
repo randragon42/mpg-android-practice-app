@@ -32,6 +32,7 @@ import java.util.List;
 public class TripListFragment extends Fragment {
 
     private ArrayList<TripDataItem> mTripList;
+    private TripArrayAdapter mAdapter;
 
     public TripListFragment() {
         // Required empty public constructor
@@ -65,8 +66,8 @@ public class TripListFragment extends Fragment {
 
         // Set up list adapter
         ListView tripListView = (ListView) view.findViewById(R.id.tripListView);
-        TripArrayAdapter tripArrayAdapter = new TripArrayAdapter(view.getContext(), R.layout.trip_item, mTripList);
-        tripListView.setAdapter(tripArrayAdapter);
+        mAdapter = new TripArrayAdapter(view.getContext(), R.layout.trip_item, mTripList);
+        tripListView.setAdapter(mAdapter);
         tripListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -82,6 +83,15 @@ public class TripListFragment extends Fragment {
                 showTripEditFragment();
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        MpgDbHelper db = new MpgDbHelper(getContext());
+        mTripList = db.getAllTrips();
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

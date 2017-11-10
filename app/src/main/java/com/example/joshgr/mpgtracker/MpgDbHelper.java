@@ -15,6 +15,7 @@ public class MpgDbHelper extends SQLiteOpenHelper{
     public static final String DATABASE_NAME = "MPG_SQLite.db";
     private static final int DATABASE_VERSION = 1;
     public static final String TRIPS_TABLE_NAME = "trips";
+    public static final String TRIPS_COLUMN_ID = "_id";
     public static final String TRIPS_COLUMN_DATE = "date";
     public static final String TRIPS_COLUMN_GALLONS = "gallons";
     public static final String TRIPS_COLUMN_MILES = "miles";
@@ -27,28 +28,29 @@ public class MpgDbHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TRIPS_TABLE_NAME + "(" +
-            TRIPS_COLUMN_DATE + " INTEGER PRIMARY KEY, " +
-            TRIPS_COLUMN_GALLONS + "REAL, " +
-            TRIPS_COLUMN_MILES + "REAL ," +
-            TRIPS_COLUMN_COST + "REAL)"
+            TRIPS_COLUMN_ID + " INTEGER PRIMARY KEY, " +
+            TRIPS_COLUMN_DATE + " TEXT, " +
+            TRIPS_COLUMN_GALLONS + " REAL, " +
+            TRIPS_COLUMN_MILES + " REAL," +
+            TRIPS_COLUMN_COST + " REAL)"
         );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Migrate data to new table type...
+        db.execSQL(" DROP TABLE IF EXISTS " + TRIPS_TABLE_NAME);
+        onCreate(db);
     }
 
-    public boolean addTrip(TripDataItem trip){
+    public void addTrip(TripDataItem trip){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TRIPS_COLUMN_DATE, trip.getDate().getTime());
+        contentValues.put(TRIPS_COLUMN_DATE, trip.getDate().toString());
         contentValues.put(TRIPS_COLUMN_GALLONS, trip.getGallons());
         contentValues.put(TRIPS_COLUMN_MILES, trip.getMiles());
         contentValues.put(TRIPS_COLUMN_COST, trip.getTripCost());
         db.insert(TRIPS_TABLE_NAME, null, contentValues);
-
-        return true;
+        db.close();
     }
 
     public boolean updateTrip(TripDataItem trip){
@@ -77,8 +79,10 @@ public class MpgDbHelper extends SQLiteOpenHelper{
                     trips.add(new TripDataItem(date, gallons, miles, cost));
                 } while (cursor.moveToNext());
             }
-        }
 
+            cursor.close();
+        }
+        db.close();;
         return trips;
     }
 }

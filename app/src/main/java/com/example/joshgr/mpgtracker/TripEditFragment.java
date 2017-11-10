@@ -63,21 +63,28 @@ public class TripEditFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                View view = (ViewGroup) v.getParent();
                 Date date = new Date();
                 try {
-                    date = mDateFormat.parse(((TextView)v.findViewById(R.id.datePicker)).getText().toString());
+                    date = mDateFormat.parse(((TextView)view.findViewById(R.id.datePicker)).getText().toString());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
 
-                double miles = Double.parseDouble((((EditText)v.findViewById(R.id.milesEditText)).getText().toString()));
-                double cost = Double.parseDouble((((EditText)v.findViewById(R.id.costEditText)).getText().toString()));
-                double gallons = Double.parseDouble((((EditText)v.findViewById(R.id.gallonsEditText)).getText().toString()));
+                double miles = Double.parseDouble((((EditText)view.findViewById(R.id.milesEditText)).getText().toString()));
+                double cost = Double.parseDouble((((EditText)view.findViewById(R.id.costEditText)).getText().toString()));
+                double gallons = Double.parseDouble((((EditText)view.findViewById(R.id.gallonsEditText)).getText().toString()));
 
-                TripDataItem trip = new TripDataItem(date, gallons, miles, cost);
+                final TripDataItem trip = new TripDataItem(date, gallons, miles, cost);
 
-                MpgDbHelper db = new MpgDbHelper(v.getContext());
-                db.addTrip(trip);
+                new Thread(new Runnable() {
+                    public void run() {
+                        MpgDbHelper db = new MpgDbHelper(getContext());
+                        db.addTrip(trip);
+                    }
+                }).start();
+
+                getActivity().getFragmentManager().popBackStack();
             }
         });
 
