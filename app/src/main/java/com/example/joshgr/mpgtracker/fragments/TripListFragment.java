@@ -1,6 +1,8 @@
 package com.example.joshgr.mpgtracker.fragments;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +12,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -71,7 +74,7 @@ public class TripListFragment extends Fragment {
         tripListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(parent.getContext(), "Hi", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "List Item Selected", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -89,9 +92,7 @@ public class TripListFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        MpgDbHelper db = new MpgDbHelper(getContext());
-        mTripList = db.getAllTrips();
-        mAdapter.notifyDataSetChanged();
+        refreshTripList();
     }
 
     @Override
@@ -100,17 +101,33 @@ public class TripListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void showTripEditPopUp(View view){
-        View popUpView = getActivity().getLayoutInflater().inflate(R.layout.fragment_trip_edit, null);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.delete_all_trips_setting:
+                deleteAllTrips();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
-        PopupWindow popupWindow = new PopupWindow(popUpView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable());
-
-        int location[] = new int[2];
-        view.getLocationOnScreen(location);
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+//    private void showTripEditPopUp(View view){
+//        View popUpView = getActivity().getLayoutInflater().inflate(R.layout.fragment_trip_edit, null);
+//
+//        PopupWindow popupWindow = new PopupWindow(popUpView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//
+//        popupWindow.setFocusable(true);
+//        popupWindow.setBackgroundDrawable(new ColorDrawable());
+//
+//        int location[] = new int[2];
+//        view.getLocationOnScreen(location);
+//        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+//    }
+    private void refreshTripList(){
+        MpgDbHelper db = new MpgDbHelper(getContext());
+        mTripList = db.getAllTrips();
+        mAdapter.notifyDataSetChanged();
     }
 
     private void showTripEditFragment(){
@@ -120,5 +137,32 @@ public class TripListFragment extends Fragment {
                             .replace(R.id.fragmentContainer, tripEditFragment, "edit")
                             .addToBackStack(null)
                             .commit();
+    }
+
+    private void deleteAllTrips(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+
+        dialogBuilder.setTitle("Delete All Trips?")
+                .setMessage("Are you sure you want to delete all trips? This action cannot be undone.")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MpgDbHelper db = new MpgDbHelper(getContext());
+                        db.deleteAllTrips();
+                        // TODO: deletion does not update listview adapter
+                        mTripList = new ArrayList<TripDataItem>();
+                        mAdapter.notifyDataSetChanged();
+                        Toast.makeText(getContext(), "All trips deleted", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = dialogBuilder.create();
+        alert.show();
     }
 }

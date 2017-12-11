@@ -60,7 +60,7 @@ public class MpgDbHelper extends SQLiteOpenHelper{
         throw new java.lang.UnsupportedOperationException("Method not yet implemented.");
     }
 
-    public TripDataItem getTrip(Date date){
+    public TripDataItem getTrip(int id){
         // TODO: Get specific trip from database
         throw new java.lang.UnsupportedOperationException("Method not yet implemented.");
     }
@@ -84,7 +84,13 @@ public class MpgDbHelper extends SQLiteOpenHelper{
 
             cursor.close();
         }
-        db.close();;
+        db.close();
         return trips;
+    }
+
+    public void deleteAllTrips(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TRIPS_TABLE_NAME, null, null);
+        db.close();
     }
 }
