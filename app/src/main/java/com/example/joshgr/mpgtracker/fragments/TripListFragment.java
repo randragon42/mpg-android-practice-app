@@ -150,8 +150,8 @@ public class TripListFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         MpgDbHelper db = new MpgDbHelper(getContext());
                         db.deleteAllTrips();
-                        // TODO: deletion does not update listview adapter
-                        mTripList = new ArrayList<TripDataItem>();
+                        mTripList.clear();
+                        mAdapter.clear();
                         mAdapter.notifyDataSetChanged();
                         Toast.makeText(getContext(), "All trips deleted", Toast.LENGTH_LONG).show();
                     }
