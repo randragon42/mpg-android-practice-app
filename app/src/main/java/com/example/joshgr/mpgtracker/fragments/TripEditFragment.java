@@ -1,11 +1,10 @@
-package com.example.joshgr.mpgtracker;
+package com.example.joshgr.mpgtracker.fragments;
 
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.Nullable;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toolbar;
+
+import com.example.joshgr.mpgtracker.helpers.MpgDbHelper;
+import com.example.joshgr.mpgtracker.R;
+import com.example.joshgr.mpgtracker.data.TripDataItem;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -77,12 +80,11 @@ public class TripEditFragment extends Fragment {
 
                 final TripDataItem trip = new TripDataItem(date, gallons, miles, cost);
 
-                new Thread(new Runnable() {
-                    public void run() {
-                        MpgDbHelper db = new MpgDbHelper(getContext());
-                        db.addTrip(trip);
-                    }
-                }).start();
+                // This was previously being run in a background thread which caused issues
+                // when this fragment was popped and the TripListFragment resumed, fetching all
+                // trip data points while this new one was being written to the db.
+                MpgDbHelper db = new MpgDbHelper(getContext());
+                db.addTrip(trip);
 
                 getActivity().getFragmentManager().popBackStack();
             }

@@ -1,4 +1,4 @@
-package com.example.joshgr.mpgtracker;
+package com.example.joshgr.mpgtracker.helpers;
 
 
 import android.content.ContentValues;
@@ -6,6 +6,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.joshgr.mpgtracker.data.TripDataItem;
 
 import java.util.ArrayList;
 import java.util.Date;

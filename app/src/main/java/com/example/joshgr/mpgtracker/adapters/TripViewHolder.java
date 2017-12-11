@@ -1,4 +1,4 @@
-package com.example.joshgr.mpgtracker;
+package com.example.joshgr.mpgtracker.adapters;
 
 import android.widget.TextView;
 

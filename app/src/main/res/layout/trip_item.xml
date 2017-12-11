@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="mpg"
+            android:text="mpg"
             android:id="@+id/mpgLabel"
             android:layout_below="@id/mpg"
             android:layout_centerHorizontal="true"/>

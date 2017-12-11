@@ -1,4 +1,4 @@
-package com.example.joshgr.mpgtracker;
+package com.example.joshgr.mpgtracker.data;
 
 import java.util.Date;
 

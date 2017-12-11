@@ -1,9 +1,6 @@
-package com.example.joshgr.mpgtracker;
+package com.example.joshgr.mpgtracker.fragments;
 
 
-import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,9 +18,12 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.example.joshgr.mpgtracker.helpers.MpgDbHelper;
+import com.example.joshgr.mpgtracker.R;
+import com.example.joshgr.mpgtracker.adapters.TripArrayAdapter;
+import com.example.joshgr.mpgtracker.data.TripDataItem;
+
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 
 /**
