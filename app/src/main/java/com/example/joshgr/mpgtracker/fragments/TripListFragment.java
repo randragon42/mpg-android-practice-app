@@ -145,7 +145,7 @@ public class TripListFragment extends Fragment {
         dialogBuilder.setTitle("Delete All Trips?")
                 .setMessage("Are you sure you want to delete all trips? This action cannot be undone.")
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MpgDbHelper db = new MpgDbHelper(getContext());
@@ -156,7 +156,7 @@ public class TripListFragment extends Fragment {
                         Toast.makeText(getContext(), "All trips deleted", Toast.LENGTH_LONG).show();
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();

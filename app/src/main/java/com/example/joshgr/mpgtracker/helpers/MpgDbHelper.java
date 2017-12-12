@@ -44,15 +44,16 @@ public class MpgDbHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public void addTrip(TripDataItem trip){
+    public int addTrip(TripDataItem trip){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(TRIPS_COLUMN_DATE, trip.getDate().toString());
         contentValues.put(TRIPS_COLUMN_GALLONS, trip.getGallons());
         contentValues.put(TRIPS_COLUMN_MILES, trip.getMiles());
         contentValues.put(TRIPS_COLUMN_COST, trip.getTripCost());
-        db.insert(TRIPS_TABLE_NAME, null, contentValues);
+        long rowId = db.insert(TRIPS_TABLE_NAME, null, contentValues);
         db.close();
+        return (int)rowId;
     }
 
     public boolean updateTrip(TripDataItem trip){
@@ -74,11 +75,12 @@ public class MpgDbHelper extends SQLiteOpenHelper{
         if(cursor != null){
             if(cursor.moveToFirst()){
                 do {
+                    int id = cursor.getInt(cursor.getColumnIndex(TRIPS_COLUMN_ID));
                     Date date = new Date(cursor.getLong(cursor.getColumnIndex(TRIPS_COLUMN_DATE)));
                     double gallons = cursor.getDouble(cursor.getColumnIndex(TRIPS_COLUMN_GALLONS));
                     double miles = cursor.getDouble(cursor.getColumnIndex(TRIPS_COLUMN_MILES));
                     double cost = cursor.getDouble(cursor.getColumnIndex(TRIPS_COLUMN_COST));
-                    trips.add(new TripDataItem(date, gallons, miles, cost));
+                    trips.add(new TripDataItem(id, date, gallons, miles, cost));
                 } while (cursor.moveToNext());
             }
 

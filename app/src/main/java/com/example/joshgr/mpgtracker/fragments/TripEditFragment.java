@@ -78,7 +78,7 @@ public class TripEditFragment extends Fragment {
                 double cost = Double.parseDouble((((EditText)view.findViewById(R.id.costEditText)).getText().toString()));
                 double gallons = Double.parseDouble((((EditText)view.findViewById(R.id.gallonsEditText)).getText().toString()));
 
-                final TripDataItem trip = new TripDataItem(date, gallons, miles, cost);
+                final TripDataItem trip = new TripDataItem(0, date, gallons, miles, cost);
 
                 // This was previously being run in a background thread which caused issues
                 // when this fragment was popped and the TripListFragment resumed, fetching all
