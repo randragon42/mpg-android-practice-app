@@ -74,7 +74,18 @@ public class TripListFragment extends Fragment {
         tripListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "List Item Selected", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "List Item Clicked", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        tripListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int pos, long id) {
+                //Toast.makeText(getContext(), "List Item Long Clicked", Toast.LENGTH_LONG).show();
+                int tripId = mTripList.get(pos).getId();
+                deleteTrip(tripId);
+                return true;
             }
         });
 
@@ -137,6 +148,33 @@ public class TripListFragment extends Fragment {
                             .replace(R.id.fragmentContainer, tripEditFragment, "edit")
                             .addToBackStack(null)
                             .commit();
+    }
+
+    private void deleteTrip(final int id){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+
+        dialogBuilder.setTitle("Delete?")
+                .setMessage("Are you sure you want to delete this trips? This action cannot be undone.")
+                .setCancelable(false)
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MpgDbHelper db = new MpgDbHelper(getContext());
+                        db.deleteTrip(id);
+                        mTripList.clear();
+                        mAdapter.clear();
+                        mAdapter.notifyDataSetChanged();
+                        Toast.makeText(getContext(), "Trip deleted", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = dialogBuilder.create();
+        alert.show();
     }
 
     private void deleteAllTrips(){

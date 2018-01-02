@@ -90,6 +90,12 @@ public class MpgDbHelper extends SQLiteOpenHelper{
         return trips;
     }
 
+    public void deleteTrip(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TRIPS_TABLE_NAME, TRIPS_COLUMN_ID + "=?", new String[]{Integer.toString(id)});
+        db.close();
+    }
+
     public void deleteAllTrips(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TRIPS_TABLE_NAME, null, null);
