@@ -75,6 +75,7 @@ public class TripListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getContext(), "List Item Clicked", Toast.LENGTH_LONG).show();
+                //showTripEditFragment(mTripList.get(position));
             }
         });
 
@@ -84,7 +85,7 @@ public class TripListFragment extends Fragment {
                                            int pos, long id) {
                 //Toast.makeText(getContext(), "List Item Long Clicked", Toast.LENGTH_LONG).show();
                 int tripId = mTripList.get(pos).getId();
-                deleteTrip(tripId);
+                deleteTrip(tripId, pos);
                 return true;
             }
         });
@@ -94,7 +95,7 @@ public class TripListFragment extends Fragment {
         addTripButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                showTripEditFragment();
+                showTripEditFragment(null);
             }
         });
     }
@@ -123,26 +124,25 @@ public class TripListFragment extends Fragment {
         }
     }
 
-//    private void showTripEditPopUp(View view){
-//        View popUpView = getActivity().getLayoutInflater().inflate(R.layout.fragment_trip_edit, null);
-//
-//        PopupWindow popupWindow = new PopupWindow(popUpView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//
-//        popupWindow.setFocusable(true);
-//        popupWindow.setBackgroundDrawable(new ColorDrawable());
-//
-//        int location[] = new int[2];
-//        view.getLocationOnScreen(location);
-//        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-//    }
     private void refreshTripList(){
         MpgDbHelper db = new MpgDbHelper(getContext());
         mTripList = db.getAllTrips();
         mAdapter.notifyDataSetChanged();
     }
 
-    private void showTripEditFragment(){
+    private void showTripEditFragment(TripDataItem trip){
         TripEditFragment tripEditFragment = new TripEditFragment();
+
+        if(trip != null){
+            Bundle bundle = new Bundle();
+            bundle.putDouble("cost", trip.getTripCost());
+            bundle.putDouble("miles", trip.getMiles());
+            bundle.putDouble("gallons", trip.getGallons());
+            bundle.putString("date", trip.getDate().toString());
+            bundle.putInt("id", trip.getId());
+            tripEditFragment.setArguments(bundle);
+        }
+
         getFragmentManager().beginTransaction()
                             .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                             .replace(R.id.fragmentContainer, tripEditFragment, "edit")
@@ -150,7 +150,7 @@ public class TripListFragment extends Fragment {
                             .commit();
     }
 
-    private void deleteTrip(final int id){
+    private void deleteTrip(final int id, final int pos){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
 
         dialogBuilder.setTitle("Delete?")
@@ -161,8 +161,8 @@ public class TripListFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         MpgDbHelper db = new MpgDbHelper(getContext());
                         db.deleteTrip(id);
-                        mTripList.clear();
-                        mAdapter.clear();
+                        TripDataItem deletedTrip = mTripList.remove(pos);
+                        mAdapter.remove(mAdapter.getItem(pos));
                         mAdapter.notifyDataSetChanged();
                         Toast.makeText(getContext(), "Trip deleted", Toast.LENGTH_LONG).show();
                     }
