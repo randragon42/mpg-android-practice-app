@@ -31,6 +31,7 @@ public class TripEditFragment extends Fragment {
     Calendar mCalendar;
     DatePickerDialog.OnDateSetListener mDate;
     SimpleDateFormat mDateFormat;
+    int mId = -1;
 
     public TripEditFragment() {
         // Required empty public constructor
@@ -62,32 +63,25 @@ public class TripEditFragment extends Fragment {
         mDatePickerText = (TextView) view.findViewById(R.id.datePicker);
         this.initDatePicker();
 
+        //Set up fields if editing existing trip
+        if (getArguments() != null) {
+            double cost = getArguments().getDouble("cost");
+            double miles = getArguments().getDouble("miles");
+            double gallons = getArguments().getDouble("gallons");
+            String date = getArguments().getString("date");
+            mId = getArguments().getInt("id");
+
+            // TODO: Add formatting for strings
+            ((EditText)view.findViewById(R.id.milesEditText)).setText(Double.toString(miles));
+            ((EditText)view.findViewById(R.id.gallonsEditText)).setText(Double.toString(gallons));
+            ((EditText)view.findViewById(R.id.costEditText)).setText(Double.toString(cost));
+        }
+
         Button saveButton = (Button) view.findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = (ViewGroup) v.getParent();
-                Date date = new Date();
-                try {
-                    date = mDateFormat.parse(((TextView)view.findViewById(R.id.datePicker)).getText().toString());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                double miles = Double.parseDouble((((EditText)view.findViewById(R.id.milesEditText)).getText().toString()));
-                double cost = Double.parseDouble((((EditText)view.findViewById(R.id.costEditText)).getText().toString()));
-                double gallons = Double.parseDouble((((EditText)view.findViewById(R.id.gallonsEditText)).getText().toString()));
-
-                final TripDataItem trip = new TripDataItem(0, date, gallons, miles, cost);
-
-                // This was previously being run in a background thread which caused issues
-                // when this fragment was popped and the TripListFragment resumed, fetching all
-                // trip data points while this new one was being written to the db.
-                // TODO: Need to update db handling for multithreading
-                MpgDbHelper db = new MpgDbHelper(getContext());
-                db.addTrip(trip);
-
-                getActivity().getFragmentManager().popBackStack();
+                saveTrip((ViewGroup) v.getParent());
             }
         });
 
@@ -98,12 +92,40 @@ public class TripEditFragment extends Fragment {
                 getActivity().getFragmentManager().popBackStack();
             }
         });
+    }
 
+    private void saveTrip(View view){
+        Date date = new Date();
+        try {
+            date = mDateFormat.parse(((TextView)view.findViewById(R.id.datePicker)).getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        // TODO: add validation checks for fields
+        double miles = Double.parseDouble((((EditText)view.findViewById(R.id.milesEditText)).getText().toString()));
+        double cost = Double.parseDouble((((EditText)view.findViewById(R.id.costEditText)).getText().toString()));
+        double gallons = Double.parseDouble((((EditText)view.findViewById(R.id.gallonsEditText)).getText().toString()));
+
+        final TripDataItem trip = new TripDataItem(0, date, gallons, miles, cost);
+
+        // This was previously being run in a background thread which caused issues
+        // when this fragment was popped and the TripListFragment resumed, fetching all
+        // trip data points while this new one was being written to the db.
+        // TODO: Need to update db handling for multithreading
+        MpgDbHelper db = new MpgDbHelper(getContext());
+        if(mId == -1){
+            db.addTrip(trip);
+        }
+        else{
+            db.updateTrip(trip, mId);
+        }
+
+        getActivity().getFragmentManager().popBackStack();
     }
 
     private void initDatePicker(){
         if(mDatePickerText.getText() == ""){
-            this.updateLabel();
+            this.updateDateLabel();
         }
         mDate = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -111,7 +133,7 @@ public class TripEditFragment extends Fragment {
                 mCalendar.set(Calendar.YEAR, year);
                 mCalendar.set(Calendar.MONTH, month);
                 mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
+                updateDateLabel();
             }
         };
 
@@ -123,7 +145,7 @@ public class TripEditFragment extends Fragment {
         });
     }
 
-    private void updateLabel(){
+    private void updateDateLabel(){
         mDatePickerText.setText(mDateFormat.format(mCalendar.getTime()));
     }
 }

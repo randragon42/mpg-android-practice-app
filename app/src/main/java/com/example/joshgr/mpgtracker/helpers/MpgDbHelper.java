@@ -47,19 +47,17 @@ public class MpgDbHelper extends SQLiteOpenHelper{
 
     public int addTrip(TripDataItem trip){
         SQLiteDatabase db = getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(TRIPS_COLUMN_DATE, trip.getDate().toString());
-        contentValues.put(TRIPS_COLUMN_GALLONS, trip.getGallons());
-        contentValues.put(TRIPS_COLUMN_MILES, trip.getMiles());
-        contentValues.put(TRIPS_COLUMN_COST, trip.getTripCost());
+        ContentValues contentValues = createContentValues(trip);
         long rowId = db.insert(TRIPS_TABLE_NAME, null, contentValues);
         db.close();
         return (int)rowId;
     }
 
-    public boolean updateTrip(TripDataItem trip){
-        // TODO: update trip in database
-        throw new java.lang.UnsupportedOperationException("Method not yet implemented.");
+    public void updateTrip(TripDataItem trip, int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = createContentValues(trip);
+        db.update(TRIPS_TABLE_NAME, contentValues, TRIPS_COLUMN_ID+"="+id, null);
+        db.close();
     }
 
     public TripDataItem getTrip(int id){
@@ -101,5 +99,15 @@ public class MpgDbHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TRIPS_TABLE_NAME, null, null);
         db.close();
+    }
+
+    private ContentValues createContentValues(TripDataItem trip){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TRIPS_COLUMN_DATE, trip.getDate().toString());
+        contentValues.put(TRIPS_COLUMN_GALLONS, trip.getGallons());
+        contentValues.put(TRIPS_COLUMN_MILES, trip.getMiles());
+        contentValues.put(TRIPS_COLUMN_COST, trip.getTripCost());
+
+        return contentValues;
     }
 }

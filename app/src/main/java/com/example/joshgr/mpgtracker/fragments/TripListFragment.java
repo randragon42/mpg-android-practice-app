@@ -74,8 +74,7 @@ public class TripListFragment extends Fragment {
         tripListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "List Item Clicked", Toast.LENGTH_LONG).show();
-                //showTripEditFragment(mTripList.get(position));
+                showTripEditFragment(mTripList.get(position));
             }
         });
 
@@ -83,7 +82,6 @@ public class TripListFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long id) {
-                //Toast.makeText(getContext(), "List Item Long Clicked", Toast.LENGTH_LONG).show();
                 int tripId = mTripList.get(pos).getId();
                 deleteTrip(tripId, pos);
                 return true;
