@@ -24,7 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-
+//TODO: Update to edit existing trips
 public class TripEditFragment extends Fragment {
 
     TextView mDatePickerText;
@@ -83,6 +83,7 @@ public class TripEditFragment extends Fragment {
                 // This was previously being run in a background thread which caused issues
                 // when this fragment was popped and the TripListFragment resumed, fetching all
                 // trip data points while this new one was being written to the db.
+                // TODO: Need to update db handling for multithreading
                 MpgDbHelper db = new MpgDbHelper(getContext());
                 db.addTrip(trip);
 

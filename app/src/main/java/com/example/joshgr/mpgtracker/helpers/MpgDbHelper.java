@@ -12,6 +12,7 @@ import com.example.joshgr.mpgtracker.data.TripDataItem;
 import java.util.ArrayList;
 import java.util.Date;
 
+//TODO: Update to new Rooms Persistence Library
 public class MpgDbHelper extends SQLiteOpenHelper{
 
     public static final String DATABASE_NAME = "MPG_SQLite.db";
