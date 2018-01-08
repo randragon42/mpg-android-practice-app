@@ -70,6 +70,7 @@ public class TripEditFragment extends Fragment {
             String date = getArguments().getString("date");
             mId = getArguments().getInt("id");
 
+            ((TextView)view.findViewById(R.id.datePicker)).setText(date);
             ((EditText)view.findViewById(R.id.milesEditText)).setText(String.format(Double.toString(miles), "%.1f"));
             ((EditText)view.findViewById(R.id.gallonsEditText)).setText(String.format(Double.toString(gallons), "%.3f"));
             ((EditText)view.findViewById(R.id.costEditText)).setText(String.format(Double.toString(cost), "%.2f"));
@@ -120,13 +121,7 @@ public class TripEditFragment extends Fragment {
         EditText costEditText = (EditText)view.findViewById(R.id.costEditText);
         EditText gallonsEditText = (EditText)view.findViewById(R.id.gallonsEditText);
 
-        Date date = new Date();
-        try {
-            date = mDateFormat.parse(((TextView)view.findViewById(R.id.datePicker)).getText().toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
+        String date = ((TextView)view.findViewById(R.id.datePicker)).getText().toString();
         double miles = validateEditTextDouble(milesEditText, "Distance required.", "Invalid miles value. Must be greater than 0.");
         double cost = validateEditTextDouble(costEditText, "Cost required.", "Invalid cost value. Must be greater than 0.");
         double gallons = validateEditTextDouble(gallonsEditText, "Gallons required.", "Invalid gallons value. Must be greater than 0.");

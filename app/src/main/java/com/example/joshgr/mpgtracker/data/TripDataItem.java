@@ -5,14 +5,14 @@ import java.util.Date;
 public class TripDataItem {
 
     int mId;
-    Date mDate;
+    String mDate;
     double mGallons;
     double mMiles;
     double mTripCost;
     double mCostPerGallon;
     double mMilesPerGallon;
 
-    public TripDataItem(int id, Date date, double gallons, double miles, double tripCost){
+    public TripDataItem(int id, String date, double gallons, double miles, double tripCost){
         mId = id;
         mDate = date;
         mGallons = gallons;
@@ -24,7 +24,7 @@ public class TripDataItem {
 
     public int getId() { return mId; }
 
-    public Date getDate(){ return mDate; }
+    public String getDate(){ return mDate; }
 
     public double getGallons(){
         return mGallons;

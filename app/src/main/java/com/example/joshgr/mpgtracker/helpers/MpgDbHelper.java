@@ -75,7 +75,7 @@ public class MpgDbHelper extends SQLiteOpenHelper{
             if(cursor.moveToFirst()){
                 do {
                     int id = cursor.getInt(cursor.getColumnIndex(TRIPS_COLUMN_ID));
-                    Date date = new Date(cursor.getLong(cursor.getColumnIndex(TRIPS_COLUMN_DATE)));
+                    String date = cursor.getString(cursor.getColumnIndex(TRIPS_COLUMN_DATE));
                     double gallons = cursor.getDouble(cursor.getColumnIndex(TRIPS_COLUMN_GALLONS));
                     double miles = cursor.getDouble(cursor.getColumnIndex(TRIPS_COLUMN_MILES));
                     double cost = cursor.getDouble(cursor.getColumnIndex(TRIPS_COLUMN_COST));
@@ -103,7 +103,7 @@ public class MpgDbHelper extends SQLiteOpenHelper{
 
     private ContentValues createContentValues(TripDataItem trip){
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TRIPS_COLUMN_DATE, trip.getDate().toString());
+        contentValues.put(TRIPS_COLUMN_DATE, trip.getDate());
         contentValues.put(TRIPS_COLUMN_GALLONS, trip.getGallons());
         contentValues.put(TRIPS_COLUMN_MILES, trip.getMiles());
         contentValues.put(TRIPS_COLUMN_COST, trip.getTripCost());
