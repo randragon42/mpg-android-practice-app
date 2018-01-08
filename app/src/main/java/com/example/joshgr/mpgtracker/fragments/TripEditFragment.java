@@ -24,7 +24,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-//TODO: Update to edit existing trips
 public class TripEditFragment extends Fragment {
 
     TextView mDatePickerText;
@@ -71,10 +70,9 @@ public class TripEditFragment extends Fragment {
             String date = getArguments().getString("date");
             mId = getArguments().getInt("id");
 
-            // TODO: Add formatting for strings
-            ((EditText)view.findViewById(R.id.milesEditText)).setText(Double.toString(miles));
-            ((EditText)view.findViewById(R.id.gallonsEditText)).setText(Double.toString(gallons));
-            ((EditText)view.findViewById(R.id.costEditText)).setText(Double.toString(cost));
+            ((EditText)view.findViewById(R.id.milesEditText)).setText(String.format(Double.toString(miles), "%.1f"));
+            ((EditText)view.findViewById(R.id.gallonsEditText)).setText(String.format(Double.toString(gallons), "%.3f"));
+            ((EditText)view.findViewById(R.id.costEditText)).setText(String.format(Double.toString(cost), "%.2f"));
         }
 
         Button saveButton = (Button) view.findViewById(R.id.saveButton);
@@ -95,18 +93,12 @@ public class TripEditFragment extends Fragment {
     }
 
     private void saveTrip(View view){
-        Date date = new Date();
-        try {
-            date = mDateFormat.parse(((TextView)view.findViewById(R.id.datePicker)).getText().toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        // TODO: add validation checks for fields
-        double miles = Double.parseDouble((((EditText)view.findViewById(R.id.milesEditText)).getText().toString()));
-        double cost = Double.parseDouble((((EditText)view.findViewById(R.id.costEditText)).getText().toString()));
-        double gallons = Double.parseDouble((((EditText)view.findViewById(R.id.gallonsEditText)).getText().toString()));
 
-        final TripDataItem trip = new TripDataItem(0, date, gallons, miles, cost);
+        // Validate form
+        final TripDataItem trip = validateTrip(view);
+        if(trip == null){
+            return;
+        }
 
         // This was previously being run in a background thread which caused issues
         // when this fragment was popped and the TripListFragment resumed, fetching all
@@ -121,6 +113,44 @@ public class TripEditFragment extends Fragment {
         }
 
         getActivity().getFragmentManager().popBackStack();
+    }
+
+    private TripDataItem validateTrip(View view){
+        EditText milesEditText = (EditText)view.findViewById(R.id.milesEditText);
+        EditText costEditText = (EditText)view.findViewById(R.id.costEditText);
+        EditText gallonsEditText = (EditText)view.findViewById(R.id.gallonsEditText);
+
+        Date date = new Date();
+        try {
+            date = mDateFormat.parse(((TextView)view.findViewById(R.id.datePicker)).getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        double miles = validateEditTextDouble(milesEditText, "Distance required.", "Invalid miles value. Must be greater than 0.");
+        double cost = validateEditTextDouble(costEditText, "Cost required.", "Invalid cost value. Must be greater than 0.");
+        double gallons = validateEditTextDouble(gallonsEditText, "Gallons required.", "Invalid gallons value. Must be greater than 0.");
+
+        if(miles <= 0 || cost <= 0 || gallons <= 0){
+            return null;
+        }
+        else{
+            return new TripDataItem(0, date, miles, cost, gallons);
+        }
+    }
+
+    private double validateEditTextDouble(EditText editText, String missingMessage, String correctFormatMessage){
+        double value = 0;
+        try {
+            value = Double.parseDouble(editText.getText().toString());
+            if(value <= 0){
+                editText.setError(correctFormatMessage);
+            }
+        } catch (java.lang.NumberFormatException e) {
+            editText.setError(missingMessage);
+        }
+
+        return value;
     }
 
     private void initDatePicker(){
