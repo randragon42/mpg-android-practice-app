@@ -22,9 +22,8 @@
     </style>
 
     <style name="TripListView">
-        <item name="android:background">@color/light_grey</item>
         <item name="android:cacheColorHint">@android:color/transparent</item>
-        <item name="android:divider">@android:color/transparent</item>
+        <item name="android:divider">@android:color/black</item>
         <item name="android:dividerHeight">0dp</item>
     </style>
 
