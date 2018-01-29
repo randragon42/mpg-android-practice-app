@@ -1,5 +1,6 @@
 package com.example.joshgr.mpgtracker.data;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TripDataItem {
@@ -45,6 +46,8 @@ public class TripDataItem {
     public double getMilesPerGallon(){
         return mMilesPerGallon;
     }
+
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 
 
 }

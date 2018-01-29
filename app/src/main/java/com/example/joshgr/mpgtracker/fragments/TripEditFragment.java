@@ -29,13 +29,10 @@ public class TripEditFragment extends Fragment {
     TextView mDatePickerText;
     Calendar mCalendar;
     DatePickerDialog.OnDateSetListener mDate;
-    SimpleDateFormat mDateFormat;
     int mId = -1;
 
     public TripEditFragment() {
         // Required empty public constructor
-        String format = "MM/dd/yyyy";
-        mDateFormat = new SimpleDateFormat(format, Locale.US);
     }
 
 
@@ -130,7 +127,7 @@ public class TripEditFragment extends Fragment {
             return null;
         }
         else{
-            return new TripDataItem(0, date, miles, cost, gallons);
+            return new TripDataItem(0, date, gallons, miles, cost);
         }
     }
 
@@ -171,6 +168,6 @@ public class TripEditFragment extends Fragment {
     }
 
     private void updateDateLabel(){
-        mDatePickerText.setText(mDateFormat.format(mCalendar.getTime()));
+        mDatePickerText.setText(TripDataItem.DATE_FORMAT.format(mCalendar.getTime()));
     }
 }
