@@ -23,6 +23,8 @@ public class MpgDbHelper extends SQLiteOpenHelper{
     public static final String TRIPS_COLUMN_GALLONS = "gallons";
     public static final String TRIPS_COLUMN_MILES = "miles";
     public static final String TRIPS_COLUMN_COST = "cost";
+    public static final String TRIPS_COLUMN_ODOMETER = "odometer";
+    public static final String TRIPS_COLUMN_FILLED_TANK = "filled_tank";
 
     public MpgDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -35,6 +37,8 @@ public class MpgDbHelper extends SQLiteOpenHelper{
             TRIPS_COLUMN_DATE + " TEXT, " +
             TRIPS_COLUMN_GALLONS + " REAL, " +
             TRIPS_COLUMN_MILES + " REAL," +
+            TRIPS_COLUMN_ODOMETER + " REAL," +
+            TRIPS_COLUMN_FILLED_TANK + " REAL," +
             TRIPS_COLUMN_COST + " REAL)"
         );
     }
@@ -79,7 +83,9 @@ public class MpgDbHelper extends SQLiteOpenHelper{
                     double gallons = cursor.getDouble(cursor.getColumnIndex(TRIPS_COLUMN_GALLONS));
                     double miles = cursor.getDouble(cursor.getColumnIndex(TRIPS_COLUMN_MILES));
                     double cost = cursor.getDouble(cursor.getColumnIndex(TRIPS_COLUMN_COST));
-                    trips.add(new TripDataItem(id, date, gallons, miles, cost));
+                    double odometer = cursor.getDouble(cursor.getColumnIndex(TRIPS_COLUMN_ODOMETER));
+                    boolean filledTank = cursor.getInt(cursor.getColumnIndex(TRIPS_COLUMN_FILLED_TANK)) == 1;
+                    trips.add(new TripDataItem(id, date, gallons, miles, cost, odometer, filledTank));
                 } while (cursor.moveToNext());
             }
 
@@ -107,6 +113,8 @@ public class MpgDbHelper extends SQLiteOpenHelper{
         contentValues.put(TRIPS_COLUMN_GALLONS, trip.getGallons());
         contentValues.put(TRIPS_COLUMN_MILES, trip.getMiles());
         contentValues.put(TRIPS_COLUMN_COST, trip.getTripCost());
+        contentValues.put(TRIPS_COLUMN_ODOMETER, trip.getOdometer());
+        contentValues.put(TRIPS_COLUMN_FILLED_TANK, trip.getFilledTank() ? 1 : 0);
 
         return contentValues;
     }

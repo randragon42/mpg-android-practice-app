@@ -11,4 +11,5 @@ public class TripViewHolder {
     public TextView CostPerGallon;
     public TextView Miles;
     public TextView Odometer;
+    public TextView TankFilled;
 }

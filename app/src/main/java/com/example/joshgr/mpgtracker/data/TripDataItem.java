@@ -12,8 +12,10 @@ public class TripDataItem {
     double mTripCost;
     double mCostPerGallon;
     double mMilesPerGallon;
+    double mOdometer;
+    boolean mFilledTank;
 
-    public TripDataItem(int id, String date, double gallons, double miles, double tripCost){
+    public TripDataItem(int id, String date, double gallons, double miles, double tripCost, double odometer, boolean filledTank){
         mId = id;
         mDate = date;
         mGallons = gallons;
@@ -21,11 +23,17 @@ public class TripDataItem {
         mTripCost = tripCost;
         mCostPerGallon = tripCost / gallons;
         mMilesPerGallon = miles / gallons;
+        mOdometer = odometer;
+        mFilledTank = filledTank;
     }
 
-    public int getId() { return mId; }
+    public int getId() {
+        return mId;
+    }
 
-    public String getDate(){ return mDate; }
+    public String getDate(){
+        return mDate;
+    }
 
     public double getGallons(){
         return mGallons;
@@ -47,7 +55,14 @@ public class TripDataItem {
         return mMilesPerGallon;
     }
 
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+    public double getOdometer(){
+        return mOdometer;
+    }
 
+    public boolean getFilledTank(){
+        return mFilledTank;
+    }
+
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 
 }
