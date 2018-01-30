@@ -60,6 +60,7 @@ public class TripArrayAdapter extends ArrayAdapter<TripDataItem> {
             TextView costPerGallon = (TextView) view.findViewById(R.id.costPerGallon);
             TextView miles = (TextView) view.findViewById(R.id.miles);
             TextView odometer = (TextView) view.findViewById(R.id.odometer);
+            TextView tankFilled = (TextView) view.findViewById(R.id.tankFilled);
 
             TripViewHolder tripViewHolder = new TripViewHolder();
             tripViewHolder.Date = date;
@@ -70,6 +71,7 @@ public class TripArrayAdapter extends ArrayAdapter<TripDataItem> {
             tripViewHolder.CostPerGallon = costPerGallon;
             tripViewHolder.Miles = miles;
             tripViewHolder.Odometer = odometer;
+            tripViewHolder.TankFilled = tankFilled;
             view.setTag(tripViewHolder);
         }
 
@@ -79,12 +81,13 @@ public class TripArrayAdapter extends ArrayAdapter<TripDataItem> {
         TripDataItem trip = mTrips.get(position);
         tripViewHolder.Date.setText(formatDate(trip.getDate(), "MMM dd"));
         tripViewHolder.Year.setText(formatDate(trip.getDate(), "yyyy"));
-        tripViewHolder.MPG.setText(String.format("%.2f mpg", mTrips.get(position).getMilesPerGallon()));
-        tripViewHolder.Cost.setText(String.format("$%.2f", mTrips.get(position).getTripCost()));
-        tripViewHolder.Gallons.setText(String.format("%.3f gal", mTrips.get(position).getGallons()));
-        tripViewHolder.CostPerGallon.setText(String.format("$%.3f/gal", mTrips.get(position).getCostPerGallon()));
-        tripViewHolder.Miles.setText(String.format("%.1f miles", mTrips.get(position).getMiles()));
-
+        tripViewHolder.MPG.setText(String.format("%.2f mpg", trip.getMilesPerGallon()));
+        tripViewHolder.Cost.setText(String.format("$%.2f", trip.getTripCost()));
+        tripViewHolder.Gallons.setText(String.format("%.3f gal", trip.getGallons()));
+        tripViewHolder.CostPerGallon.setText(String.format("$%.3f/gal", trip.getCostPerGallon()));
+        tripViewHolder.Miles.setText(String.format("%.1f miles", trip.getMiles()));
+        tripViewHolder.Odometer.setText(String.format("%.1f", trip.getOdometer()));
+        tripViewHolder.TankFilled.setText(trip.getFilledTank() ? "Tank Filled" : "");
         return view;
     }
 

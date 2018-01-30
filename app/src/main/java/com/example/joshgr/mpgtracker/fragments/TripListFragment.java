@@ -136,8 +136,10 @@ public class TripListFragment extends Fragment {
             bundle.putDouble("cost", trip.getTripCost());
             bundle.putDouble("miles", trip.getMiles());
             bundle.putDouble("gallons", trip.getGallons());
-            bundle.putString("date", trip.getDate().toString());
+            bundle.putString("date", trip.getDate());
             bundle.putInt("id", trip.getId());
+            bundle.putBoolean("filledTank", trip.getFilledTank());
+            bundle.putDouble("odometer", trip.getOdometer());
             tripEditFragment.setArguments(bundle);
         }
 

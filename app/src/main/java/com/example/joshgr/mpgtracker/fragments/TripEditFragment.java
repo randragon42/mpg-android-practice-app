@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -64,6 +65,8 @@ public class TripEditFragment extends Fragment {
             double cost = getArguments().getDouble("cost");
             double miles = getArguments().getDouble("miles");
             double gallons = getArguments().getDouble("gallons");
+            double odometer = getArguments().getDouble("odometer");
+            boolean filledTank = getArguments().getBoolean("filledTank");
             String date = getArguments().getString("date");
             mId = getArguments().getInt("id");
 
@@ -71,6 +74,8 @@ public class TripEditFragment extends Fragment {
             ((EditText)view.findViewById(R.id.milesEditText)).setText(String.format(Double.toString(miles), "%.1f"));
             ((EditText)view.findViewById(R.id.gallonsEditText)).setText(String.format(Double.toString(gallons), "%.3f"));
             ((EditText)view.findViewById(R.id.costEditText)).setText(String.format(Double.toString(cost), "%.2f"));
+            ((EditText)view.findViewById(R.id.odometerEditText)).setText(String.format(Double.toString(odometer), "%.1f"));
+            ((CheckBox)view.findViewById(R.id.filledTankCheckBox)).setChecked(filledTank);
         }
 
         Button saveButton = (Button) view.findViewById(R.id.saveButton);
@@ -117,17 +122,21 @@ public class TripEditFragment extends Fragment {
         EditText milesEditText = (EditText)view.findViewById(R.id.milesEditText);
         EditText costEditText = (EditText)view.findViewById(R.id.costEditText);
         EditText gallonsEditText = (EditText)view.findViewById(R.id.gallonsEditText);
+        EditText odometerEditText = (EditText)view.findViewById(R.id.odometerEditText);
+        CheckBox filledTankCheckBox = (CheckBox)view.findViewById(R.id.filledTankCheckBox);
 
         String date = ((TextView)view.findViewById(R.id.datePicker)).getText().toString();
         double miles = validateEditTextDouble(milesEditText, "Distance required.", "Invalid miles value. Must be greater than 0.");
         double cost = validateEditTextDouble(costEditText, "Cost required.", "Invalid cost value. Must be greater than 0.");
         double gallons = validateEditTextDouble(gallonsEditText, "Gallons required.", "Invalid gallons value. Must be greater than 0.");
+        double odometer = validateEditTextDouble(odometerEditText, "Odometer reading required.", "Invalid odometer value. Must be greater than 0.");
+        boolean filledTank = filledTankCheckBox.isChecked();
 
-        if(miles <= 0 || cost <= 0 || gallons <= 0){
+        if(miles <= 0 || cost <= 0 || gallons <= 0 || odometer <= 0){
             return null;
         }
         else{
-            return new TripDataItem(0, date, gallons, miles, cost);
+            return new TripDataItem(0, date, gallons, miles, cost, odometer, filledTank);
         }
     }
 

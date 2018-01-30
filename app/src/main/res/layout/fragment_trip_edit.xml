@@ -29,13 +29,24 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:ems="10"
-        android:hint="Miles Driven"
         android:inputType="numberDecimal"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/datePicker" />
+        app:layout_constraintTop_toTopOf="@+id/odometerLabel" />
+
+    <TextView
+        android:id="@+id/tripMilesLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:labelFor="@id/milesEditText"
+        android:text="Trip Miles"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/milesEditText" />
 
     <EditText
         android:id="@+id/costEditText"
@@ -43,42 +54,17 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Total Cost"
         android:inputType="numberDecimal"
         android:singleLine="true"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/milesEditText" />
-
-    <EditText
-        android:id="@+id/gallonsEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="Gallons Purchased"
-        android:inputType="numberDecimal"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/costEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/datePicker" />
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Gallons"
-        app:layout_constraintStart_toEndOf="@+id/gallonsEditText"
-        app:layout_constraintTop_toTopOf="@+id/gallonsEditText" />
-
-    <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/currencyLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -90,35 +76,104 @@
         app:layout_constraintTop_toTopOf="@+id/costEditText" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/tripCostLabel"
         android:layout_width="wrap_content"
-        android:layout_height="15dp"
-        android:layout_marginTop="20dp"
-        android:text="Miles"
-        app:layout_constraintStart_toEndOf="@+id/milesEditText"
-        app:layout_constraintTop_toTopOf="@+id/milesEditText" />
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:labelFor="@id/costEditText"
+        android:text="Total Cost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/costEditText" />
+
+    <EditText
+        android:id="@+id/gallonsEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/costEditText" />
+
+    <TextView
+        android:id="@+id/gallonsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:labelFor="@id/gallonsEditText"
+        android:text="Gallons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gallonsEditText" />
+
+    <EditText
+        android:id="@+id/odometerEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gallonsLabel" />
+
+    <TextView
+        android:id="@+id/odometerLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:labelFor="@+id/odometerEditText"
+        android:text="Odometer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/odometerEditText" />
+
+    <CheckBox
+        android:id="@+id/filledTankCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:checked="true"
+        android:text="Filled Tank"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tripMilesLabel" />
 
     <Button
         android:id="@+id/saveButton"
         style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginTop="32dp"
         android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/verticalCenterGuideline"/>
+        app:layout_constraintEnd_toStartOf="@+id/verticalCenterGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/filledTankCheckBox" />
 
     <Button
         android:id="@+id/cancelButton"
         style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
         android:text="Cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/verticalCenterGuideline"/>
+        app:layout_constraintStart_toStartOf="@+id/verticalCenterGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/filledTankCheckBox" />
 
     <android.support.constraint.Guideline
         android:id="@+id/verticalCenterGuideline"
@@ -126,5 +181,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
+
+    <Button
+        android:id="@+id/calculateTripMilesButton"
+        android:layout_width="55dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Auto Calc"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toTopOf="@+id/tripMilesLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/milesEditText"
+        app:layout_constraintTop_toBottomOf="@+id/odometerLabel" />
 
 </android.support.constraint.ConstraintLayout>
