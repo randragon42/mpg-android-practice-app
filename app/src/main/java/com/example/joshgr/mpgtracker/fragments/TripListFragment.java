@@ -61,6 +61,7 @@ public class TripListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Update Toolbar
+        // TODO: move title updating into a new class inheriting from Fragment which all of my fragments will inherit from.
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Trips");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
