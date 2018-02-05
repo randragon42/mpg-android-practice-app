@@ -33,10 +33,12 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TripListFragment extends Fragment {
+public class TripListFragment extends BaseFragment {
 
     private ArrayList<TripDataItem> mTripList;
     private TripArrayAdapter mAdapter;
+    @Override
+    protected String getTitle() { return "Trips"; }
 
     public TripListFragment() {
         // Required empty public constructor
@@ -59,12 +61,6 @@ public class TripListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // Update Toolbar
-        // TODO: move title updating into a new class inheriting from Fragment which all of my fragments will inherit from.
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle("Trips");
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         MpgDbHelper db = new MpgDbHelper(view.getContext());
         mTripList = db.getAllTrips();
