@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_sub_item_0"
+            android:icon="@drawable/gas_station"
+            android:checked="true"
+            android:title="Trips"/>
+        <item
+            android:id="@+id/navigation_sub_item_1"
+            android:icon="@drawable/chart"
+            android:title="Graphs"/>
+        <item
+            android:id="@+id/navigation_sub_item_2"
+            android:icon="@drawable/info_outline"
+            android:title="Stats"/>
+        <item
+            android:id="@+id/navigation_sub_item_3"
+            android:icon="@drawable/settings"
+            android:title="Settings"/>
+    </group>
+</menu>

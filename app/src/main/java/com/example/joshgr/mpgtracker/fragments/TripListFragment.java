@@ -6,8 +6,9 @@ import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,7 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.example.joshgr.mpgtracker.helpers.MpgDbHelper;
 import com.example.joshgr.mpgtracker.R;
@@ -61,8 +62,8 @@ public class TripListFragment extends Fragment {
 
         // Update Toolbar
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle("Trip List");
-        getActivity().setActionBar((toolbar));
+        toolbar.setTitle("Trips");
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         MpgDbHelper db = new MpgDbHelper(view.getContext());
         mTripList = db.getAllTrips();
@@ -144,7 +145,6 @@ public class TripListFragment extends Fragment {
         }
 
         getFragmentManager().beginTransaction()
-                            .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                             .replace(R.id.fragmentContainer, tripEditFragment, "edit")
                             .addToBackStack(null)
                             .commit();

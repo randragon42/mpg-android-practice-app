@@ -3,8 +3,9 @@ package com.example.joshgr.mpgtracker.fragments;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.example.joshgr.mpgtracker.helpers.MpgDbHelper;
 import com.example.joshgr.mpgtracker.R;
@@ -53,7 +54,7 @@ public class TripEditFragment extends Fragment {
         // Update Toolbar
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle("Create Trip");
-        getActivity().setActionBar((toolbar));
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         //Set up date picker
         mCalendar = Calendar.getInstance();
@@ -90,7 +91,7 @@ public class TripEditFragment extends Fragment {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getFragmentManager().popBackStack();
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
     }
@@ -115,7 +116,7 @@ public class TripEditFragment extends Fragment {
             db.updateTrip(trip, mId);
         }
 
-        getActivity().getFragmentManager().popBackStack();
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 
     private TripDataItem validateTrip(View view){
