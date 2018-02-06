@@ -4,8 +4,6 @@ package com.example.joshgr.mpgtracker.activities;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.joshgr.mpgtracker.fragments.BaseFragment;
 import com.example.joshgr.mpgtracker.fragments.GraphsFragment;
 import com.example.joshgr.mpgtracker.fragments.SettingsFragment;
 import com.example.joshgr.mpgtracker.fragments.StatsFragment;
@@ -30,15 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    // Fragments
-    private FragmentManager mFragmentManager;
-    private FragmentTransaction mFragmentTransaction;
-    private Fragment mTripFragment;
-    private Fragment mGraphFragment;
-    private Fragment mStatsFragment;
-    private Fragment mSettingsFragment;
     private final String TRIP_TAG = "tripList";
-    private final String GRAPH_TAG = "graphs";
+    private final String GRAPHS_TAG = "graphs";
     private final String STATS_TAG = "stats";
     private final String SETTINGS_TAG = "settings";
 
@@ -61,11 +51,10 @@ public class MainActivity extends AppCompatActivity {
         // TODO: update db to Rooms DAOs
         TripDatabase = new MpgDbHelper(this);
 
-        mFragmentManager = getSupportFragmentManager();
-        mFragmentTransaction = mFragmentManager.beginTransaction();
-        mTripFragment = new TripListFragment();
-        mFragmentTransaction.add(R.id.fragmentContainer, mTripFragment, TRIP_TAG);
-        mFragmentTransaction.commit();
+        // Launch opening fragment
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragmentContainer, new TripListFragment(), TRIP_TAG)
+                .commit();
     }
 
     @Override
@@ -83,11 +72,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         item.setChecked(true);
-                        // TODO: fragment transaction for selected fragment based on item.getItemId()
                         switch(item.getItemId()){
                             case R.id.trips_navigation_item:    launchFragment(new TripListFragment(), TRIP_TAG);
                                                                 break;
-                            case R.id.graphs_navigation_item:   launchFragment(new GraphsFragment(), GRAPH_TAG);
+                            case R.id.graphs_navigation_item:   launchFragment(new GraphsFragment(), GRAPHS_TAG);
                                                                 break;
                             case R.id.stats_navigation_item:    launchFragment(new StatsFragment(), STATS_TAG);
                                                                 break;
@@ -121,18 +109,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void launchFragment(Fragment fragment, String tag){
-//        // If fragment doesn't exist yet, create one
-//        if (fragment == null) {
-//
-//            mFragmentTransaction.add(R.id.fragment_list, new fragmentType(), tag);
-//        }
-//        else { // re-use the old fragment
-//            mFragmentTransaction.replace(R.id.fragment_list, fragment, "uniqueTag");
-//        }
-
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, fragment, tag)
-                .addToBackStack(null)
                 .commit();
     }
 }

@@ -136,12 +136,15 @@ public class TripListFragment extends BaseFragment {
             tripEditFragment.setArguments(bundle);
         }
 
+        // TODO: add slide-in-up and slide-down-out animations
         getFragmentManager().beginTransaction()
                             .replace(R.id.fragmentContainer, tripEditFragment, "edit")
                             .addToBackStack(null)
                             .commit();
     }
 
+
+    // TODO: Can these two methods be combined?
     private void deleteTrip(final int id, final int pos){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
 
