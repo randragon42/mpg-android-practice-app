@@ -2,20 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/navigation_sub_item_0"
+            android:id="@+id/trips_navigation_item"
             android:icon="@drawable/gas_station"
             android:checked="true"
             android:title="Trips"/>
         <item
-            android:id="@+id/navigation_sub_item_1"
+            android:id="@+id/graphs_navigation_item"
             android:icon="@drawable/chart"
             android:title="Graphs"/>
         <item
-            android:id="@+id/navigation_sub_item_2"
+            android:id="@+id/stats_navigation_item"
             android:icon="@drawable/info_outline"
             android:title="Stats"/>
         <item
-            android:id="@+id/navigation_sub_item_3"
+            android:id="@+id/settings_navigation_item"
             android:icon="@drawable/settings"
             android:title="Settings"/>
     </group>
