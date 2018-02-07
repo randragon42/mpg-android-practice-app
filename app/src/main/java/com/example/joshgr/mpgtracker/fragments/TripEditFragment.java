@@ -3,7 +3,6 @@ package com.example.joshgr.mpgtracker.fragments;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,27 +12,23 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.example.joshgr.mpgtracker.helpers.MpgDbHelper;
 import com.example.joshgr.mpgtracker.R;
 import com.example.joshgr.mpgtracker.data.TripDataItem;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
-public class TripEditFragment extends Fragment {
+public class TripEditFragment extends BaseFragment {
 
     TextView mDatePickerText;
     Calendar mCalendar;
     DatePickerDialog.OnDateSetListener mDate;
     int mId = -1;
+    boolean mCreateMode = false;
 
     public TripEditFragment() {
-        // Required empty public constructor
+
     }
 
 
@@ -47,13 +42,17 @@ public class TripEditFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected String getTitle() {
+        if(mCreateMode){ return "Create Trip"; }
+        else { return "Edit Trip"; }
+    }
 
-        // Update Toolbar
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle("Create Trip");
-        getActivity().setActionBar((toolbar));
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        if(getArguments() == null){
+            mCreateMode = true;
+        }
+        super.onViewCreated(view, savedInstanceState);
 
         //Set up date picker
         mCalendar = Calendar.getInstance();
@@ -61,7 +60,7 @@ public class TripEditFragment extends Fragment {
         this.initDatePicker();
 
         //Set up fields if editing existing trip
-        if (getArguments() != null) {
+        if (!mCreateMode) {
             double cost = getArguments().getDouble("cost");
             double miles = getArguments().getDouble("miles");
             double gallons = getArguments().getDouble("gallons");
@@ -90,7 +89,7 @@ public class TripEditFragment extends Fragment {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getFragmentManager().popBackStack();
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
     }
@@ -115,7 +114,7 @@ public class TripEditFragment extends Fragment {
             db.updateTrip(trip, mId);
         }
 
-        getActivity().getFragmentManager().popBackStack();
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 
     private TripDataItem validateTrip(View view){

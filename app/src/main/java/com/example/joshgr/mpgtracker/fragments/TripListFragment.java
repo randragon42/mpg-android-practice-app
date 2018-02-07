@@ -3,12 +3,10 @@ package com.example.joshgr.mpgtracker.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,9 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.example.joshgr.mpgtracker.helpers.MpgDbHelper;
 import com.example.joshgr.mpgtracker.R;
@@ -32,10 +28,12 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TripListFragment extends Fragment {
+public class TripListFragment extends BaseFragment {
 
     private ArrayList<TripDataItem> mTripList;
     private TripArrayAdapter mAdapter;
+    @Override
+    protected String getTitle() { return "Trips"; }
 
     public TripListFragment() {
         // Required empty public constructor
@@ -58,11 +56,6 @@ public class TripListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // Update Toolbar
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle("Trip List");
-        getActivity().setActionBar((toolbar));
 
         MpgDbHelper db = new MpgDbHelper(view.getContext());
         mTripList = db.getAllTrips();
@@ -143,13 +136,15 @@ public class TripListFragment extends Fragment {
             tripEditFragment.setArguments(bundle);
         }
 
+        // TODO: add slide-in-up and slide-down-out animations
         getFragmentManager().beginTransaction()
-                            .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                             .replace(R.id.fragmentContainer, tripEditFragment, "edit")
                             .addToBackStack(null)
                             .commit();
     }
 
+
+    // TODO: Can these two methods be combined?
     private void deleteTrip(final int id, final int pos){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
 
