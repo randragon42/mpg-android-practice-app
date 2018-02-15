@@ -1,0 +1,82 @@
+package com.example.joshgr.mpgtracker.data;
+
+
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+@Entity(tableName="trips")
+@TypeConverters(Converters.class)
+public class TripEntity {
+
+    @PrimaryKey(autoGenerate=true)
+    public int id;
+
+    public Date date;
+
+    public double gallons;
+
+    public double miles;
+
+    public double tripCost;
+
+    public double odometer;
+
+    public boolean filledTank;
+
+    public TripEntity(int id, Date date, double gallons, double miles, double tripCost, double odometer, boolean filledTank){
+        this.id = id;
+        this.date = date;
+        this.gallons = gallons;
+        this.miles = miles;
+        this.tripCost = tripCost;
+        this.odometer = odometer;
+        this.filledTank = filledTank;
+    }
+
+    //TODO: Add getters and setters
+    public int getId() {
+        return id;
+    }
+
+    public Date getDate(){
+        return date;
+    }
+
+    public String getFormattedDate(){ return DATE_FORMAT.format(date); }
+
+    public double getGallons(){
+        return gallons;
+    }
+
+    public double getMiles(){
+        return miles;
+    }
+
+    public double getTripCost(){
+        return tripCost;
+    }
+
+    public double getOdometer(){
+        return odometer;
+    }
+
+    public boolean getFilledTank(){
+        return filledTank;
+    }
+
+    public double getCostPerGallon(){
+        return tripCost/gallons;
+    }
+
+    public double getMilesPerGallon(){
+        return miles/gallons;
+    }
+
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+
+}

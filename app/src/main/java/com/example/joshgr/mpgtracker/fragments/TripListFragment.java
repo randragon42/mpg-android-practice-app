@@ -17,12 +17,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.joshgr.mpgtracker.helpers.MpgDbHelper;
 import com.example.joshgr.mpgtracker.R;
 import com.example.joshgr.mpgtracker.adapters.TripArrayAdapter;
-import com.example.joshgr.mpgtracker.data.TripDataItem;
+import com.example.joshgr.mpgtracker.data.TripEntity;
+import com.example.joshgr.mpgtracker.data.TripsDatabase;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -30,10 +30,10 @@ import java.util.ArrayList;
  */
 public class TripListFragment extends BaseFragment {
 
-    private ArrayList<TripDataItem> mTripList;
+    private List<TripEntity> mTripList;
     private TripArrayAdapter mAdapter;
     @Override
-    protected String getTitle() { return "Trips"; }
+    protected String getTitle() { return getResources().getString(R.string.trips_title); }
 
     public TripListFragment() {
         // Required empty public constructor
@@ -57,8 +57,8 @@ public class TripListFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MpgDbHelper db = new MpgDbHelper(view.getContext());
-        mTripList = db.getAllTrips();
+        TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
+        mTripList = db.tripDAO().getAll();
 
         // Set up list adapter
         ListView tripListView = (ListView) view.findViewById(R.id.tripListView);
@@ -100,7 +100,7 @@ public class TripListFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.trip_list_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -116,12 +116,12 @@ public class TripListFragment extends BaseFragment {
     }
 
     private void refreshTripList(){
-        MpgDbHelper db = new MpgDbHelper(getContext());
-        mTripList = db.getAllTrips();
+        TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
+        mTripList = db.tripDAO().getAll();
         mAdapter.notifyDataSetChanged();
     }
 
-    private void showTripEditFragment(TripDataItem trip){
+    private void showTripEditFragment(TripEntity trip){
         TripEditFragment tripEditFragment = new TripEditFragment();
 
         if(trip != null){
@@ -129,7 +129,7 @@ public class TripListFragment extends BaseFragment {
             bundle.putDouble("cost", trip.getTripCost());
             bundle.putDouble("miles", trip.getMiles());
             bundle.putDouble("gallons", trip.getGallons());
-            bundle.putString("date", trip.getDate());
+            bundle.putString("date", trip.getFormattedDate());
             bundle.putInt("id", trip.getId());
             bundle.putBoolean("filledTank", trip.getFilledTank());
             bundle.putDouble("odometer", trip.getOdometer());
@@ -144,7 +144,9 @@ public class TripListFragment extends BaseFragment {
     }
 
 
-    // TODO: Can these two methods be combined?
+    // TODO: Can these two delete methods be combined?
+    //  Planned redo of deleting trips - long selection will go into multi selection mode allowing
+    //  user to delete 1 or more trip at a time
     private void deleteTrip(final int id, final int pos){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
 
@@ -154,9 +156,9 @@ public class TripListFragment extends BaseFragment {
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        MpgDbHelper db = new MpgDbHelper(getContext());
-                        db.deleteTrip(id);
-                        TripDataItem deletedTrip = mTripList.remove(pos);
+                        TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
+                        TripEntity deletedTrip = mTripList.remove(pos);
+                        db.tripDAO().deleteTrip(deletedTrip);
                         mAdapter.remove(mAdapter.getItem(pos));
                         mAdapter.notifyDataSetChanged();
                         Toast.makeText(getContext(), "Trip deleted", Toast.LENGTH_LONG).show();
@@ -181,8 +183,10 @@ public class TripListFragment extends BaseFragment {
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        MpgDbHelper db = new MpgDbHelper(getContext());
-                        db.deleteAllTrips();
+                        TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
+                        for(int i=0; i < mTripList.size(); i++){
+                            db.tripDAO().deleteTrip(mTripList.get(i));
+                        }
                         mTripList.clear();
                         mAdapter.clear();
                         mAdapter.notifyDataSetChanged();
