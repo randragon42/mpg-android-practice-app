@@ -45,8 +45,8 @@ public class TripEditFragment extends BaseFragment {
 
     @Override
     protected String getTitle() {
-        if(mCreateMode){ return "Create Trip"; }
-        else { return "Edit Trip"; }
+        if(mCreateMode){ return getResources().getString(R.string.create_title); }
+        else { return getResources().getString(R.string.edit_title); }
     }
 
     @Override
@@ -128,10 +128,10 @@ public class TripEditFragment extends BaseFragment {
 
         String dateString = ((TextView)view.findViewById(R.id.datePicker)).getText().toString();
         Date date = parseDate(dateString);
-        double miles = validateEditTextDouble(milesEditText, "Distance required.", "Invalid miles value. Must be greater than 0.");
-        double cost = validateEditTextDouble(costEditText, "Cost required.", "Invalid cost value. Must be greater than 0.");
-        double gallons = validateEditTextDouble(gallonsEditText, "Gallons required.", "Invalid gallons value. Must be greater than 0.");
-        double odometer = validateEditTextDouble(odometerEditText, "Odometer reading required.", "Invalid odometer value. Must be greater than 0.");
+        double miles = validateEditTextDouble(milesEditText, getResources().getString(R.string.miles_missing), getResources().getString(R.string.miles_correct_format));
+        double cost = validateEditTextDouble(costEditText, getResources().getString(R.string.cost_missing), getResources().getString(R.string.cost_correct_format));
+        double gallons = validateEditTextDouble(gallonsEditText, getResources().getString(R.string.gallons_missing), getResources().getString(R.string.gallons_correct_format));
+        double odometer = validateEditTextDouble(odometerEditText, getResources().getString(R.string.odometer_missing), getResources().getString(R.string.odometer_correct_format));
         boolean filledTank = filledTankCheckBox.isChecked();
 
         if(miles <= 0 || cost <= 0 || gallons <= 0 || odometer <= 0){

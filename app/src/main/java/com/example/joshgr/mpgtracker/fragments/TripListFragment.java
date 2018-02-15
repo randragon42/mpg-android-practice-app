@@ -33,7 +33,7 @@ public class TripListFragment extends BaseFragment {
     private List<TripEntity> mTripList;
     private TripArrayAdapter mAdapter;
     @Override
-    protected String getTitle() { return "Trips"; }
+    protected String getTitle() { return getResources().getString(R.string.trips_title); }
 
     public TripListFragment() {
         // Required empty public constructor
@@ -100,7 +100,7 @@ public class TripListFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.trip_list_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

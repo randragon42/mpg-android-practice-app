@@ -43,7 +43,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:labelFor="@id/milesEditText"
-        android:text="Trip Miles"
+        android:text="@string/trip_miles_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/milesEditText" />
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="$"
+        android:text="@string/currency_symbol"
         app:layout_constraintEnd_toStartOf="@+id/costEditText"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +82,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:labelFor="@id/costEditText"
-        android:text="Total Cost"
+        android:text="@string/total_cost_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/costEditText" />
@@ -108,7 +108,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:labelFor="@id/gallonsEditText"
-        android:text="Gallons"
+        android:text="@string/gallons_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gallonsEditText" />
@@ -134,7 +134,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:labelFor="@+id/odometerEditText"
-        android:text="Odometer"
+        android:text="@string/odometer_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
@@ -148,7 +148,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:checked="true"
-        android:text="Filled Tank"
+        android:text="@string/filled_tank_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tripMilesLabel" />
@@ -160,7 +160,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="32dp"
-        android:text="Save"
+        android:text="@string/save"
         app:layout_constraintEnd_toStartOf="@+id/verticalCenterGuideline"
         app:layout_constraintTop_toBottomOf="@+id/filledTankCheckBox" />
 
@@ -171,7 +171,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
-        android:text="Cancel"
+        android:text="@string/cancel"
         app:layout_constraintStart_toStartOf="@+id/verticalCenterGuideline"
         app:layout_constraintTop_toBottomOf="@+id/filledTankCheckBox" />
 
@@ -182,19 +182,20 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <Button
-        android:id="@+id/calculateTripMilesButton"
-        android:layout_width="55dp"
-        android:layout_height="43dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Auto Calc"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toTopOf="@+id/tripMilesLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/milesEditText"
-        app:layout_constraintTop_toBottomOf="@+id/odometerLabel" />
+    <!--TODO: Uncomment when functionality is ready-->
+    <!--<Button-->
+        <!--android:id="@+id/calculateTripMilesButton"-->
+        <!--android:layout_width="55dp"-->
+        <!--android:layout_height="43dp"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:text="@string/auto_calc"-->
+        <!--android:textSize="8sp"-->
+        <!--app:layout_constraintBottom_toTopOf="@+id/tripMilesLabel"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toEndOf="@+id/milesEditText"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/odometerLabel" />-->
 
 </android.support.constraint.ConstraintLayout>
