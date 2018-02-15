@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.2"
+    buildToolsVersion "27.0.0"
     defaultConfig {
         applicationId "com.example.joshgr.mpgtracker"
         minSdkVersion 23
@@ -28,4 +28,7 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
+    implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
+    annotationProcessor "android.arch.persistence.room:compiler:$rootProject.roomVersion"
+    androidTestImplementation "android.arch.persistence.room:testing:$rootProject.roomVersion"
 }

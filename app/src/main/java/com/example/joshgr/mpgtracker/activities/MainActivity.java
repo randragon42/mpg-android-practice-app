@@ -15,13 +15,11 @@ import android.view.View;
 import com.example.joshgr.mpgtracker.fragments.GraphsFragment;
 import com.example.joshgr.mpgtracker.fragments.SettingsFragment;
 import com.example.joshgr.mpgtracker.fragments.StatsFragment;
-import com.example.joshgr.mpgtracker.helpers.MpgDbHelper;
 import com.example.joshgr.mpgtracker.R;
 import com.example.joshgr.mpgtracker.fragments.TripListFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    public MpgDbHelper TripDatabase;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private Toolbar mToolbar;
@@ -47,9 +45,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.navigation);
         setupDrawer(mNavigationView);
-
-        // TODO: update db to Rooms DAOs
-        TripDatabase = new MpgDbHelper(this);
 
         // Launch opening fragment
         getSupportFragmentManager().beginTransaction()
@@ -109,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void launchFragment(Fragment fragment, String tag){
+        //TODO: add slide-up and slide-down transition animations
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, fragment, tag)
                 .commit();

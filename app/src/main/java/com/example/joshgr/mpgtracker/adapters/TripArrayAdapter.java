@@ -10,20 +10,20 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.joshgr.mpgtracker.R;
-import com.example.joshgr.mpgtracker.data.TripDataItem;
+import com.example.joshgr.mpgtracker.data.TripEntity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
-public class TripArrayAdapter extends ArrayAdapter<TripDataItem> {
-    private ArrayList<TripDataItem> mTrips;
+public class TripArrayAdapter extends ArrayAdapter<TripEntity> {
+    private List<TripEntity> mTrips;
     private Context mContext;
 
-    public TripArrayAdapter(Context context, int listItemLayoutId, ArrayList<TripDataItem> trips){
+    public TripArrayAdapter(Context context, int listItemLayoutId, List<TripEntity> trips){
         super(context, listItemLayoutId, trips);
         mContext = context;
         mTrips = trips;
@@ -31,7 +31,7 @@ public class TripArrayAdapter extends ArrayAdapter<TripDataItem> {
 
     @Nullable
     @Override
-    public TripDataItem getItem(int position) {
+    public TripEntity getItem(int position) {
         return mTrips.get(position);
     }
 
@@ -78,9 +78,9 @@ public class TripArrayAdapter extends ArrayAdapter<TripDataItem> {
         TripViewHolder tripViewHolder = (TripViewHolder)view.getTag();
 
         // TODO: Add locale to formatting
-        TripDataItem trip = mTrips.get(position);
-        tripViewHolder.Date.setText(formatDate(trip.getDate(), "MMM dd"));
-        tripViewHolder.Year.setText(formatDate(trip.getDate(), "yyyy"));
+        TripEntity trip = mTrips.get(position);
+        tripViewHolder.Date.setText(formatDate(trip.getFormattedDate(), "MMM dd"));
+        tripViewHolder.Year.setText(formatDate(trip.getFormattedDate(), "yyyy"));
         tripViewHolder.MPG.setText(String.format("%.2f mpg", trip.getMilesPerGallon()));
         tripViewHolder.Cost.setText(String.format("$%.2f", trip.getTripCost()));
         tripViewHolder.Gallons.setText(String.format("%.3f gal", trip.getGallons()));
@@ -94,7 +94,7 @@ public class TripArrayAdapter extends ArrayAdapter<TripDataItem> {
     private String formatDate(String dateString, String format){
         Date date;
         try {
-            date = TripDataItem.DATE_FORMAT.parse(dateString);
+            date = TripEntity.DATE_FORMAT.parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
             return "";

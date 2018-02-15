@@ -13,11 +13,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.joshgr.mpgtracker.helpers.MpgDbHelper;
 import com.example.joshgr.mpgtracker.R;
-import com.example.joshgr.mpgtracker.data.TripDataItem;
+import com.example.joshgr.mpgtracker.data.TripEntity;
+import com.example.joshgr.mpgtracker.data.TripsDatabase;
 
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 
 public class TripEditFragment extends BaseFragment {
 
@@ -97,7 +99,7 @@ public class TripEditFragment extends BaseFragment {
     private void saveTrip(View view){
 
         // Validate form
-        final TripDataItem trip = validateTrip(view);
+        final TripEntity trip = validateTrip(view);
         if(trip == null){
             return;
         }
@@ -106,25 +108,26 @@ public class TripEditFragment extends BaseFragment {
         // when this fragment was popped and the TripListFragment resumed, fetching all
         // trip data points while this new one was being written to the db.
         // TODO: Need to update db handling for multithreading
-        MpgDbHelper db = new MpgDbHelper(getContext());
+        TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
         if(mId == -1){
-            db.addTrip(trip);
+            db.tripDAO().insertTrip(trip);
         }
         else{
-            db.updateTrip(trip, mId);
+            db.tripDAO().updateTrip(trip);
         }
 
         getActivity().getSupportFragmentManager().popBackStack();
     }
 
-    private TripDataItem validateTrip(View view){
+    private TripEntity validateTrip(View view){
         EditText milesEditText = (EditText)view.findViewById(R.id.milesEditText);
         EditText costEditText = (EditText)view.findViewById(R.id.costEditText);
         EditText gallonsEditText = (EditText)view.findViewById(R.id.gallonsEditText);
         EditText odometerEditText = (EditText)view.findViewById(R.id.odometerEditText);
         CheckBox filledTankCheckBox = (CheckBox)view.findViewById(R.id.filledTankCheckBox);
 
-        String date = ((TextView)view.findViewById(R.id.datePicker)).getText().toString();
+        String dateString = ((TextView)view.findViewById(R.id.datePicker)).getText().toString();
+        Date date = parseDate(dateString);
         double miles = validateEditTextDouble(milesEditText, "Distance required.", "Invalid miles value. Must be greater than 0.");
         double cost = validateEditTextDouble(costEditText, "Cost required.", "Invalid cost value. Must be greater than 0.");
         double gallons = validateEditTextDouble(gallonsEditText, "Gallons required.", "Invalid gallons value. Must be greater than 0.");
@@ -135,7 +138,7 @@ public class TripEditFragment extends BaseFragment {
             return null;
         }
         else{
-            return new TripDataItem(0, date, gallons, miles, cost, odometer, filledTank);
+            return new TripEntity(0, date, gallons, miles, cost, odometer, filledTank);
         }
     }
 
@@ -176,6 +179,15 @@ public class TripEditFragment extends BaseFragment {
     }
 
     private void updateDateLabel(){
-        mDatePickerText.setText(TripDataItem.DATE_FORMAT.format(mCalendar.getTime()));
+        mDatePickerText.setText(TripEntity.DATE_FORMAT.format(mCalendar.getTime()));
+    }
+
+    private Date parseDate(String date) {
+        try {
+            return TripEntity.DATE_FORMAT.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
