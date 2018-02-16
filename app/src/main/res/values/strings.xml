@@ -43,6 +43,13 @@
 
     <!--Stats Fragment-->
     <string name="stats_title">Stats</string>
+    <string name="average_mpg">Average MPG</string>
+    <string name="average_cost">Average Trip Cost</string>
+    <string name="average_miles">Average Trip Miles</string>
+    <string name="average_gallons">Average Trip Gallons</string>
+    <string name="total_cost">Total Spent On All Trips</string>
+    <string name="total_miles">Total Miles Driven</string>
+    <string name="total_gallons">Total Gallons Purchased</string>
 
     <!--Navigation Header-->
     <string name="menu">Menu</string>
