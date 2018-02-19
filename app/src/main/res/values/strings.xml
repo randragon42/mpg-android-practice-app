@@ -40,6 +40,17 @@
 
     <!--Settings Fragment-->
     <string name="settings_title">Settings</string>
+    <string name="default_filled">Default to Tank Filled</string>
+    <string name="default_filled_summary">By default, tank filled property will be checked</string>
+
+    <string name="trip_creation">Trip Creation</string>
+    <string name="about">About</string>
+    <string name="version_header">Version</string>
+    <string name="version">v1.0.0</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="rate_us">Rate Us</string>
+
 
     <!--Stats Fragment-->
     <string name="stats_title">Stats</string>
@@ -51,9 +62,13 @@
     <string name="total_miles">Total Miles Driven</string>
     <string name="total_gallons">Total Gallons Purchased</string>
 
-    <!--Navigation Header-->
-    <string name="menu">Menu</string>
-
     <!--Trip List Item-->
     <string name="tank_filled_notification">Tank Filled</string>
+
+    <!--Navigation Menu-->
+    <string name="menu">Menu</string>
+    <string name="trips_nav_menu_title">Trips</string>
+    <string name="graph_nav_menu_title">Graphs</string>
+    <string name="stats_nav_menu_title">All Trip Stats</string>
+    <string name="settings_nav_menu_title">Settings</string>
 </resources>
