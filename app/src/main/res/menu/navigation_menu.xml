@@ -5,18 +5,18 @@
             android:id="@+id/trips_navigation_item"
             android:icon="@drawable/gas_station"
             android:checked="true"
-            android:title="Trips"/>
+            android:title="@string/trips_nav_menu_title"/>
         <item
             android:id="@+id/graphs_navigation_item"
             android:icon="@drawable/chart"
-            android:title="Graphs"/>
+            android:title="@string/graph_nav_menu_title"/>
         <item
             android:id="@+id/stats_navigation_item"
             android:icon="@drawable/info_outline"
-            android:title="Stats"/>
+            android:title="@string/stats_nav_menu_title"/>
         <item
             android:id="@+id/settings_navigation_item"
             android:icon="@drawable/settings"
-            android:title="Settings"/>
+            android:title="@string/settings_nav_menu_title"/>
     </group>
 </menu>

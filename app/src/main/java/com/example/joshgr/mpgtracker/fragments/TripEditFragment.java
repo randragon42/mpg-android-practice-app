@@ -2,8 +2,10 @@ package com.example.joshgr.mpgtracker.fragments;
 
 
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +79,12 @@ public class TripEditFragment extends BaseFragment {
             ((EditText)view.findViewById(R.id.costEditText)).setText(String.format(Double.toString(cost), "%.2f"));
             ((EditText)view.findViewById(R.id.odometerEditText)).setText(String.format(Double.toString(odometer), "%.1f"));
             ((CheckBox)view.findViewById(R.id.filledTankCheckBox)).setChecked(filledTank);
+        }
+        else {
+            //Set filledTankCheckBox to preference setting
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            boolean filledTankPref = prefs.getBoolean("default_tank_filled", true);
+            ((CheckBox)view.findViewById(R.id.filledTankCheckBox)).setChecked(filledTankPref);
         }
 
         Button saveButton = (Button) view.findViewById(R.id.saveButton);
