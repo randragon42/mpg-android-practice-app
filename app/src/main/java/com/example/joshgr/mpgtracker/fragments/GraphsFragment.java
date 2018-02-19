@@ -17,7 +17,6 @@ import com.example.joshgr.mpgtracker.data.TripsDatabase;
 import java.util.List;
 
 public class GraphsFragment extends BaseFragment {
-    List<TripEntity> mTripList;
 
     @Override
     protected String getTitle() { return getResources().getString(R.string.graphs_title); }
@@ -31,9 +30,6 @@ public class GraphsFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
-        mTripList = db.tripDAO().getAll();
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.graphs_tab_layout);
 

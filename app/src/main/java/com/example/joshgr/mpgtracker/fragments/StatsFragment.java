@@ -62,24 +62,37 @@ public class StatsFragment extends BaseFragment {
         double totalCost = 0;
         double totalMiles = 0;
         double totalGallons = 0;
+        double highestCost = 0;
+        double mostMiles = 0;
+        double mostGallons = 0;
+        double bestMpg = 0;
 
         for(int i=0; i<mTripList.size(); i++){
             TripEntity trip = mTripList.get(i);
             totalCost = totalCost + trip.getTripCost();
             totalMiles = totalMiles + trip.getMiles();
             totalGallons = totalGallons + trip.getGallons();
+
+            highestCost = highestCost < trip.getTripCost() ? trip.getTripCost() : highestCost;
+            mostMiles = mostMiles < trip.getMiles() ? trip.getMiles() : mostMiles;
+            mostGallons = mostGallons < trip.getGallons() ? trip.getGallons() : mostGallons;
+            bestMpg = bestMpg < trip.getMilesPerGallon() ? trip.getMilesPerGallon() : bestMpg;
         }
 
         avgCost = totalCost/mTripList.size();
         avgMiles = totalMiles/mTripList.size();
         avgGallons = totalGallons/mTripList.size();
 
+        tripStats.add(new TripStat(getResources().getString(R.string.best_mpg), String.format("%.2f", bestMpg)));
         tripStats.add(new TripStat(getResources().getString(R.string.average_cost), String.format("$%.2f", avgCost)));
         tripStats.add(new TripStat(getResources().getString(R.string.average_miles), String.format("%.1f", avgMiles)));
         tripStats.add(new TripStat(getResources().getString(R.string.average_gallons), String.format("%.3f", avgGallons)));
         tripStats.add(new TripStat(getResources().getString(R.string.total_cost), String.format("$%.2f", totalCost)));
         tripStats.add(new TripStat(getResources().getString(R.string.total_miles), String.format("%.1f", totalMiles)));
         tripStats.add(new TripStat(getResources().getString(R.string.total_gallons), String.format("%.3f", totalGallons)));
+        tripStats.add(new TripStat(getResources().getString(R.string.highest_cost), String.format("$%.2f", highestCost)));
+        tripStats.add(new TripStat(getResources().getString(R.string.longest_trip), String.format("%.1f", mostMiles)));
+        tripStats.add(new TripStat(getResources().getString(R.string.most_gallons), String.format("%.3f", mostGallons)));
 
         return tripStats;
     }
