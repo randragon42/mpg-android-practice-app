@@ -146,7 +146,7 @@ public class TripEditFragment extends BaseFragment {
             return null;
         }
         else{
-            return new TripEntity(0, date, gallons, miles, cost, odometer, filledTank);
+            return new TripEntity(mId, date, gallons, miles, cost, odometer, filledTank);
         }
     }
 

@@ -37,6 +37,9 @@
 
     <!--Graphs Fragment-->
     <string name="graphs_title">Graphs</string>
+    <string name="mpg_over_time">Miles Per Gallon Over Time</string>
+    <string name="distance_over_time">Distance Over Time</string>
+    <string name="cost_over_time">Cost Over Time</string>
 
     <!--Settings Fragment-->
     <string name="settings_title">Settings</string>
@@ -55,12 +58,16 @@
     <!--Stats Fragment-->
     <string name="stats_title">Stats</string>
     <string name="average_mpg">Average MPG</string>
+    <string name="best_mpg">Best MPG</string>
     <string name="average_cost">Average Trip Cost</string>
     <string name="average_miles">Average Trip Miles</string>
     <string name="average_gallons">Average Trip Gallons</string>
     <string name="total_cost">Total Spent On All Trips</string>
     <string name="total_miles">Total Miles Driven</string>
     <string name="total_gallons">Total Gallons Purchased</string>
+    <string name="highest_cost">Highest Costing Trip</string>
+    <string name="longest_trip">Longest Trip</string>
+    <string name="most_gallons">Most Gallons</string>
 
     <!--Trip List Item-->
     <string name="tank_filled_notification">Tank Filled</string>
