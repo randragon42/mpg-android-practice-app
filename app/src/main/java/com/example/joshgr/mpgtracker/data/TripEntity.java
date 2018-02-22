@@ -5,13 +5,14 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
+import android.support.annotation.NonNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity(tableName="trips")
 @TypeConverters(Converters.class)
-public class TripEntity {
+public class TripEntity implements Comparable<TripEntity>{
 
     @PrimaryKey(autoGenerate=true)
     public int id;
@@ -79,4 +80,16 @@ public class TripEntity {
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 
+    @Override
+    public int compareTo(@NonNull TripEntity o) {
+        if (date.getTime() > o.getDate().getTime()) {
+            return 1;
+        }
+        else if (date.getTime() <  o.date.getTime()) {
+            return -1;
+        }
+        else {
+            return 0;
+        }
+    }
 }

@@ -7,16 +7,18 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tabTitle"
+        android:id="@+id/graph_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
-        android:text="Miles Per Gallon Over Time"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Graph Title" />
 
     <com.jjoe64.graphview.GraphView
         android:id="@+id/graph"
@@ -28,6 +30,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/graph_title" />
 
 </android.support.constraint.ConstraintLayout>

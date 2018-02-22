@@ -11,10 +11,6 @@ import android.view.ViewGroup;
 
 import com.example.joshgr.mpgtracker.R;
 import com.example.joshgr.mpgtracker.adapters.GraphPageAdapter;
-import com.example.joshgr.mpgtracker.data.TripEntity;
-import com.example.joshgr.mpgtracker.data.TripsDatabase;
-
-import java.util.List;
 
 public class GraphsFragment extends BaseFragment {
 
@@ -23,7 +19,7 @@ public class GraphsFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_graphs, container, false);
+        View view = inflater.inflate(R.layout.fragment_graph_tabs, container, false);
         return view;
     }
 

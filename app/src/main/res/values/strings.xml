@@ -37,6 +37,9 @@
 
     <!--Graphs Fragment-->
     <string name="graphs_title">Graphs</string>
+    <string name="mpg_over_time">Miles Per Gallon Over Time</string>
+    <string name="distance_over_time">Distance Over Time</string>
+    <string name="cost_over_time">Cost Over Time</string>
 
     <!--Settings Fragment-->
     <string name="settings_title">Settings</string>
