@@ -3,7 +3,7 @@ package com.example.joshgr.mpgtracker.fragments;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
-import com.example.joshgr.mpgtracker.data.TripEntity;
+import com.example.joshgr.mpgtracker.data.Trip;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
@@ -48,7 +48,7 @@ public class BaseGraphFragment extends Fragment {
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
                 String yVal = String.format(yValToastStringFormat, dataPoint.getY());
-                String date = TripEntity.DATE_FORMAT.format(dataPoint.getX());
+                String date = Trip.DATE_FORMAT.format(dataPoint.getX());
                 Toast.makeText(getActivity(), yVal + " - " + date , Toast.LENGTH_SHORT).show();
             }
         });

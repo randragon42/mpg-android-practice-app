@@ -15,8 +15,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tripListView">
-
         </ListView>
+
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:theme="@style/TripListView"-->
+            <!--android:id="@+id/trip_list_recycler">-->
+        <!--</android.support.v7.widget.RecyclerView>-->
+
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

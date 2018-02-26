@@ -10,34 +10,36 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.joshgr.mpgtracker.R;
-import com.example.joshgr.mpgtracker.data.TripEntity;
+import com.example.joshgr.mpgtracker.data.Trip;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class TripArrayAdapter extends ArrayAdapter<TripEntity> {
-    private List<TripEntity> mTrips;
+public class TripArrayAdapter extends ArrayAdapter<Trip> {
+    private List<Trip> mTrips;
     private Context mContext;
 
-    public TripArrayAdapter(Context context, int listItemLayoutId, List<TripEntity> trips){
-        super(context, listItemLayoutId, trips);
+    public TripArrayAdapter(Context context, int listItemLayoutId, List<Trip> trips){
+        super(context, listItemLayoutId);
         mContext = context;
         mTrips = trips;
     }
 
     @Nullable
     @Override
-    public TripEntity getItem(int position) {
+    public Trip getItem(int position) {
         return mTrips.get(position);
     }
 
     @Override
     public int getCount() {
-        return mTrips.size();
+        if (mTrips != null) {
+            return mTrips.size();
+        }
+        else return 0;
     }
 
     @Override
@@ -78,7 +80,7 @@ public class TripArrayAdapter extends ArrayAdapter<TripEntity> {
         TripViewHolder tripViewHolder = (TripViewHolder)view.getTag();
 
         // TODO: Add locale to formatting
-        TripEntity trip = mTrips.get(position);
+        Trip trip = mTrips.get(position);
         tripViewHolder.Date.setText(formatDate(trip.getFormattedDate(), "MMM dd"));
         tripViewHolder.Year.setText(formatDate(trip.getFormattedDate(), "yyyy"));
         tripViewHolder.MPG.setText(String.format("%.2f mpg", trip.getMilesPerGallon()));
@@ -91,10 +93,15 @@ public class TripArrayAdapter extends ArrayAdapter<TripEntity> {
         return view;
     }
 
+    public void setTrips(List<Trip> trips){
+        mTrips = trips;
+        notifyDataSetChanged();
+    }
+
     private String formatDate(String dateString, String format){
         Date date;
         try {
-            date = TripEntity.DATE_FORMAT.parse(dateString);
+            date = Trip.DATE_FORMAT.parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
             return "";

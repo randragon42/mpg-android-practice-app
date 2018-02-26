@@ -1,5 +1,6 @@
 package com.example.joshgr.mpgtracker.fragments;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -8,7 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.joshgr.mpgtracker.R;
-import com.example.joshgr.mpgtracker.data.TripEntity;
+import com.example.joshgr.mpgtracker.data.Trip;
+import com.example.joshgr.mpgtracker.data.TripViewModel;
 import com.example.joshgr.mpgtracker.data.TripsDatabase;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -19,7 +21,8 @@ import java.util.List;
 
 public class MpgGraphFragment extends BaseGraphFragment {
 
-    List<TripEntity> mTripList;
+    List<Trip> mTripList;
+    private TripViewModel mTripViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -30,8 +33,11 @@ public class MpgGraphFragment extends BaseGraphFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
-        mTripList = db.tripDAO().getAll();
+        //TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
+        //mTripList = db.tripDAO().getAllTrips();
+        // Get ViewModel
+        mTripViewModel = ViewModelProviders.of(getActivity()).get(TripViewModel.class);
+        mTripList = mTripViewModel.getAllTrips().getValue();
 
         TextView titleText = (TextView) view.findViewById(R.id.graph_title);
         titleText.setText(getResources().getString(R.string.mpg_over_time));
@@ -47,7 +53,7 @@ public class MpgGraphFragment extends BaseGraphFragment {
         DataPoint[] dataPoints = new DataPoint[mTripList.size()];
 
         for(int i=0; i<mTripList.size(); i++){
-            TripEntity trip = mTripList.get(i);
+            Trip trip = mTripList.get(i);
             dataPoints[i] = new DataPoint(trip.date, trip.getMilesPerGallon());
         }
 

@@ -1,8 +1,8 @@
 package com.example.joshgr.mpgtracker.data;
 
 
-import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Entity(tableName="trips")
 @TypeConverters(Converters.class)
-public class TripEntity implements Comparable<TripEntity>{
+public class Trip implements Comparable<Trip>{
 
     @PrimaryKey(autoGenerate=true)
     public int id;
@@ -29,8 +29,13 @@ public class TripEntity implements Comparable<TripEntity>{
 
     public boolean filledTank;
 
-    public TripEntity(int id, Date date, double gallons, double miles, double tripCost, double odometer, boolean filledTank){
+    @Ignore
+    public Trip(int id, Date date, double gallons, double miles, double tripCost, double odometer, boolean filledTank){
+        this(date, gallons, miles, tripCost, odometer, filledTank);
         this.id = id;
+    }
+
+    public Trip(Date date, double gallons, double miles, double tripCost, double odometer, boolean filledTank){
         this.date = date;
         this.gallons = gallons;
         this.miles = miles;
@@ -81,7 +86,7 @@ public class TripEntity implements Comparable<TripEntity>{
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 
     @Override
-    public int compareTo(@NonNull TripEntity o) {
+    public int compareTo(@NonNull Trip o) {
         if (date.getTime() > o.getDate().getTime()) {
             return 1;
         }

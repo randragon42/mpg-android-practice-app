@@ -1,6 +1,7 @@
 package com.example.joshgr.mpgtracker.fragments;
 
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,17 +12,19 @@ import android.widget.TextView;
 
 import com.example.joshgr.mpgtracker.R;
 import com.example.joshgr.mpgtracker.adapters.StatArrayAdapter;
-import com.example.joshgr.mpgtracker.data.TripEntity;
+import com.example.joshgr.mpgtracker.data.Trip;
 import com.example.joshgr.mpgtracker.data.TripStat;
+import com.example.joshgr.mpgtracker.data.TripViewModel;
 import com.example.joshgr.mpgtracker.data.TripsDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StatsFragment extends BaseFragment {
-    private List<TripEntity> mTripList;
+    private List<Trip> mTripList;
     private StatArrayAdapter mAdapter;
     private List<TripStat> mStatsList;
+    private TripViewModel mTripViewModel;
 
     @Override
     protected String getTitle() { return getResources().getString(R.string.stats_title); }
@@ -31,6 +34,9 @@ public class StatsFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
 
+        // Get ViewModel
+        mTripViewModel = ViewModelProviders.of(getActivity()).get(TripViewModel.class);
+
         return view;
     }
 
@@ -38,8 +44,9 @@ public class StatsFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
-        mTripList = db.tripDAO().getAll();
+        //TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
+        //mTripList = db.tripDAO().getAllTrips();
+        mTripList = mTripViewModel.getAllTrips().getValue();
         mStatsList = compileAllStats();
 
         // Get average MPG
@@ -68,7 +75,7 @@ public class StatsFragment extends BaseFragment {
         double bestMpg = 0;
 
         for(int i=0; i<mTripList.size(); i++){
-            TripEntity trip = mTripList.get(i);
+            Trip trip = mTripList.get(i);
             totalCost = totalCost + trip.getTripCost();
             totalMiles = totalMiles + trip.getMiles();
             totalGallons = totalGallons + trip.getGallons();

@@ -8,7 +8,7 @@ import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 
 
-@Database(entities = {TripEntity.class}, version = 1)
+@Database(entities = {Trip.class}, version = 1)
 public abstract class TripsDatabase extends RoomDatabase {
 
     private static TripsDatabase INSTANCE;
@@ -17,14 +17,18 @@ public abstract class TripsDatabase extends RoomDatabase {
 
     public static TripsDatabase getTripsDatabase(Context context) {
         if (INSTANCE == null) {
-            INSTANCE =
-                    Room.databaseBuilder(context.getApplicationContext(), TripsDatabase.class, "trips-database")
-                            //.addMigrations(migration)
-                            // allow queries on the main thread.
-                            // Don't do this on a real app! See PersistenceBasicSample for an example.
-                            // TODO: move db access to worker thread. Still considering how best to proceed with that.
-                            .allowMainThreadQueries()
-                            .build();
+            synchronized (TripsDatabase.class) {
+                if (INSTANCE == null) {
+                    INSTANCE =
+                            Room.databaseBuilder(context.getApplicationContext(), TripsDatabase.class, "trips-database")
+                                    //.addMigrations(migration)
+                                    // allow queries on the main thread.
+                                    // Don't do this on a real app! See PersistenceBasicSample for an example.
+                                    // TODO: move db access to worker thread. Still considering how best to proceed with that.
+                                    //.allowMainThreadQueries()
+                                    .build();
+                }
+            }
         }
         return INSTANCE;
     }

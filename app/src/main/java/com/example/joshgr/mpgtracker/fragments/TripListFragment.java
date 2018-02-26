@@ -2,15 +2,20 @@ package com.example.joshgr.mpgtracker.fragments;
 
 
 import android.app.AlertDialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,19 +24,21 @@ import android.widget.Toast;
 
 import com.example.joshgr.mpgtracker.R;
 import com.example.joshgr.mpgtracker.adapters.TripArrayAdapter;
-import com.example.joshgr.mpgtracker.data.TripEntity;
+import com.example.joshgr.mpgtracker.adapters.TripListAdapter;
+import com.example.joshgr.mpgtracker.data.Trip;
+import com.example.joshgr.mpgtracker.data.TripViewModel;
 import com.example.joshgr.mpgtracker.data.TripsDatabase;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class TripListFragment extends BaseFragment {
 
-    private List<TripEntity> mTripList;
+    private List<Trip> mTripList;
     private TripArrayAdapter mAdapter;
+    private TripViewModel mTripViewModel;
     @Override
     protected String getTitle() { return getResources().getString(R.string.trips_title); }
 
@@ -43,6 +50,9 @@ public class TripListFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+
+        // Get ViewModel
+        mTripViewModel = ViewModelProviders.of(getActivity()).get(TripViewModel.class);
     }
 
     @Override
@@ -57,20 +67,35 @@ public class TripListFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
-        mTripList = db.tripDAO().getAll();
-
         // Set up list adapter
         ListView tripListView = (ListView) view.findViewById(R.id.tripListView);
+        mTripList = mTripViewModel.getAllTrips().getValue();
         mAdapter = new TripArrayAdapter(view.getContext(), R.layout.trip_item, mTripList);
         tripListView.setAdapter(mAdapter);
+
+        // Set up adapter
+//        RecyclerView recyclerView = view.findViewById(R.id.trip_list_recycler);
+//        final TripListAdapter adapter = new TripListAdapter(getContext());
+//        recyclerView.setAdapter(adapter);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Hook up observable to adapter
+        mTripViewModel.getAllTrips().observe(this, new Observer<List<Trip>>() {
+            @Override
+            public void onChanged(@Nullable final List<Trip> trips) {
+                // Update the cached copy of the words in the adapter.
+                mAdapter.setTrips(trips);
+                mTripList = trips;
+            }
+        });
+
+        //Set up click events
         tripListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 showTripEditFragment(mTripList.get(position));
             }
         });
-
         tripListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
@@ -95,7 +120,7 @@ public class TripListFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
 
-        refreshTripList();
+        //refreshTripList();
     }
 
     @Override
@@ -115,26 +140,16 @@ public class TripListFragment extends BaseFragment {
         }
     }
 
-    private void refreshTripList(){
-        TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
-        mTripList = db.tripDAO().getAll();
-        mAdapter.notifyDataSetChanged();
-    }
+//    private void refreshTripList(){
+//        TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
+//        mTripList = db.tripDAO().getAllTrips();
+//        mAdapter.notifyDataSetChanged();
+//    }
 
-    private void showTripEditFragment(TripEntity trip){
+    private void showTripEditFragment(Trip trip){
         TripEditFragment tripEditFragment = new TripEditFragment();
 
-        if(trip != null){
-            Bundle bundle = new Bundle();
-            bundle.putDouble("cost", trip.getTripCost());
-            bundle.putDouble("miles", trip.getMiles());
-            bundle.putDouble("gallons", trip.getGallons());
-            bundle.putString("date", trip.getFormattedDate());
-            bundle.putInt("id", trip.getId());
-            bundle.putBoolean("filledTank", trip.getFilledTank());
-            bundle.putDouble("odometer", trip.getOdometer());
-            tripEditFragment.setArguments(bundle);
-        }
+        mTripViewModel.selectTrip(trip);
 
         // TODO: add slide-in-up and slide-down-out animations
         getFragmentManager().beginTransaction()
@@ -156,11 +171,10 @@ public class TripListFragment extends BaseFragment {
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
-                        TripEntity deletedTrip = mTripList.remove(pos);
-                        db.tripDAO().deleteTrip(deletedTrip);
-                        mAdapter.remove(mAdapter.getItem(pos));
-                        mAdapter.notifyDataSetChanged();
+                        Trip deletedTrip = mTripList.get(pos);
+                        ArrayList<Trip> trips = new ArrayList<Trip>();
+                        trips.add(deletedTrip);
+                        mTripViewModel.delete(trips);
                         Toast.makeText(getContext(), "Trip deleted", Toast.LENGTH_LONG).show();
                     }
                 })
@@ -183,13 +197,9 @@ public class TripListFragment extends BaseFragment {
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
-                        for(int i=0; i < mTripList.size(); i++){
-                            db.tripDAO().deleteTrip(mTripList.get(i));
-                        }
                         mTripList.clear();
                         mAdapter.clear();
-                        mAdapter.notifyDataSetChanged();
+                        mTripViewModel.delete(mTripList);
                         Toast.makeText(getContext(), "All trips deleted", Toast.LENGTH_LONG).show();
                     }
                 })
