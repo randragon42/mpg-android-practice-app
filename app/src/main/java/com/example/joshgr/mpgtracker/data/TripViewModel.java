@@ -12,13 +12,12 @@ public class TripViewModel extends AndroidViewModel {
 
     private TripRepository mRepository;
     private LiveData<List<Trip>> mAllTrips;
-    private final MutableLiveData<Trip> selectedTrip = new MutableLiveData<Trip>();
+    private final MutableLiveData<Trip> mSelectedTrip = new MutableLiveData<Trip>();
 
     public TripViewModel(Application application) {
         super(application);
         mRepository = new TripRepository(application);
         mAllTrips = mRepository.getAllTrips();
-        calculateTripStats();
     }
 
     public LiveData<List<Trip>> getAllTrips() { return mAllTrips; }
@@ -31,16 +30,21 @@ public class TripViewModel extends AndroidViewModel {
 
     // Pass selected trip between TripListFragment and EditTripFragment
     public void selectTrip(Trip trip) {
-        selectedTrip.setValue(trip);
+        mSelectedTrip.setValue(trip);
     }
     public LiveData<Trip> getSelectedTrip() {
-        return selectedTrip;
+        return mSelectedTrip;
     }
     public void clearSelectedTrip() {
-        selectedTrip.setValue(null);
+        mSelectedTrip.setValue(null);
     }
 
-    private void calculateTripStats() {
 
+    public TripStats getTripStats() {
+        if (mAllTrips.getValue() != null) {
+            return new TripStats(mAllTrips.getValue());
+        } else {
+            return null;
+        }
     }
 }

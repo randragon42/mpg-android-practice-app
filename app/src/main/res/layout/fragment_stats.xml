@@ -30,23 +30,90 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/average_mpg" />
 
-    <LinearLayout
-        android:id="@+id/stats_linear"
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="432dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:orientation="vertical"
+        android:nestedScrollingEnabled="false"
+        android:paddingHorizontal="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/average_mpg_label">
 
-        <ListView
-            android:id="@+id/stats_list_view"
+        <LinearLayout
+            android:id="@+id/stats_linear"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:paddingBottom="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/average_mpg_label">
+
+            <TextView
+                android:id="@+id/mpg_header"
+                style="@style/stats_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/mpg_header" />
+
+            <LinearLayout
+                android:id="@+id/mpg_stats_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="true"
+                android:orientation="vertical"
+                android:scrollbars="none">
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/distance_header"
+                style="@style/stats_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/distance_header" />
+
+            <LinearLayout
+                android:id="@+id/distance_stats_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:scrollbars="none" />
+
+            <TextView
+                android:id="@+id/cost_header"
+                style="@style/stats_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cost_header" />
+
+            <LinearLayout
+                android:id="@+id/cost_stats_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:scrollbars="none" />
+
+            <TextView
+                android:id="@+id/gallons_header"
+                style="@style/stats_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/fuel_header" />
+
+            <LinearLayout
+                android:id="@+id/gallons_stats_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:scrollbars="none" />
+        </LinearLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

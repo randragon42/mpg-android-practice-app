@@ -73,12 +73,6 @@ public class TripListFragment extends BaseFragment {
         mAdapter = new TripArrayAdapter(view.getContext(), R.layout.trip_item, mTripList);
         tripListView.setAdapter(mAdapter);
 
-        // Set up adapter
-//        RecyclerView recyclerView = view.findViewById(R.id.trip_list_recycler);
-//        final TripListAdapter adapter = new TripListAdapter(getContext());
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         // Hook up observable to adapter
         mTripViewModel.getAllTrips().observe(this, new Observer<List<Trip>>() {
             @Override
@@ -107,7 +101,7 @@ public class TripListFragment extends BaseFragment {
         });
 
         // Set up floating action button
-        FloatingActionButton addTripButton = (FloatingActionButton) view.findViewById(R.id.addTripButton);
+        FloatingActionButton addTripButton = view.findViewById(R.id.addTripButton);
         addTripButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -148,7 +142,6 @@ public class TripListFragment extends BaseFragment {
 
     private void showTripEditFragment(Trip trip){
         TripEditFragment tripEditFragment = new TripEditFragment();
-
         mTripViewModel.selectTrip(trip);
 
         // TODO: add slide-in-up and slide-down-out animations
