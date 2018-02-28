@@ -110,17 +110,20 @@ public class TripStats {
             totalCost = totalCost + trip.getTripCost();
             totalMiles = totalMiles + trip.getMiles();
             totalGallons = totalGallons + trip.getGallons();
-            totalMpg += trip.getMilesPerGallon();
 
             highestCost = highestCost < trip.getTripCost() ? trip.getTripCost() : highestCost;
             mostMiles = mostMiles < trip.getMiles() ? trip.getMiles() : mostMiles;
             mostGallons = mostGallons < trip.getGallons() ? trip.getGallons() : mostGallons;
-            bestMpg = bestMpg < trip.getMilesPerGallon() ? trip.getMilesPerGallon() : bestMpg;
 
             lowestCost = lowestCost > trip.getTripCost() ? trip.getTripCost() : lowestCost;
             leastMiles = leastMiles > trip.getMiles() ? trip.getMiles() : leastMiles;
             leastGallons = leastGallons > trip.getGallons() ? trip.getGallons() : leastGallons;
-            worstMpg = worstMpg > trip.getMilesPerGallon() ? trip.getMilesPerGallon() : worstMpg;
+
+            if(trip.filledTank){
+                totalMpg += trip.getMilesPerGallon();
+                worstMpg = worstMpg > trip.getMilesPerGallon() ? trip.getMilesPerGallon() : worstMpg;
+                bestMpg = bestMpg < trip.getMilesPerGallon() ? trip.getMilesPerGallon() : bestMpg;
+            }
         }
 
         mAverageCost = totalCost/trips.size();

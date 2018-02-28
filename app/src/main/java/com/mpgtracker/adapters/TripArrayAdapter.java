@@ -83,13 +83,20 @@ public class TripArrayAdapter extends ArrayAdapter<Trip> {
         Trip trip = mTrips.get(position);
         tripViewHolder.Date.setText(formatDate(trip.getFormattedDate(), "MMM dd"));
         tripViewHolder.Year.setText(formatDate(trip.getFormattedDate(), "yyyy"));
-        tripViewHolder.MPG.setText(String.format("%.2f mpg", trip.getMilesPerGallon()));
         tripViewHolder.Cost.setText(String.format("$%.2f", trip.getTripCost()));
         tripViewHolder.Gallons.setText(String.format("%.3f gal", trip.getGallons()));
         tripViewHolder.CostPerGallon.setText(String.format("$%.3f/gal", trip.getCostPerGallon()));
         tripViewHolder.Miles.setText(String.format("%.1f miles", trip.getMiles()));
         tripViewHolder.Odometer.setText(String.format("%.1f", trip.getOdometer()));
-        tripViewHolder.TankFilled.setText(trip.getFilledTank() ? "Tank Filled" : "");
+
+        if (trip.getFilledTank()) {
+            tripViewHolder.MPG.setText(String.format("%.2f mpg", trip.getMilesPerGallon()));
+            tripViewHolder.TankFilled.setText(mContext.getResources().getString(R.string.tank_filled_notification));
+        } else {
+            tripViewHolder.MPG.setText("");
+            tripViewHolder.TankFilled.setText("");
+        }
+
         return view;
     }
 

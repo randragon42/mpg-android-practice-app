@@ -80,7 +80,12 @@ public class Trip implements Comparable<Trip>{
     }
 
     public double getMilesPerGallon(){
-        return miles/gallons;
+        if (filledTank) {
+            return miles/gallons;
+        }
+        else {
+            return -1;
+        }
     }
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
