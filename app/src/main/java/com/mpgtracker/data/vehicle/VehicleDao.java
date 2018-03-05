@@ -1,5 +1,4 @@
-package com.mpgtracker.data;
-
+package com.mpgtracker.data.vehicle;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
@@ -8,20 +7,20 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
+
 import java.util.List;
 
 @Dao
-public interface TripDAO {
-
-    @Query("SELECT * FROM trips ORDER BY date ASC")
-    LiveData<List<Trip>> getAllTrips();
+public interface VehicleDao {
+    @Query("SELECT * FROM vehicles")
+    LiveData<List<Vehicle>> getAllVehicles();
 
     @Insert
-    void insertTrip(Trip trip);
+    void insertVehicle(Vehicle vehicle);
 
     @Update
-    void updateTrip(Trip trip);
+    void updateVehicle(Vehicle vehicle);
 
     @Delete
-    void deleteTrips(List<Trip> trips);
+    void deleteVehicles(List<Vehicle> vehicles);
 }

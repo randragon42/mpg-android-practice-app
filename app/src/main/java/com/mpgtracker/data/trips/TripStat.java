@@ -1,4 +1,4 @@
-package com.mpgtracker.data;
+package com.mpgtracker.data.trips;
 
 
 public class TripStat {
@@ -12,4 +12,5 @@ public class TripStat {
 
     public String getStatName(){return mStatName;}
     public String getStatValue() {return mStatValue;}
+    public void setStatValue(String value) {mStatValue = value;}
 }

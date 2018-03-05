@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.mpgtracker.R;
-import com.mpgtracker.data.Trip;
+import com.mpgtracker.data.trips.Trip;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

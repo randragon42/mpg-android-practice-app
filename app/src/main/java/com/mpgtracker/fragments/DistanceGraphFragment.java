@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mpgtracker.R;
-import com.mpgtracker.data.Trip;
-import com.mpgtracker.data.TripViewModel;
+import com.mpgtracker.data.trips.Trip;
+import com.mpgtracker.data.VehicleViewModel;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -22,7 +22,7 @@ import java.util.List;
 public class DistanceGraphFragment extends BaseGraphFragment {
 
     List<Trip> mTripList;
-    private TripViewModel mTripViewModel;
+    private VehicleViewModel mVehicleViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,18 +33,15 @@ public class DistanceGraphFragment extends BaseGraphFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
-        //mTripList = db.tripDAO().getAllTrips();
-        //Collections.sort(mTripList);
         // Get ViewModel
-        mTripViewModel = ViewModelProviders.of(getActivity()).get(TripViewModel.class);
-        mTripList = mTripViewModel.getAllTrips().getValue();
+        mVehicleViewModel = ViewModelProviders.of(getActivity()).get(VehicleViewModel.class);
+        mTripList = mVehicleViewModel.getAllTrips().getValue();
 
-        TextView titleText = (TextView) view.findViewById(R.id.graph_title);
+        TextView titleText = view.findViewById(R.id.graph_title);
         titleText.setText(getResources().getString(R.string.distance_over_time));
 
         // Set up Graph
-        GraphView graph = (GraphView) view.findViewById(R.id.graph);
+        GraphView graph = view.findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = getGraphData();
         setUpGraph(graph, series, 25, "Distance Over Time", "%.1f");
     }

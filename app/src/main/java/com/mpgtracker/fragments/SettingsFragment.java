@@ -21,7 +21,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Update Title
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle(getTitle());
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
     }

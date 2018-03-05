@@ -3,7 +3,7 @@ package com.mpgtracker.fragments;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
-import com.mpgtracker.data.Trip;
+import com.mpgtracker.data.trips.Trip;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;

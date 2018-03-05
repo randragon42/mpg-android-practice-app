@@ -20,8 +20,8 @@ import android.widget.Toast;
 
 import com.mpgtracker.R;
 import com.mpgtracker.adapters.TripArrayAdapter;
-import com.mpgtracker.data.Trip;
-import com.mpgtracker.data.TripViewModel;
+import com.mpgtracker.data.trips.Trip;
+import com.mpgtracker.data.VehicleViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class TripListFragment extends BaseFragment {
 
     private List<Trip> mTripList;
     private TripArrayAdapter mAdapter;
-    private TripViewModel mTripViewModel;
+    private VehicleViewModel mVehicleViewModel;
     @Override
     protected String getTitle() { return getResources().getString(R.string.trips_title); }
 
@@ -45,7 +45,7 @@ public class TripListFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
 
         // Get ViewModel
-        mTripViewModel = ViewModelProviders.of(getActivity()).get(TripViewModel.class);
+        mVehicleViewModel = ViewModelProviders.of(getActivity()).get(VehicleViewModel.class);
     }
 
     @Override
@@ -61,13 +61,13 @@ public class TripListFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Set up list adapter
-        ListView tripListView = (ListView) view.findViewById(R.id.tripListView);
-        mTripList = mTripViewModel.getAllTrips().getValue();
+        ListView tripListView = view.findViewById(R.id.tripListView);
+        mTripList = mVehicleViewModel.getAllTrips().getValue();
         mAdapter = new TripArrayAdapter(view.getContext(), R.layout.trip_item, mTripList);
         tripListView.setAdapter(mAdapter);
 
         // Hook up observable to adapter
-        mTripViewModel.getAllTrips().observe(this, new Observer<List<Trip>>() {
+        mVehicleViewModel.getAllTrips().observe(this, new Observer<List<Trip>>() {
             @Override
             public void onChanged(@Nullable final List<Trip> trips) {
                 // Update the cached copy of the words in the adapter.
@@ -127,15 +127,9 @@ public class TripListFragment extends BaseFragment {
         }
     }
 
-//    private void refreshTripList(){
-//        TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
-//        mTripList = db.tripDAO().getAllTrips();
-//        mAdapter.notifyDataSetChanged();
-//    }
-
     private void showTripEditFragment(Trip trip){
         TripEditFragment tripEditFragment = new TripEditFragment();
-        mTripViewModel.selectTrip(trip);
+        mVehicleViewModel.selectTrip(trip);
 
         // TODO: add slide-in-up and slide-down-out animations
         getFragmentManager().beginTransaction()
@@ -145,14 +139,14 @@ public class TripListFragment extends BaseFragment {
     }
 
 
-    // TODO: Can these two delete methods be combined?
+    // TODO: Can these two deleteTrips methods be combined?
     //  Planned redo of deleting trips - long selection will go into multi selection mode allowing
-    //  user to delete 1 or more trip at a time
+    //  user to deleteTrips 1 or more trip at a time
     private void deleteTrip(final int id, final int pos){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
 
         dialogBuilder.setTitle("Delete?")
-                .setMessage("Are you sure you want to delete this trips? This action cannot be undone.")
+                .setMessage("Are you sure you want to deleteTrips this trips? This action cannot be undone.")
                 .setCancelable(false)
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
@@ -160,7 +154,7 @@ public class TripListFragment extends BaseFragment {
                         Trip deletedTrip = mTripList.get(pos);
                         ArrayList<Trip> trips = new ArrayList<Trip>();
                         trips.add(deletedTrip);
-                        mTripViewModel.delete(trips);
+                        mVehicleViewModel.deleteTrips(trips);
                         Toast.makeText(getContext(), "Trip deleted", Toast.LENGTH_LONG).show();
                     }
                 })
@@ -178,14 +172,14 @@ public class TripListFragment extends BaseFragment {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
 
         dialogBuilder.setTitle("Delete All Trips?")
-                .setMessage("Are you sure you want to delete all trips? This action cannot be undone.")
+                .setMessage("Are you sure you want to deleteTrips all trips? This action cannot be undone.")
                 .setCancelable(false)
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mTripList.clear();
                         mAdapter.clear();
-                        mTripViewModel.delete(mTripList);
+                        mVehicleViewModel.deleteTrips(mTripList);
                         Toast.makeText(getContext(), "All trips deleted", Toast.LENGTH_LONG).show();
                     }
                 })

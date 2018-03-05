@@ -1,4 +1,4 @@
-package com.mpgtracker.data;
+package com.mpgtracker.data.trips;
 
 
 import java.util.List;
@@ -84,7 +84,7 @@ public class TripStats {
         return mWorstMpg;
     }
 
-    TripStats(List<Trip> trips) {
+    public TripStats(List<Trip> trips) {
         calculateTripStats(trips);
     }
 

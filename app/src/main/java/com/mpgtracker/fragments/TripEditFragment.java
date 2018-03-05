@@ -17,8 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.mpgtracker.R;
-import com.mpgtracker.data.Trip;
-import com.mpgtracker.data.TripViewModel;
+import com.mpgtracker.data.trips.Trip;
+import com.mpgtracker.data.VehicleViewModel;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -26,7 +26,7 @@ import java.util.Date;
 
 public class TripEditFragment extends BaseFragment {
 
-    private TripViewModel mTripViewModel;
+    private VehicleViewModel mVehicleViewModel;
     private TextView mDatePickerText;
     private Calendar mCalendar;
     private DatePickerDialog.OnDateSetListener mDate;
@@ -45,7 +45,7 @@ public class TripEditFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_trip_edit, container, false);
 
         // Get ViewModel
-        mTripViewModel = ViewModelProviders.of(getActivity()).get(TripViewModel.class);
+        mVehicleViewModel = ViewModelProviders.of(getActivity()).get(VehicleViewModel.class);
 
         return view;
     }
@@ -58,25 +58,19 @@ public class TripEditFragment extends BaseFragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        if(mTripViewModel.getSelectedTrip().getValue() == null){
+        if(mVehicleViewModel.getSelectedTrip().getValue() == null){
             mCreateMode = true;
         }
         super.onViewCreated(view, savedInstanceState);
 
         //Set up date picker
         mCalendar = Calendar.getInstance();
-        mDatePickerText = (TextView) view.findViewById(R.id.datePicker);
+        mDatePickerText = view.findViewById(R.id.datePicker);
         this.initDatePicker();
 
         //Set up fields if editing existing trip
         if (!mCreateMode) {
-            Trip trip = mTripViewModel.getSelectedTrip().getValue();
-//            double cost = getArguments().getDouble("cost");
-//            double miles = getArguments().getDouble("miles");
-//            double gallons = getArguments().getDouble("gallons");
-//            double odometer = getArguments().getDouble("odometer");
-//            boolean filledTank = getArguments().getBoolean("filledTank");
-//            String date = getArguments().getString("date");
+            Trip trip = mVehicleViewModel.getSelectedTrip().getValue();
             mId = trip.getId();
 
             ((TextView)view.findViewById(R.id.datePicker)).setText(trip.getFormattedDate());
@@ -93,7 +87,7 @@ public class TripEditFragment extends BaseFragment {
             ((CheckBox)view.findViewById(R.id.filledTankCheckBox)).setChecked(filledTankPref);
         }
 
-        Button saveButton = (Button) view.findViewById(R.id.saveButton);
+        Button saveButton = view.findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +95,7 @@ public class TripEditFragment extends BaseFragment {
             }
         });
 
-        Button cancelButton = (Button) view.findViewById(R.id.cancelButton);
+        Button cancelButton = view.findViewById(R.id.cancelButton);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +107,7 @@ public class TripEditFragment extends BaseFragment {
     @Override
     public void onDestroyView(){
         super.onDestroyView();
-        mTripViewModel.clearSelectedTrip();
+        mVehicleViewModel.clearSelectedTrip();
     }
 
     private void saveTrip(View view){
@@ -124,30 +118,23 @@ public class TripEditFragment extends BaseFragment {
             return;
         }
 
-        // This was previously being run in a background thread which caused issues
-        // when this fragment was popped and the TripListFragment resumed, fetching all
-        // trip data points while this new one was being written to the db.
-        // TODO: Need to update db handling for multithreading
-        //TripsDatabase db = TripsDatabase.getTripsDatabase(getContext());
         if(mCreateMode){
-            //db.tripDAO().insertTrip(trip);
-            mTripViewModel.insert(trip);
+            mVehicleViewModel.insertTrip(trip);
         }
         else{
-            //db.tripDAO().updateTrip(trip);
             trip.id = mId;
-            mTripViewModel.update(trip);
+            mVehicleViewModel.updateTrip(trip);
         }
 
         getActivity().getSupportFragmentManager().popBackStack();
     }
 
     private Trip validateTrip(View view){
-        EditText milesEditText = (EditText)view.findViewById(R.id.milesEditText);
-        EditText costEditText = (EditText)view.findViewById(R.id.costEditText);
-        EditText gallonsEditText = (EditText)view.findViewById(R.id.gallonsEditText);
-        EditText odometerEditText = (EditText)view.findViewById(R.id.odometerEditText);
-        CheckBox filledTankCheckBox = (CheckBox)view.findViewById(R.id.filledTankCheckBox);
+        EditText milesEditText = view.findViewById(R.id.milesEditText);
+        EditText costEditText = view.findViewById(R.id.costEditText);
+        EditText gallonsEditText = view.findViewById(R.id.gallonsEditText);
+        EditText odometerEditText = view.findViewById(R.id.odometerEditText);
+        CheckBox filledTankCheckBox = view.findViewById(R.id.filledTankCheckBox);
 
         String dateString = ((TextView)view.findViewById(R.id.datePicker)).getText().toString();
         Date date = parseDate(dateString);
@@ -161,7 +148,7 @@ public class TripEditFragment extends BaseFragment {
             return null;
         }
         else{
-            return new Trip(date, gallons, miles, cost, odometer, filledTank);
+            return new Trip(date, gallons, miles, cost, odometer, filledTank, mVehicleViewModel.getVehicleId());
         }
     }
 

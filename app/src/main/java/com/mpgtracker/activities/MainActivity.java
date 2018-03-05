@@ -1,6 +1,7 @@
 package com.mpgtracker.activities;
 
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.mpgtracker.data.VehicleViewModel;
 import com.mpgtracker.fragments.GraphsFragment;
 import com.mpgtracker.fragments.SettingsFragment;
 import com.mpgtracker.fragments.StatsFragment;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView mNavigationView;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
+    private VehicleViewModel mVehicleViewModel;
 
     private final String TRIP_TAG = "tripList";
     private final String GRAPHS_TAG = "graphs";
@@ -36,15 +39,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Set up Action Bar
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
         // Set up Navigation Drawer
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mNavigationView = (NavigationView) findViewById(R.id.navigation);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mNavigationView = findViewById(R.id.navigation);
         setupDrawer(mNavigationView);
+
+        // Set CarId from previous activity
+        mVehicleViewModel = ViewModelProviders.of(this).get(VehicleViewModel.class);
+        int vehicleId = 2;  // TODO: get vehicleId from bundle
+        mVehicleViewModel.setVehicleId(this.getApplication(), vehicleId);
 
         // Launch opening fragment
         getSupportFragmentManager().beginTransaction()

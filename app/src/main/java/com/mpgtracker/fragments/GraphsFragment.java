@@ -27,9 +27,9 @@ public class GraphsFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.graphs_tab_layout);
+        TabLayout tabLayout = view.findViewById(R.id.graphs_tab_layout);
 
-        final ViewPager viewPager = (ViewPager) view.findViewById(R.id.graphs_view_pager);
+        final ViewPager viewPager = view.findViewById(R.id.graphs_view_pager);
         final GraphPageAdapter adapter = new GraphPageAdapter(getFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
