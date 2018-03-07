@@ -104,13 +104,6 @@ public class TripListFragment extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        //refreshTripList();
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.trip_list_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);

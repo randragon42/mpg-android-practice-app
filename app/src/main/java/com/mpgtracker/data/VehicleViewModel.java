@@ -16,9 +16,10 @@ import java.util.List;
 public class VehicleViewModel extends AndroidViewModel {
 
     private Repository mRepository;
-    private Vehicle mVehicle;
+    private LiveData<List<Vehicle>> mAllVehicles;
     private LiveData<List<Trip>> mAllTrips;
     private LiveData<List<Expense>> mAllExpenses;
+    private final MutableLiveData<Vehicle> mSelectedVehicle = new MutableLiveData<Vehicle>();
     private final MutableLiveData<Trip> mSelectedTrip = new MutableLiveData<Trip>();
     private final MutableLiveData<Expense> mSelectedExpense = new MutableLiveData<Expense>();
     private int mVehicleId;
@@ -31,7 +32,7 @@ public class VehicleViewModel extends AndroidViewModel {
     }
 
     // Vehicles
-    public Vehicle getVehicle() { return mVehicle; }
+    public LiveData<List<Vehicle>> getAllVehicles() { return mAllVehicles; }
     public int getVehicleId() { return mVehicleId; }
     public void setVehicleId(Application application, int vehicleId) {
         mVehicleId = vehicleId;
