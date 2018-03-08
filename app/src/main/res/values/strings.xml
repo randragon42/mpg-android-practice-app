@@ -99,4 +99,15 @@
     <!--Vehicle Edit Fragment-->
     <string name="edit_vehicle_title">Edit Vehicle</string>
     <string name="create_vehicle_title">Add Vehicle</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="year">Year</string>
+    <string name="make">Make</string>
+    <string name="model">Model</string>
+    <string name="primary_driver">Primary Driver</string>
+    <string name="license_plate">License Plate</string>
+    <string name="vin">VIN</string>
+    <string name="insurance_policy">Insurance Policy</string>
+    <string name="active">Active</string>
+
 </resources>
