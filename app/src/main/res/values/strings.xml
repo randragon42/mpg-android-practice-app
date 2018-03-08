@@ -15,6 +15,8 @@
     <string name="trips_title">Trips</string>
 
     <!--Trip Edit Fragment-->
+    <string name="edit_trip_title">Edit Trip</string>
+    <string name="create_trip_title">Add Trip</string>
     <string name="trip_miles_label">Trip Miles</string>
     <string name="currency_symbol">$</string>
     <string name="total_cost_label">Total Cost</string>
@@ -24,8 +26,6 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="auto_calc">Auto Calc</string>
-    <string name="edit_title">Edit Trip</string>
-    <string name="create_title">Create Trip</string>
     <string name="miles_missing">Distance required.</string>
     <string name="miles_correct_format">Invalid miles value. Must be greater than 0.</string>
     <string name="cost_missing">Cost required.</string>
@@ -90,4 +90,13 @@
     <string name="graph_nav_menu_title">Graphs</string>
     <string name="stats_nav_menu_title">All Trip Stats</string>
     <string name="settings_nav_menu_title">Settings</string>
+
+    <!--Vehicle List Fragment-->
+    <string name="add_new_vehicle">Add New Vehicle</string>
+    <string name="no_vehicles">You have no vehicles</string>
+    <string name="add_a_vehicle">Add A Vehicle</string>
+
+    <!--Vehicle Edit Fragment-->
+    <string name="edit_vehicle_title">Edit Vehicle</string>
+    <string name="create_vehicle_title">Add Vehicle</string>
 </resources>

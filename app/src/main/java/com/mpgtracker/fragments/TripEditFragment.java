@@ -52,8 +52,8 @@ public class TripEditFragment extends BaseFragment {
 
     @Override
     protected String getTitle() {
-        if(mCreateMode){ return getResources().getString(R.string.create_title); }
-        else { return getResources().getString(R.string.edit_title); }
+        if(mCreateMode){ return getResources().getString(R.string.create_trip_title); }
+        else { return getResources().getString(R.string.edit_trip_title); }
     }
 
     @Override

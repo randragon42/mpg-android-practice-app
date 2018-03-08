@@ -14,7 +14,8 @@
             android:theme="@style/TripListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tripListView">
+            android:id="@+id/tripListView"
+            tools:listitem="@layout/trip_item">
         </ListView>
 
         <!--<android.support.v7.widget.RecyclerView-->

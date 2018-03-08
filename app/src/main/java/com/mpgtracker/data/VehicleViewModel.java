@@ -29,6 +29,8 @@ public class VehicleViewModel extends AndroidViewModel {
 
         mRepository = new Repository(application, mVehicleId);
         mAllTrips = mRepository.getAllTrips();
+        mAllVehicles = mRepository.getAllVehicles();
+        mAllExpenses = mRepository.getAllExpenses();
     }
 
     // Vehicles
@@ -39,6 +41,11 @@ public class VehicleViewModel extends AndroidViewModel {
         mRepository = new Repository(application, vehicleId);
         mAllTrips = mRepository.getAllTrips();
     }
+
+    // Pass selected vehicle between VehicleListFragment and VehicleFragment
+    public void selectVehicle(Vehicle vehicle) { mSelectedVehicle.setValue(vehicle); }
+    public LiveData<Vehicle> getSelectedVehicle() { return mSelectedVehicle; }
+    public void clearSelectedVehicle() { mSelectedVehicle.setValue(null); }
 
     // Trips
     public LiveData<List<Trip>> getAllTrips() { return mAllTrips; }
