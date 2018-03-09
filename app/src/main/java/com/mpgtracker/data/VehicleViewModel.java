@@ -35,6 +35,9 @@ public class VehicleViewModel extends AndroidViewModel {
 
     // Vehicles
     public LiveData<List<Vehicle>> getAllVehicles() { return mAllVehicles; }
+    public void insertVehicle(Vehicle vehicle) { mRepository.insertVehicle(vehicle);}
+    public void updateVehicle(Vehicle vehicle) { mRepository.updateVehicle(vehicle);}
+    public void deleteVehicles(List<Vehicle> vehicles) { mRepository.deleteVehicles(vehicles);}
     public int getVehicleId() { return mVehicleId; }
     public void setVehicleId(Application application, int vehicleId) {
         mVehicleId = vehicleId;

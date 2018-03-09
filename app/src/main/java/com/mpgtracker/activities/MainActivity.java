@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.mpgtracker.R;
-import com.mpgtracker.fragments.VehicleFragment;
 import com.mpgtracker.fragments.VehicleListFragment;
 
 public class MainActivity extends AppCompatActivity {

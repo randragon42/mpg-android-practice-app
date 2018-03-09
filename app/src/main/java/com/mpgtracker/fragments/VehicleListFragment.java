@@ -1,11 +1,14 @@
 package com.mpgtracker.fragments;
 
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +22,7 @@ import android.widget.Button;
 import com.mpgtracker.R;
 import com.mpgtracker.adapters.VehicleListAdapter;
 import com.mpgtracker.data.VehicleViewModel;
+import com.mpgtracker.data.trips.Trip;
 import com.mpgtracker.data.vehicle.Vehicle;
 
 import java.util.List;
@@ -27,7 +31,7 @@ public class VehicleListFragment extends BaseFragment {
 
     private VehicleViewModel mVehicleViewModel;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private VehicleListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ConstraintLayout mEmptyView;
 
@@ -47,27 +51,39 @@ public class VehicleListFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_vehicle_list, container, false);
 
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         List<Vehicle> vehicles = mVehicleViewModel.getAllVehicles().getValue();
 
         mRecyclerView = view.findViewById(R.id.vehicle_recycler_view);
         mEmptyView = view.findViewById(R.id.empty_view);
 
-        if(vehicles == null || vehicles.isEmpty()){
-            mRecyclerView.setVisibility(View.GONE);
-            mEmptyView.setVisibility(View.VISIBLE);
-        }
-        else {
-            mRecyclerView.setVisibility(View.VISIBLE);
-            mEmptyView.setVisibility(View.GONE);
-        }
-
         // Set up RecyclerView
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new VehicleListAdapter(vehicles);
+        mAdapter = new VehicleListAdapter(vehicles, getActivity());
         mRecyclerView.setAdapter(mAdapter);
 
+        // Hook up observable to adapter
+        mVehicleViewModel.getAllVehicles().observe(this, new Observer<List<Vehicle>>() {
+            @Override
+            public void onChanged(@Nullable final List<Vehicle> vehicles) {
+                // Update the cached copy of the words in the adapter.
+                mAdapter.updateDataSet(vehicles);
+                showAndHideList(vehicles);
+            }
+        });
+
         // TODO: Set up recyclerView onClickListener or equivalent
+
+
+
+        showAndHideList(vehicles);
 
         // Set up Add A Vehicle Button
         Button addVehicleButton = view.findViewById(R.id.add_vehicle_button);
@@ -76,8 +92,16 @@ public class VehicleListFragment extends BaseFragment {
                 addNewVehicle();
             }
         });
+    }
 
-        return view;
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Remove home button from actionbar
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setHomeButtonEnabled(false);
+        mVehicleViewModel.clearSelectedVehicle();
     }
 
     @Override
@@ -97,11 +121,23 @@ public class VehicleListFragment extends BaseFragment {
         }
     }
 
+    private void showAndHideList(List<Vehicle> vehicles) {
+        if(vehicles == null || vehicles.isEmpty()){
+            mRecyclerView.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.VISIBLE);
+        }
+        else {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mEmptyView.setVisibility(View.GONE);
+        }
+    }
+
     private void addNewVehicle() {
         VehicleEditFragment vehicleEditFragment = new VehicleEditFragment();
 
         // TODO: add slide-in-up and slide-down-out animations
-        getFragmentManager().beginTransaction()
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.animator.fade_in, android.R.animator.fade_out)
                 .replace(R.id.fragmentContainer, vehicleEditFragment, "edit_vehicle")
                 .addToBackStack(null)
                 .commit();
@@ -109,12 +145,6 @@ public class VehicleListFragment extends BaseFragment {
 
     private void selectVehicle(Vehicle vehicle) {
         mVehicleViewModel.selectVehicle(vehicle);
-
-        VehicleFragment vehicleFragment = new VehicleFragment();
-        // TODO: add slide-in-up and slide-down-out animations
-        getFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer, vehicleFragment, "vehicle")
-                .addToBackStack(null)
-                .commit();
+        addNewVehicle();
     }
 }
