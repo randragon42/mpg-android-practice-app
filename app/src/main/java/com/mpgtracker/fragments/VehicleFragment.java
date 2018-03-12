@@ -49,8 +49,7 @@ public class VehicleFragment extends BaseFragment {
         mVehicleViewModel = ViewModelProviders.of(getActivity()).get(VehicleViewModel.class);
 
         // Set CarId from previous activity
-        int vehicleId = 2;  // TODO: set vehicleId in fragment that calls this one
-        mVehicleViewModel.setVehicleId(getActivity().getApplication(), vehicleId);
+        mVehicleViewModel.setVehicleId(getActivity().getApplication(), mVehicleViewModel.getSelectedVehicle().getValue().id);
 
         // Set up Navigation on action bar
         mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
@@ -80,7 +79,6 @@ public class VehicleFragment extends BaseFragment {
         TripListFragment tripListFragment = new TripListFragment();
         getFragmentManager().beginTransaction()
                 .replace(R.id.vehicleFragmentContainer, tripListFragment, "trip_list")
-                .addToBackStack(null)
                 .commit();
 
         return view;

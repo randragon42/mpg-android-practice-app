@@ -79,10 +79,6 @@ public class VehicleListFragment extends BaseFragment {
             }
         });
 
-        // TODO: Set up recyclerView onClickListener or equivalent
-
-
-
         showAndHideList(vehicles);
 
         // Set up Add A Vehicle Button
@@ -141,10 +137,5 @@ public class VehicleListFragment extends BaseFragment {
                 .replace(R.id.fragmentContainer, vehicleEditFragment, "edit_vehicle")
                 .addToBackStack(null)
                 .commit();
-    }
-
-    private void selectVehicle(Vehicle vehicle) {
-        mVehicleViewModel.selectVehicle(vehicle);
-        addNewVehicle();
     }
 }
