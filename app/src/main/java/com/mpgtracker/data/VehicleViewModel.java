@@ -16,9 +16,10 @@ import java.util.List;
 public class VehicleViewModel extends AndroidViewModel {
 
     private Repository mRepository;
-    private Vehicle mVehicle;
+    private LiveData<List<Vehicle>> mAllVehicles;
     private LiveData<List<Trip>> mAllTrips;
     private LiveData<List<Expense>> mAllExpenses;
+    private final MutableLiveData<Vehicle> mSelectedVehicle = new MutableLiveData<Vehicle>();
     private final MutableLiveData<Trip> mSelectedTrip = new MutableLiveData<Trip>();
     private final MutableLiveData<Expense> mSelectedExpense = new MutableLiveData<Expense>();
     private int mVehicleId;
@@ -28,16 +29,26 @@ public class VehicleViewModel extends AndroidViewModel {
 
         mRepository = new Repository(application, mVehicleId);
         mAllTrips = mRepository.getAllTrips();
+        mAllVehicles = mRepository.getAllVehicles();
+        mAllExpenses = mRepository.getAllExpenses();
     }
 
     // Vehicles
-    public Vehicle getVehicle() { return mVehicle; }
+    public LiveData<List<Vehicle>> getAllVehicles() { return mAllVehicles; }
+    public void insertVehicle(Vehicle vehicle) { mRepository.insertVehicle(vehicle);}
+    public void updateVehicle(Vehicle vehicle) { mRepository.updateVehicle(vehicle);}
+    public void deleteVehicles(List<Vehicle> vehicles) { mRepository.deleteVehicles(vehicles);}
     public int getVehicleId() { return mVehicleId; }
     public void setVehicleId(Application application, int vehicleId) {
         mVehicleId = vehicleId;
         mRepository = new Repository(application, vehicleId);
         mAllTrips = mRepository.getAllTrips();
     }
+
+    // Pass selected vehicle between VehicleListFragment and VehicleFragment
+    public void selectVehicle(Vehicle vehicle) { mSelectedVehicle.setValue(vehicle); }
+    public LiveData<Vehicle> getSelectedVehicle() { return mSelectedVehicle; }
+    public void clearSelectedVehicle() { mSelectedVehicle.setValue(null); }
 
     // Trips
     public LiveData<List<Trip>> getAllTrips() { return mAllTrips; }

@@ -1,37 +1,21 @@
 package com.mpgtracker.activities;
 
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.mpgtracker.data.VehicleViewModel;
-import com.mpgtracker.fragments.GraphsFragment;
-import com.mpgtracker.fragments.SettingsFragment;
-import com.mpgtracker.fragments.StatsFragment;
 import com.mpgtracker.R;
-import com.mpgtracker.fragments.TripListFragment;
+import com.mpgtracker.fragments.VehicleListFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private DrawerLayout mDrawerLayout;
-    private NavigationView mNavigationView;
     private Toolbar mToolbar;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private VehicleViewModel mVehicleViewModel;
 
-    private final String TRIP_TAG = "tripList";
-    private final String GRAPHS_TAG = "graphs";
-    private final String STATS_TAG = "stats";
-    private final String SETTINGS_TAG = "settings";
+    private final String VEHICLE_TAG = "vehicle";
+    private final String VEHICLE_LIST_TAG = "vehicle_list";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,80 +25,22 @@ public class MainActivity extends AppCompatActivity {
         // Set up Action Bar
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-        // Set up Navigation Drawer
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        mNavigationView = findViewById(R.id.navigation);
-        setupDrawer(mNavigationView);
-
-        // Set CarId from previous activity
-        mVehicleViewModel = ViewModelProviders.of(this).get(VehicleViewModel.class);
-        int vehicleId = 2;  // TODO: get vehicleId from bundle
-        mVehicleViewModel.setVehicleId(this.getApplication(), vehicleId);
 
         // Launch opening fragment
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragmentContainer, new TripListFragment(), TRIP_TAG)
+                .add(R.id.fragmentContainer, new VehicleListFragment(), VEHICLE_LIST_TAG)
                 .commit();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
+        // Pass through home button presses to Fragments first
+        if (item.getItemId() == android.R.id.home){
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+            if(null != currentFragment && currentFragment.onOptionsItemSelected(item)){
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setupDrawer(NavigationView navigationView){
-        // Listeners for drawer menu selection
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        item.setChecked(true);
-                        switch(item.getItemId()){
-                            case R.id.trips_navigation_item:    launchFragment(new TripListFragment(), TRIP_TAG);
-                                                                break;
-                            case R.id.graphs_navigation_item:   launchFragment(new GraphsFragment(), GRAPHS_TAG);
-                                                                break;
-                            case R.id.stats_navigation_item:    launchFragment(new StatsFragment(), STATS_TAG);
-                                                                break;
-                            case R.id.settings_navigation_item: launchFragment(new SettingsFragment(), SETTINGS_TAG);
-                                                                break;
-                            default:                            break;
-                        }
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-                }
-        );
-
-        // Hamburger menu button functionality
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.string.drawer_open, R.string.drawer_close) {
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                invalidateOptionsMenu();
-            }
-
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                invalidateOptionsMenu();
-            }
-        };
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
-        mToolbar.setNavigationIcon(R.drawable.hamburger_menu);
-    }
-
-    private void launchFragment(Fragment fragment, String tag){
-        //TODO: add slide-up and slide-down transition animations
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer, fragment, tag)
-                .commit();
     }
 }
