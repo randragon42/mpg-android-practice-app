@@ -1,201 +1,198 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.mpgtracker.fragments.TripEditFragment">
 
-    <TextView
-        android:id="@+id/datePicker"
-        android:layout_width="150dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="12/12/2017" />
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/milesEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/odometerLabel" />
+        <android.support.v7.widget.CardView
+            android:id="@+id/date_picker_card"
+            style="@style/card_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tripMilesLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:labelFor="@id/milesEditText"
-        android:text="@string/trip_miles_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/milesEditText" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/costEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:singleLine="true"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/datePicker" />
+                <TextView
+                    android:id="@+id/date_picker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="12/12/2017" />
+            </RelativeLayout>
 
-    <TextView
-        android:id="@+id/currencyLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/currency_symbol"
-        app:layout_constraintEnd_toStartOf="@+id/costEditText"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/costEditText" />
+        </android.support.v7.widget.CardView>
 
-    <TextView
-        android:id="@+id/tripCostLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:labelFor="@id/costEditText"
-        android:text="@string/total_cost_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/costEditText" />
+        <android.support.v7.widget.CardView
+            android:id="@+id/pump_info_card"
+            style="@style/card_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/gallonsEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/costEditText" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/gallonsLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:labelFor="@id/gallonsEditText"
-        android:text="@string/gallons_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gallonsEditText" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    tools:text="@string/pump_info" />
 
-    <EditText
-        android:id="@+id/odometerEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/gallonsLabel" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/cost_input_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:errorEnabled="false">
 
-    <TextView
-        android:id="@+id/odometerLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:labelFor="@+id/odometerEditText"
-        android:text="@string/odometer_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/odometerEditText" />
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/cost_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/total_cost_label"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
+                        android:textAlignment="center" />
+                </android.support.design.widget.TextInputLayout>
 
-    <CheckBox
-        android:id="@+id/filledTankCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:checked="true"
-        android:text="@string/filled_tank_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tripMilesLabel" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/gallons_input_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:errorEnabled="false">
 
-    <Button
-        android:id="@+id/saveButton"
-        style="@style/Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/save"
-        app:layout_constraintEnd_toStartOf="@+id/verticalCenterGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/filledTankCheckBox" />
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/gallons_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/gallons_label"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
+                        android:textAlignment="center" />
+                </android.support.design.widget.TextInputLayout>
 
-    <Button
-        android:id="@+id/cancelButton"
-        style="@style/Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/cancel"
-        app:layout_constraintStart_toStartOf="@+id/verticalCenterGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/filledTankCheckBox" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-    <android.support.constraint.Guideline
-        android:id="@+id/verticalCenterGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        <android.support.v7.widget.CardView
+            android:id="@+id/vehicle_info_card"
+            style="@style/card_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <!--TODO: Uncomment when functionality is ready-->
-    <!--<Button-->
-        <!--android:id="@+id/calculateTripMilesButton"-->
-        <!--android:layout_width="55dp"-->
-        <!--android:layout_height="43dp"-->
-        <!--android:layout_marginBottom="8dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--android:text="@string/auto_calc"-->
-        <!--android:textSize="8sp"-->
-        <!--app:layout_constraintBottom_toTopOf="@+id/tripMilesLabel"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toEndOf="@+id/milesEditText"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/odometerLabel" />-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    tools:text="@string/vehicle_info" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/miles_input_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:errorEnabled="false">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/miles_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/trip_miles_label"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
+                        android:textAlignment="center" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/odometer_input_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:errorEnabled="false">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/odometer_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/odometer_label"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
+                        android:textAlignment="center" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/filled_tank_card"
+            style="@style/card_style"
+            android:layout_width="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:longClickable="false"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/other"
+                    android:textStyle="bold" />
+
+                <CheckBox
+                    android:id="@+id/filled_tank_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/filled_tank_label" />
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/delete_trip_card"
+            style="@style/card_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/delete_trip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/alert"
+                    android:text="@string/delete_trip"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+</ScrollView>

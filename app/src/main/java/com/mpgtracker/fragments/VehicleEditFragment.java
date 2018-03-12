@@ -55,12 +55,11 @@ public class VehicleEditFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_vehicle_edit, container, false);
 
-        setHasOptionsMenu(true);
-
         // Get ViewModel
         mVehicleViewModel = ViewModelProviders.of(getActivity()).get(VehicleViewModel.class);
 
         // Set up Navigation on action bar
+        setHasOptionsMenu(true);
         mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
@@ -124,7 +123,7 @@ public class VehicleEditFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                getActivity().getSupportFragmentManager().popBackStack();
+                exitFragment();
                 return true;
             case R.id.save_vehicle:
                 saveVehicle();

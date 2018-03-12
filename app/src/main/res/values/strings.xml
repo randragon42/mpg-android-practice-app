@@ -6,6 +6,8 @@
 
     <!--Common Strings-->
     <string name="cancel">Cancel</string>
+    <string name="other">Other</string>
+    <string name="delete">Delete</string>
 
     <!--Accessibility-->
     <string name="drawer_open">Open Navigation Drawer</string>
@@ -21,12 +23,13 @@
     <string name="edit_trip_title">Edit Trip</string>
     <string name="create_trip_title">Add Trip</string>
     <string name="trip_miles_label">Trip Miles</string>
-    <string name="currency_symbol">$</string>
+    <string name="pump_info">Pump Info</string>
+    <string name="vehicle_info">Vehicle Info</string>
     <string name="total_cost_label">Total Cost</string>
     <string name="gallons_label">Gallons</string>
     <string name="odometer_label">Odometer</string>
     <string name="filled_tank_label">Filled Tank</string>
-    <string name="save">Save</string>
+    <string name="delete_trip">Delete Trip</string>
     <string name="auto_calc">Auto Calc</string>
     <string name="miles_missing">Distance required.</string>
     <string name="miles_correct_format">Invalid miles value. Must be greater than 0.</string>
@@ -36,6 +39,9 @@
     <string name="gallons_correct_format">Invalid gallons value. Must be greater than 0.</string>
     <string name="odometer_missing">Odometer reading required.</string>
     <string name="odometer_correct_format">Invalid odometer value. Must be greater than 0.</string>
+    <string name="delete_trip_dialog_title">Delete Trip?</string>
+    <string name="delete_trip_dialog_message">Are you sure you want to delete this trip? This action cannot be undone.</string>
+    <string name="trip_deleted">Trip Deleted</string>
 
     <!--Graphs Fragment-->
     <string name="graphs_title">Graphs</string>
@@ -102,7 +108,6 @@
     <string name="edit_vehicle_title">Edit Vehicle</string>
     <string name="create_vehicle_title">Add Vehicle</string>
     <string name="vehicle_type">Vehicle Type</string>
-    <string name="other">Other</string>
     <string name="name">Name</string>
     <string name="description">Description</string>
     <string name="year">Year</string>
@@ -117,7 +122,6 @@
     <string name="delete_vehicle_button_label">Delete Vehicle</string>
     <string name="delete_vehicle_dialog_title">Delete Vehicle?</string>
     <string name="delete_vehicle_dialog_message">Are you sure you want to delete this vehicle? This action cannot be undone.</string>
-    <string name="delete">Delete</string>
     <string name="vehicle_deleted">Vehicle Deleted</string>
 
 </resources>

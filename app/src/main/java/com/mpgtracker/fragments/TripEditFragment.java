@@ -1,15 +1,21 @@
 package com.mpgtracker.fragments;
 
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,28 +23,39 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mpgtracker.R;
 import com.mpgtracker.data.trips.Trip;
 import com.mpgtracker.data.VehicleViewModel;
+import com.mpgtracker.data.vehicle.Vehicle;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class TripEditFragment extends BaseFragment {
 
+    private Trip mTrip;
+    private ActionBar mActionBar;
     private VehicleViewModel mVehicleViewModel;
-    private TextView mDatePickerText;
     private Calendar mCalendar;
     private DatePickerDialog.OnDateSetListener mDate;
     private int mId = -1;
     private boolean mCreateMode = false;
 
+    private TextView mDatePicker;
+    private EditText mMiles;
+    private EditText mGallons;
+    private EditText mCost;
+    private EditText mOdometer;
+    private CheckBox mFilledTank;
+    private Button mDeleteTrip;
+
     public TripEditFragment() {
 
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +65,13 @@ public class TripEditFragment extends BaseFragment {
 
         // Get ViewModel
         mVehicleViewModel = ViewModelProviders.of(getActivity()).get(VehicleViewModel.class);
+
+        // Set up Navigation on action bar
+        setHasOptionsMenu(true);
+        mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        mActionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar.setHomeButtonEnabled(true);
+        mActionBar.setHomeAsUpIndicator(R.drawable.arrow_back);
 
         return view;
     }
@@ -67,61 +91,103 @@ public class TripEditFragment extends BaseFragment {
 
         //Set up date picker
         mCalendar = Calendar.getInstance();
-        mDatePickerText = view.findViewById(R.id.datePicker);
+        mDatePicker = view.findViewById(R.id.date_picker);
         this.initDatePicker();
 
-        //Set up fields if editing existing trip
-        if (!mCreateMode) {
-            Trip trip = mVehicleViewModel.getSelectedTrip().getValue();
-            mId = trip.getId();
+        mMiles = view.findViewById(R.id.miles_edit_text);
+        mGallons = view.findViewById(R.id.gallons_edit_text);
+        mCost = view.findViewById(R.id.cost_edit_text);
+        mOdometer = view.findViewById(R.id.odometer_edit_text);
+        mFilledTank = view.findViewById(R.id.filled_tank_check_box);
+        mDeleteTrip = view.findViewById(R.id.delete_trip);
 
-            ((TextView)view.findViewById(R.id.datePicker)).setText(trip.getFormattedDate());
-            ((EditText)view.findViewById(R.id.milesEditText)).setText(String.format(Double.toString(trip.getMiles()), "%.1f"));
-            ((EditText)view.findViewById(R.id.gallonsEditText)).setText(String.format(Double.toString(trip.getGallons()), "%.3f"));
-            ((EditText)view.findViewById(R.id.costEditText)).setText(String.format(Double.toString(trip.getTripCost()), "%.2f"));
-            ((EditText)view.findViewById(R.id.odometerEditText)).setText(String.format(Double.toString(trip.getOdometer()), "%.1f"));
-            ((CheckBox)view.findViewById(R.id.filledTankCheckBox)).setChecked(trip.getFilledTank());
-        }
-        else {
+        //Set up fields if editing existing trip
+        if(mCreateMode){
+            CardView deleteCard = view.findViewById(R.id.delete_trip_card);
+            deleteCard.setVisibility(View.GONE);
+
             //Set filledTankCheckBox to preference setting
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
             boolean filledTankPref = prefs.getBoolean("default_tank_filled", true);
-            ((CheckBox)view.findViewById(R.id.filledTankCheckBox)).setChecked(filledTankPref);
+            mFilledTank.setChecked(filledTankPref);
         }
+        else {
+            mTrip = mVehicleViewModel.getSelectedTrip().getValue();
+            mId = mTrip.getId();
 
-        Button saveButton = view.findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveTrip((ViewGroup) v.getParent());
-            }
-        });
+            mDatePicker.setText(mTrip.getFormattedDate());
+            mMiles.setText(String.format(Double.toString(mTrip.getMiles()), "%.1f"));
+            mGallons.setText(String.format(Double.toString(mTrip.getGallons()), "%.3f"));
+            mCost.setText(String.format(Double.toString(mTrip.getTripCost()), "%.2f"));
+            mOdometer.setText(String.format(Double.toString(mTrip.getOdometer()), "%.1f"));
+            mFilledTank.setChecked(mTrip.getFilledTank());
 
-        Button cancelButton = view.findViewById(R.id.cancelButton);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
+            mDeleteTrip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteTrip();
+                }
+            });
+        }
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
+        inflater.inflate(R.menu.trip_edit_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                getActivity().getSupportFragmentManager().popBackStack();
+                return true;
+            case R.id.save_vehicle:
+                saveTrip();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onDestroyView(){
         super.onDestroyView();
         mVehicleViewModel.clearSelectedTrip();
+        mActionBar.setHomeAsUpIndicator(R.drawable.hamburger_menu);
     }
 
-    private void saveTrip(View view){
+    private void deleteTrip(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+
+        dialogBuilder.setTitle(getResources().getString(R.string.delete_trip_dialog_title))
+                .setMessage(getResources().getString(R.string.delete_trip_dialog_message))
+                .setCancelable(false)
+                .setPositiveButton(getResources().getString(R.string.delete), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ArrayList<Trip> trips = new ArrayList<Trip>();
+                        trips.add(mTrip);
+                        mVehicleViewModel.deleteTrips(trips);
+                        Toast.makeText(getContext(), getResources().getString(R.string.trip_deleted), Toast.LENGTH_LONG).show();
+                        exitFragment();
+                    }
+                })
+                .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = dialogBuilder.create();
+        alert.show();
+    }
+
+    private void saveTrip(){
 
         // Validate form
-        final Trip trip = validateTrip(view);
+        final Trip trip = validateTrip();
         if(trip == null){
             return;
         }
@@ -137,20 +203,19 @@ public class TripEditFragment extends BaseFragment {
         getActivity().getSupportFragmentManager().popBackStack();
     }
 
-    private Trip validateTrip(View view){
-        EditText milesEditText = view.findViewById(R.id.milesEditText);
-        EditText costEditText = view.findViewById(R.id.costEditText);
-        EditText gallonsEditText = view.findViewById(R.id.gallonsEditText);
-        EditText odometerEditText = view.findViewById(R.id.odometerEditText);
-        CheckBox filledTankCheckBox = view.findViewById(R.id.filledTankCheckBox);
+    private void exitFragment() {
+        getActivity().getSupportFragmentManager().popBackStack();
+    }
 
-        String dateString = ((TextView)view.findViewById(R.id.datePicker)).getText().toString();
+    private Trip validateTrip(){
+
+        String dateString = mDatePicker.getText().toString();
         Date date = parseDate(dateString);
-        double miles = validateEditTextDouble(milesEditText, getResources().getString(R.string.miles_missing), getResources().getString(R.string.miles_correct_format));
-        double cost = validateEditTextDouble(costEditText, getResources().getString(R.string.cost_missing), getResources().getString(R.string.cost_correct_format));
-        double gallons = validateEditTextDouble(gallonsEditText, getResources().getString(R.string.gallons_missing), getResources().getString(R.string.gallons_correct_format));
-        double odometer = validateEditTextDouble(odometerEditText, getResources().getString(R.string.odometer_missing), getResources().getString(R.string.odometer_correct_format));
-        boolean filledTank = filledTankCheckBox.isChecked();
+        double miles = validateEditTextDouble(mMiles, getResources().getString(R.string.miles_missing), getResources().getString(R.string.miles_correct_format));
+        double cost = validateEditTextDouble(mCost, getResources().getString(R.string.cost_missing), getResources().getString(R.string.cost_correct_format));
+        double gallons = validateEditTextDouble(mGallons, getResources().getString(R.string.gallons_missing), getResources().getString(R.string.gallons_correct_format));
+        double odometer = validateEditTextDouble(mOdometer, getResources().getString(R.string.odometer_missing), getResources().getString(R.string.odometer_correct_format));
+        boolean filledTank = mFilledTank.isChecked();
 
         if(miles <= 0 || cost <= 0 || gallons <= 0 || odometer <= 0){
             return null;
@@ -175,7 +240,7 @@ public class TripEditFragment extends BaseFragment {
     }
 
     private void initDatePicker(){
-        if(mDatePickerText.getText() == ""){
+        if(mDatePicker.getText() == ""){
             this.updateDateLabel();
         }
         mDate = new DatePickerDialog.OnDateSetListener() {
@@ -188,7 +253,7 @@ public class TripEditFragment extends BaseFragment {
             }
         };
 
-        mDatePickerText.setOnClickListener(new View.OnClickListener() {
+        mDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new DatePickerDialog(TripEditFragment.this.getContext(), mDate, mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH)).show();
@@ -197,7 +262,7 @@ public class TripEditFragment extends BaseFragment {
     }
 
     private void updateDateLabel(){
-        mDatePickerText.setText(Trip.DATE_FORMAT.format(mCalendar.getTime()));
+        mDatePicker.setText(Trip.DATE_FORMAT.format(mCalendar.getTime()));
     }
 
     private Date parseDate(String date) {
