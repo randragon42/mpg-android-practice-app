@@ -18,6 +18,8 @@
 
     <!--Trip List Fragment-->
     <string name="trips_title">Trips</string>
+    <string name="no_trips">You have no trips for this vehicle</string>
+    <string name="add_a_trip">Add a Trip</string>
 
     <!--Trip Edit Fragment-->
     <string name="edit_trip_title">Edit Trip</string>

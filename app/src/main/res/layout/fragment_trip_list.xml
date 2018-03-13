@@ -5,27 +5,51 @@
     android:layout_height="match_parent"
     tools:context="com.mpgtracker.fragments.TripListFragment">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/empty_trip_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_trips"
+                android:layout_gravity="center_horizontal"/>
+            <Button
+                android:id="@+id/add_trip_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="@string/add_a_trip"
+                android:textColor="@color/colorPrimary"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:theme="@style/TripListView"
+        android:id="@+id/trip_list_recycler"
+        tools:listitem="@layout/trip_item">
+    </android.support.v7.widget.RecyclerView>
 
-        <ListView
-            android:theme="@style/TripListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tripListView"
-            tools:listitem="@layout/trip_item">
-        </ListView>
-
-        <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:theme="@style/TripListView"-->
-            <!--android:id="@+id/trip_list_recycler">-->
-        <!--</android.support.v7.widget.RecyclerView>-->
-
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addTripButton"

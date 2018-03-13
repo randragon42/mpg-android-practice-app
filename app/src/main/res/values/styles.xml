@@ -9,7 +9,6 @@
         <!-- Blue -->
         <item name="colorAccent">@color/colorAccent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
-        <item name="cardViewStyle">@style/card_style</item>
     </style>
 
     <style name="AppToolbar">

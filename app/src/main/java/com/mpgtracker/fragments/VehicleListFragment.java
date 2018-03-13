@@ -61,7 +61,7 @@ public class VehicleListFragment extends BaseFragment {
         List<Vehicle> vehicles = mVehicleViewModel.getAllVehicles().getValue();
 
         mRecyclerView = view.findViewById(R.id.vehicle_recycler_view);
-        mEmptyView = view.findViewById(R.id.empty_view);
+        mEmptyView = view.findViewById(R.id.empty_vehicle_list_view);
 
         // Set up RecyclerView
         mLayoutManager = new LinearLayoutManager(getContext());
