@@ -1,149 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/trip_list_item"
+    style="@style/card_style"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:textAlignment="viewStart"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Dec 12" />
 
-    <TextView
-        android:id="@+id/year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/date"
-        app:layout_constraintStart_toStartOf="@+id/date"
-        app:layout_constraintTop_toBottomOf="@+id/date"
-        tools:text="2017" />
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-    <RelativeLayout
-        android:id="@+id/costs"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/date"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="10dp">
 
         <TextView
-            android:id="@+id/cost"
+            android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:textAlignment="viewStart"
             android:textSize="16sp"
-            tools:text="$35.24" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Dec 12" />
 
         <TextView
-            android:id="@+id/costPerGallon"
+            android:id="@+id/year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/cost"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginTop="9dp"
-            android:maxLines="1"
-            android:textSize="12sp"
-            tools:text="$2.58/gal" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/distances"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/costs"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/miles"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:maxLines="1"
-            android:textSize="16sp"
-            tools:text="400.2 miles" />
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/date"
+            app:layout_constraintStart_toStartOf="@+id/date"
+            app:layout_constraintTop_toBottomOf="@+id/date"
+            tools:text="2017" />
 
-        <TextView
-            android:id="@+id/odometer"
+        <RelativeLayout
+            android:id="@+id/costs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/miles"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginTop="9dp"
-            android:maxLines="1"
-            android:textSize="12sp"
-            tools:text="62,845" />
-    </RelativeLayout>
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toEndOf="@+id/date"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <RelativeLayout
-        android:id="@+id/gallonStats"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/distances"
-        app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:id="@+id/cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="16sp"
+                tools:text="$35.24" />
 
-        <TextView
-            android:id="@+id/mpg"
+            <TextView
+                android:id="@+id/costPerGallon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cost"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="9dp"
+                android:maxLines="1"
+                android:textSize="12sp"
+                tools:text="$2.58/gal" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/distances"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:textSize="16sp"
-            tools:text="32.4 mpg" />
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toEndOf="@+id/costs"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/gallons"
+            <TextView
+                android:id="@+id/miles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:maxLines="1"
+                android:textSize="16sp"
+                tools:text="400.2 miles" />
+
+            <TextView
+                android:id="@+id/odometer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/miles"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="9dp"
+                android:maxLines="1"
+                android:textSize="12sp"
+                tools:text="62,845" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/gallonStats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/mpg"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginTop="9dp"
-            android:maxLines="1"
-            android:textSize="12sp"
-            tools:text="12.273 gal" />
-    </RelativeLayout>
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toEndOf="@+id/distances"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tankFilled"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="@string/tank_filled_notification"
-        android:textColor="@color/colorPrimary"
-        android:textSize="10sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/date"
-        app:layout_constraintStart_toStartOf="@+id/date"
-        app:layout_constraintTop_toBottomOf="@+id/year" />
+            <TextView
+                android:id="@+id/mpg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="16sp"
+                tools:text="32.4 mpg" />
 
-</android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/gallons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mpg"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="9dp"
+                android:maxLines="1"
+                android:textSize="12sp"
+                tools:text="12.273 gal" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tankFilled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="4dp"
+            android:text="@string/tank_filled_notification"
+            android:textColor="@color/colorPrimary"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/year" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

@@ -1,16 +1,13 @@
 package com.mpgtracker.adapters;
 
 
-import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mpgtracker.R;
@@ -18,7 +15,6 @@ import com.mpgtracker.data.VehicleViewModel;
 import com.mpgtracker.data.vehicle.Vehicle;
 import com.mpgtracker.fragments.VehicleEditFragment;
 import com.mpgtracker.fragments.VehicleFragment;
-import com.mpgtracker.fragments.VehicleListFragment;
 
 import java.util.List;
 
