@@ -48,22 +48,6 @@ public class StatsFragment extends BaseFragment {
         mNoMpgData = mTripStats.getAverageMpg() == 0;
         mStatsList = compileAllStats();
 
-        TextView averageMpg = view.findViewById(R.id.average_mpg);
-        TextView averageMpgLabel = view.findViewById(R.id.average_mpg_label);
-        if(mNoTripData){
-            averageMpg.setText("No Trip Data");
-            averageMpgLabel.setText("");
-        }
-        else if(mNoMpgData){
-            averageMpg.setText("No MPG Data");
-            averageMpgLabel.setText("");
-        }
-        else {
-            // Get average MPG
-            double avgMpg = mTripStats.getAverageMpg();
-            averageMpg.setText(String.format("%.2f", avgMpg));
-        }
-
         // Set up mpg linear layout
         setLinearLayout(view, mStatsList.subList(0,3), R.id.mpg_stats_list_view);
 

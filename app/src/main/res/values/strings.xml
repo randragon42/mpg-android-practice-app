@@ -24,6 +24,7 @@
     <!--Trip Edit Fragment-->
     <string name="edit_trip_title">Edit Trip</string>
     <string name="create_trip_title">Add Trip</string>
+    <string name="date">Date</string>
     <string name="trip_miles_label">Trip Miles</string>
     <string name="pump_info">Pump Info</string>
     <string name="vehicle_info">Vehicle Info</string>
