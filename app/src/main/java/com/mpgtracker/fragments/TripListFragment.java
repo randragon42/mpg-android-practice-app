@@ -33,7 +33,7 @@ public class TripListFragment extends BaseFragment {
     private ConstraintLayout mEmptyView;
 
     @Override
-    protected String getTitle() { return getResources().getString(R.string.trips_title); }
+    protected String getTitle() { return null; }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

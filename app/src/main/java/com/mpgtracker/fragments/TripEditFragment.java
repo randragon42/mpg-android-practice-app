@@ -155,7 +155,6 @@ public class TripEditFragment extends BaseFragment {
     public void onDestroyView(){
         super.onDestroyView();
         mVehicleViewModel.clearSelectedTrip();
-        mActionBar.setHomeAsUpIndicator(R.drawable.hamburger_menu);
     }
 
     private void deleteTrip(){

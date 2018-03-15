@@ -75,6 +75,9 @@
 
     <!--Stats Fragment-->
     <string name="stats_title">Stats</string>
+    <string name="mpg">MPG</string>
+    <string name="cost">Cost</string>
+    <string name="distance">Distance</string>
 
     <string name="mpg_header">MPG</string>
     <string name="average_mpg">Average MPG</string>
@@ -105,8 +108,8 @@
     <!--Navigation Menu-->
     <string name="menu">Menu</string>
     <string name="trips_nav_menu_title">Trips</string>
-    <string name="graph_nav_menu_title">Graphs</string>
-    <string name="stats_nav_menu_title">All Trip Stats</string>
+    <string name="expenses_nav_menu_title">Expenses</string>
+    <string name="stats_nav_menu_title">Stats</string>
     <string name="settings_nav_menu_title">Settings</string>
 
     <!--Vehicle List Fragment-->
