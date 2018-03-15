@@ -63,6 +63,7 @@ public class VehicleEditFragment extends BaseFragment {
         mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
+        mActionBar.setHomeAsUpIndicator(R.drawable.arrow_back);
 
         return view;
     }
@@ -130,6 +131,12 @@ public class VehicleEditFragment extends BaseFragment {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mActionBar.setHomeAsUpIndicator(R.drawable.hamburger_menu);
     }
 
     private void saveVehicle() {

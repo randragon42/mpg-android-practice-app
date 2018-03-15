@@ -8,14 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.mpgtracker.R;
-import com.mpgtracker.fragments.VehicleListFragment;
+import com.mpgtracker.fragments.TopFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
 
-    private final String VEHICLE_TAG = "vehicle";
-    private final String VEHICLE_LIST_TAG = "vehicle_list";
+    private final String TOP_TAG = "top";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Launch opening fragment
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragmentContainer, new VehicleListFragment(), VEHICLE_LIST_TAG)
+                .add(R.id.fragmentContainer, new TopFragment(), TOP_TAG)
                 .commit();
     }
 

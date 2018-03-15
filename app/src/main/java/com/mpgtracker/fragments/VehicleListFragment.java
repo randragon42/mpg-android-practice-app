@@ -6,9 +6,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,7 +19,6 @@ import android.widget.Button;
 import com.mpgtracker.R;
 import com.mpgtracker.adapters.VehicleListAdapter;
 import com.mpgtracker.data.VehicleViewModel;
-import com.mpgtracker.data.trips.Trip;
 import com.mpgtracker.data.vehicle.Vehicle;
 
 import java.util.List;
@@ -93,10 +89,6 @@ public class VehicleListFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Remove home button from actionbar
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setHomeButtonEnabled(false);
         mVehicleViewModel.clearSelectedVehicle();
     }
 

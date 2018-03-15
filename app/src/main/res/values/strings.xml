@@ -13,6 +13,9 @@
     <string name="drawer_open">Open Navigation Drawer</string>
     <string name="drawer_close">Close Navigation Drawer</string>
 
+    <!--Top Fragment-->
+    <string name="vehicles_nav_menu_title">Vehicles</string>
+
     <!--Trip List Menu-->
     <string name="delete_all_trips">Delete All Trips</string>
 
