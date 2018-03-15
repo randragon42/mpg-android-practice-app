@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+        <item
+            android:id="@+id/trips_navigation_item"
+            android:enabled="true"
+            android:icon="@drawable/gas_station"
+            android:title="@string/trips_nav_menu_title"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/expenses_navigation_item"
+            android:enabled="true"
+            android:icon="@drawable/money"
+            android:title="@string/expenses_nav_menu_title"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/stats_navigation_item"
+            android:enabled="true"
+            android:icon="@drawable/chart"
+            android:title="@string/stats_nav_menu_title"
+            app:showAsAction="ifRoom"/>
+
+</menu>

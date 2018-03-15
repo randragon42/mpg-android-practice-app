@@ -14,18 +14,22 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Update Title
-        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(getTitle());
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        updateTitle();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // Update Title
-        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(getTitle());
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        updateTitle();
+    }
+
+    private void updateTitle() {
+        String title = getTitle();
+
+        if(title != null) {
+            Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+            toolbar.setTitle(getTitle());
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        }
     }
 }
