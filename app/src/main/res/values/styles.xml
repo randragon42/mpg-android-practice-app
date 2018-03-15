@@ -51,4 +51,15 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
+    <style name="chart_interval_button">
+        <item name="android:background"></item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="chart_interval_button_selected">
+        <item name="android:background">@drawable/button_bottom_selected</item>
+        <item name="android:textColor">@color/white</item>
+
+    </style>
+
 </resources>
