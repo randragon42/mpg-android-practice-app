@@ -1,6 +1,7 @@
 package com.mpgtracker.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.preference.AndroidResources;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -19,6 +21,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.mpgtracker.R;
+import com.mpgtracker.data.MPAndroidChart.MpgMarkerView;
 import com.mpgtracker.data.MPAndroidChart.XAxisDateFormatter;
 import com.mpgtracker.data.VehicleViewModel;
 import com.mpgtracker.data.trips.Trip;
@@ -53,10 +56,12 @@ public class MpgGraphFragment extends BaseGraphFragment {
         // Get ViewModel
         mVehicleViewModel = ViewModelProviders.of(getActivity()).get(VehicleViewModel.class);
         mTripList = mVehicleViewModel.getAllTrips().getValue();
+        mChart = view.findViewById(R.id.chart);
 
         if(mTripList == null || mTripList.isEmpty()){
             LinearLayout intervalButtons = view.findViewById(R.id.interval_button_layout);
             intervalButtons.setVisibility(View.GONE);
+            setEmptyChart();
         }
         else {
             // Set up buttons
@@ -101,7 +106,6 @@ public class MpgGraphFragment extends BaseGraphFragment {
             });
 
             // Set up Chart
-            mChart = view.findViewById(R.id.chart);
             createChart();
         }
 
@@ -116,6 +120,13 @@ public class MpgGraphFragment extends BaseGraphFragment {
         selectedButton.setTextColor(getResources().getColor(R.color.white));
     }
 
+    private void setEmptyChart() {
+        mChart.setNoDataText("You have no trips for this vehicle. Add a trip to see charts.");
+        Paint paint = mChart.getPaint(Chart.PAINT_INFO);
+        paint.setTextSize(50);
+        paint.setColor(getResources().getColor(R.color.white));
+    }
+
     private void createChart() {
 
         //chart.setBackgroundColor(getResources().getColor(android.R.color.transparent));
@@ -127,9 +138,9 @@ public class MpgGraphFragment extends BaseGraphFragment {
 
         // Style the dataset
         dataSet.setColor(getResources().getColor(R.color.white));
-        dataSet.setLineWidth(5f);
-        dataSet.setCircleRadius(6f);
-        dataSet.setCircleHoleRadius(6f);
+        dataSet.setLineWidth(3f);
+        dataSet.setCircleRadius(4f);
+        dataSet.setCircleHoleRadius(4f);
         dataSet.setCircleColor(getResources().getColor(R.color.white));
         dataSet.setCircleColorHole(getResources().getColor(R.color.white));
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
@@ -148,7 +159,7 @@ public class MpgGraphFragment extends BaseGraphFragment {
         mXAxis.setDrawAxisLine(false);
         mXAxis.setDrawGridLines(false);
         mXAxis.setLabelCount(3);
-        mXAxis.setValueFormatter(new XAxisDateFormatter());
+        mXAxis.setValueFormatter(new XAxisDateFormatter("MMM d"));
 
         // Set up left Y-Axis
         YAxis leftAxis = mChart.getAxisLeft();
@@ -158,14 +169,16 @@ public class MpgGraphFragment extends BaseGraphFragment {
         leftAxis.setDrawAxisLine(false);
 //        leftAxis.setDrawGridLines(false);
 
+        // Set up Tooltip (MarkerViews)
+        MpgMarkerView mv = new MpgMarkerView(getContext(), R.layout.marker_view, "%.2f mpg");
+        mChart.setMarker(mv);
+
         // Hide things we don't want
         mChart.getAxisRight().setEnabled(false);
         mChart.getLegend().setEnabled(false);
 
         LineData lineData = new LineData(dataSet);
         mChart.setData(lineData);
-        mChart.setNoDataText("You have no trips for this vehicle. Add a trip to see charts.");
-        mChart.setNoDataTextColor(getResources().getColor(R.color.white));
         mChart.getDescription().setEnabled(false);
 
         // Refresh the chart
@@ -186,7 +199,7 @@ public class MpgGraphFragment extends BaseGraphFragment {
             LocalDate earliestDate = new LocalDate(mTripList.get(0).date);
             int offset = Days.daysBetween(earliestDate, LocalDate.now()).getDays();
             int padding = offset/6;
-            mXAxis.setAxisMinimum(getDay(-(offset + padding)).getTime());
+            mXAxis.setAxisMinimum(getDay(-(offset + padding + 1)).getTime());
             mXAxis.setAxisMaximum(getDay(padding).getTime());
         }
         else {
