@@ -3,11 +3,15 @@ package com.mpgtracker.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -56,6 +60,12 @@ public class StatsFragment extends BaseFragment {
     private boolean mNoTripData = false;
     private boolean mNoMpgData = false;
 
+    private final String MPG = "mpg";
+    private final String COST = "cost";
+    private final String DISTANCE = "distance";
+
+    private String mSelected;
+
     @Override
     protected String getTitle() { return null; }
 
@@ -88,6 +98,13 @@ public class StatsFragment extends BaseFragment {
         mHeader = view.findViewById(R.id.stat_header);
         mLinearLayout = view.findViewById(R.id.stats_list);
         mChart = view.findViewById(R.id.chart);
+
+        mChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchFragment();
+            }
+        });
 
     }
 
@@ -204,33 +221,36 @@ public class StatsFragment extends BaseFragment {
     }
 
     private void mpgSelected() {
+        mSelected = MPG;
         mHeader.setText(getResources().getString(R.string.mpg));
         setLinearLayout(mLinearLayout, mStatsList.subList(0,3));
-        createChart(createChartData(0));
+        createChart(createChartData());
     }
 
     private void distanceSelected() {
+        mSelected = DISTANCE;
         mHeader.setText(getResources().getString(R.string.distance));
         setLinearLayout(mLinearLayout, mStatsList.subList(3,7));
-        createChart(createChartData(2));
+        createChart(createChartData());
     }
 
     private void costSelected() {
+        mSelected = COST;
         mHeader.setText(getResources().getString(R.string.cost));
         setLinearLayout(mLinearLayout, mStatsList.subList(7,11));
-        createChart(createChartData(1));
+        createChart(createChartData());
     }
 
-    private List<Entry> createChartData(int selection) {
+    private List<Entry> createChartData() {
         List<Entry> entries = new ArrayList<Entry>();
         for(Trip trip : mTripList) {
-            if(selection == 0){
+            if(mSelected.equals(MPG)){
                 entries.add(new Entry(trip.getDate().getTime(), (float)trip.getMilesPerGallon()));
             }
-            else if(selection == 1){
+            else if(mSelected.equals(COST)){
                 entries.add(new Entry(trip.getDate().getTime(), (float)trip.getTripCost()));
             }
-            else if(selection == 2){
+            else if(mSelected.equals(DISTANCE)){
                 entries.add(new Entry(trip.getDate().getTime(), (float)trip.getMiles()));
             }
         }
@@ -293,6 +313,33 @@ public class StatsFragment extends BaseFragment {
         cal.setTime(today);
         cal.add(Calendar.DAY_OF_MONTH, offset);
         return cal.getTime();
+    }
+
+    private void launchFragment(){
+        Fragment fragment = null;
+        String tag = null;
+
+        switch (mSelected) {
+            case MPG: fragment = new MpgGraphFragment();
+                tag = MPG;
+                break;
+            case COST: fragment = new CostGraphFragment();
+                tag = COST;
+                break;
+            case DISTANCE: fragment = new DistanceGraphFragment();
+                tag = DISTANCE;
+                break;
+            default:
+                break;
+        }
+        if(fragment != null && tag != null) {
+            //TODO: add slide-up and slide-down transition animations
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.drawer_layout, fragment, tag)
+                    .addToBackStack(null)
+                    .commit();
+        }
+
     }
 
 }
