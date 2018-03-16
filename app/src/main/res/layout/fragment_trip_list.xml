@@ -42,12 +42,11 @@
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/TripListView"
         android:id="@+id/trip_list_recycler"
-        tools:listitem="@layout/trip_item">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:theme="@style/TripListView"
+        tools:listitem="@layout/trip_item"></android.support.v7.widget.RecyclerView>
 
     <!--</LinearLayout>-->
 
