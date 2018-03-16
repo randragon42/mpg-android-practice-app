@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 
 import com.mpgtracker.R;
 
@@ -24,12 +25,13 @@ public class TopFragment extends BaseFragment{
     private NavigationView mNavigationView;
     private ActionBarDrawerToggle mDrawerToggle;
     private ActionBar mActionBar;
+    private Toolbar mToolbar;
 
     private final String VEHICLES_TAG = "vehicle_list";
     private final String SETTINGS_TAG = "settings";
 
     @Override
-    protected String getTitle() { return getResources().getString(R.string.trips_title); }
+    protected String getTitle() { return null; }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class TopFragment extends BaseFragment{
         View view = inflater.inflate(R.layout.fragment_top, container, false);
 
         setHasOptionsMenu(true);
+        mToolbar = getActivity().findViewById(R.id.toolbar);
 
         // Set up Navigation Drawer
         Toolbar toolbar = view.findViewById(R.id.toolbar);
@@ -72,6 +75,14 @@ public class TopFragment extends BaseFragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+    }
+
+    @Override
+    public void onResume() {
+        Spinner spinner = mToolbar.findViewWithTag("spinner_nav");
+        mToolbar.removeView(spinner);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        super.onResume();
     }
 
     @Override

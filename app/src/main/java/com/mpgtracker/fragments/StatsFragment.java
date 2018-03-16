@@ -2,12 +2,22 @@ package com.mpgtracker.fragments;
 
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.res.ColorStateList;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,6 +27,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -56,8 +67,20 @@ public class StatsFragment extends BaseFragment {
     private boolean mNoTripData = false;
     private boolean mNoMpgData = false;
 
+    private final String MPG = "mpg";
+    private final String COST = "cost";
+    private final String DISTANCE = "distance";
+
+    private String mSelected;
+
     @Override
     protected String getTitle() { return null; }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,6 +112,9 @@ public class StatsFragment extends BaseFragment {
         mLinearLayout = view.findViewById(R.id.stats_list);
         mChart = view.findViewById(R.id.chart);
 
+        if(mTripList == null || mTripList.isEmpty()) {
+            setEmptyChart();
+        }
     }
 
     @Override
@@ -98,6 +124,19 @@ public class StatsFragment extends BaseFragment {
         mActionBar.setDisplayShowTitleEnabled(true);
 
         super.onDestroy();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+    }
+
+    private void setEmptyChart() {
+        mChart.setNoDataText("You have no trips for this vehicle.");
+        Paint paint = mChart.getPaint(Chart.PAINT_INFO);
+        paint.setTextSize(50);
+        paint.setColor(getResources().getColor(R.color.white));
     }
 
     private void setLinearLayout(LinearLayout linearLayout, List<TripStat> stats) {
@@ -156,17 +195,18 @@ public class StatsFragment extends BaseFragment {
         if(mToolbar.findViewWithTag("spinner_nav")==null) {
             Spinner spinner = new Spinner(getActivity());
             spinner.setTag("spinner_nav");
-            // TODO: change spinner text color
+            ViewCompat.setBackgroundTintList(spinner, ColorStateList.valueOf(getResources().getColor(R.color.white)));
 
             // Set chart options
-            List<String> chartOptions = new ArrayList<>();
-            chartOptions.add(getResources().getString(R.string.mpg));
-            chartOptions.add(getResources().getString(R.string.cost));
-            chartOptions.add(getResources().getString(R.string.distance));
+            String[] chartOptions = new String[]{
+                    getResources().getString(R.string.mpg),
+                    getResources().getString(R.string.cost),
+                    getResources().getString(R.string.distance)
+            };
 
             //Setting up the adapter
-            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, chartOptions);
-            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), R.layout.toolbar_spinner_item, chartOptions);
+            spinnerAdapter.setDropDownViewResource(R.layout.toolbar_spinner_item);
 
             spinner.setAdapter(spinnerAdapter);
 
@@ -204,33 +244,45 @@ public class StatsFragment extends BaseFragment {
     }
 
     private void mpgSelected() {
+        mSelected = MPG;
         mHeader.setText(getResources().getString(R.string.mpg));
         setLinearLayout(mLinearLayout, mStatsList.subList(0,3));
-        createChart(createChartData(0));
+        checkDataSet();
     }
 
     private void distanceSelected() {
+        mSelected = DISTANCE;
         mHeader.setText(getResources().getString(R.string.distance));
         setLinearLayout(mLinearLayout, mStatsList.subList(3,7));
-        createChart(createChartData(2));
+        checkDataSet();
     }
 
     private void costSelected() {
+        mSelected = COST;
         mHeader.setText(getResources().getString(R.string.cost));
         setLinearLayout(mLinearLayout, mStatsList.subList(7,11));
-        createChart(createChartData(1));
+        checkDataSet();
     }
 
-    private List<Entry> createChartData(int selection) {
+    private void checkDataSet() {
+        if(mTripList == null || mTripList.isEmpty()) {
+            setEmptyChart();
+        }
+        else {
+            createChart(createChartData());
+        }
+    }
+
+    private List<Entry> createChartData() {
         List<Entry> entries = new ArrayList<Entry>();
         for(Trip trip : mTripList) {
-            if(selection == 0){
+            if(mSelected.equals(MPG)){
                 entries.add(new Entry(trip.getDate().getTime(), (float)trip.getMilesPerGallon()));
             }
-            else if(selection == 1){
+            else if(mSelected.equals(COST)){
                 entries.add(new Entry(trip.getDate().getTime(), (float)trip.getTripCost()));
             }
-            else if(selection == 2){
+            else if(mSelected.equals(DISTANCE)){
                 entries.add(new Entry(trip.getDate().getTime(), (float)trip.getMiles()));
             }
         }
@@ -238,6 +290,12 @@ public class StatsFragment extends BaseFragment {
     }
 
     private void createChart(List<Entry> entries) {
+        mChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchFragment();
+            }
+        });
 
         mChart.setScaleEnabled(false);  // disable zoom
         mChart.setExtraOffsets(10f, 0f, 10f, 20f);  // set padding around chart
@@ -293,6 +351,33 @@ public class StatsFragment extends BaseFragment {
         cal.setTime(today);
         cal.add(Calendar.DAY_OF_MONTH, offset);
         return cal.getTime();
+    }
+
+    private void launchFragment(){
+        Fragment fragment = null;
+        String tag = null;
+
+        switch (mSelected) {
+            case MPG: fragment = new MpgGraphFragment();
+                tag = MPG;
+                break;
+            case COST: fragment = new CostGraphFragment();
+                tag = COST;
+                break;
+            case DISTANCE: fragment = new DistanceGraphFragment();
+                tag = DISTANCE;
+                break;
+            default:
+                break;
+        }
+        if(fragment != null && tag != null) {
+            //TODO: add slide-up and slide-down transition animations
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.drawer_layout, fragment, tag)
+                    .addToBackStack(null)
+                    .commit();
+        }
+
     }
 
 }
