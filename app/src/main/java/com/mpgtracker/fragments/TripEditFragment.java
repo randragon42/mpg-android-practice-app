@@ -12,6 +12,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,16 +30,17 @@ import android.widget.Toast;
 import com.mpgtracker.R;
 import com.mpgtracker.data.trips.Trip;
 import com.mpgtracker.data.VehicleViewModel;
-import com.mpgtracker.data.vehicle.Vehicle;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class TripEditFragment extends BaseFragment {
 
     private Trip mTrip;
+    private Trip mPreviousTrip;
     private ActionBar mActionBar;
     private VehicleViewModel mVehicleViewModel;
     private Calendar mCalendar;
@@ -128,7 +131,22 @@ public class TripEditFragment extends BaseFragment {
                     deleteTrip();
                 }
             });
+
         }
+
+        // Get Previous Trip
+        mPreviousTrip = getPreviousTrip();
+
+        mOdometer.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+                setTripDistance(s.toString());
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+        });
     }
 
     @Override
@@ -210,10 +228,10 @@ public class TripEditFragment extends BaseFragment {
 
         String dateString = mDatePicker.getText().toString();
         Date date = parseDate(dateString);
-        double miles = validateEditTextDouble(mMiles, getResources().getString(R.string.miles_missing), getResources().getString(R.string.miles_correct_format));
-        double cost = validateEditTextDouble(mCost, getResources().getString(R.string.cost_missing), getResources().getString(R.string.cost_correct_format));
-        double gallons = validateEditTextDouble(mGallons, getResources().getString(R.string.gallons_missing), getResources().getString(R.string.gallons_correct_format));
-        double odometer = validateEditTextDouble(mOdometer, getResources().getString(R.string.odometer_missing), getResources().getString(R.string.odometer_correct_format));
+        double miles = validateEditTextDouble(mMiles, getResources().getString(R.string.miles_missing), getResources().getString(R.string.miles_correct_format), 0);
+        double cost = validateEditTextDouble(mCost, getResources().getString(R.string.cost_missing), getResources().getString(R.string.cost_correct_format), 0);
+        double gallons = validateEditTextDouble(mGallons, getResources().getString(R.string.gallons_missing), getResources().getString(R.string.gallons_correct_format), 0);
+        double odometer = validateEditTextDouble(mOdometer, getResources().getString(R.string.odometer_missing), getResources().getString(R.string.odometer_correct_format), mPreviousTrip == null ? 0 : mPreviousTrip.getMiles());
         boolean filledTank = mFilledTank.isChecked();
 
         if(miles <= 0 || cost <= 0 || gallons <= 0 || odometer <= 0){
@@ -224,11 +242,11 @@ public class TripEditFragment extends BaseFragment {
         }
     }
 
-    private double validateEditTextDouble(EditText editText, String missingMessage, String correctFormatMessage){
+    private double validateEditTextDouble(EditText editText, String missingMessage, String correctFormatMessage, double minVal){
         double value = 0;
         try {
             value = Double.parseDouble(editText.getText().toString());
-            if(value <= 0){
+            if(value <= minVal){
                 editText.setError(correctFormatMessage);
             }
         } catch (java.lang.NumberFormatException e) {
@@ -262,6 +280,7 @@ public class TripEditFragment extends BaseFragment {
 
     private void updateDateLabel(){
         mDatePicker.setText(Trip.DATE_FORMAT.format(mCalendar.getTime()));
+        mPreviousTrip = getPreviousTrip();
     }
 
     private Date parseDate(String date) {
@@ -271,5 +290,46 @@ public class TripEditFragment extends BaseFragment {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private Trip getPreviousTrip() {
+        List<Trip> trips = mVehicleViewModel.getAllTrips().getValue();
+        Trip previousTrip = null;
+        long previousTime = 0;
+        long currentTime = parseDate(mDatePicker.getText().toString()).getTime();
+        boolean firstTrip = true;
+
+        for(Trip trip: trips){
+            Date tripDate = trip.getDate();
+            double diffWithPrevious = currentTime - previousTime;
+            double diffWithCurrent = currentTime - tripDate.getTime();
+            if( 0 < diffWithCurrent && diffWithCurrent < diffWithPrevious){
+                previousTrip = trip;
+                previousTime = trip.getDate().getTime();
+                firstTrip = false;
+            }
+        }
+
+        if(firstTrip) {
+            return null;
+        }
+        return previousTrip;
+    }
+
+    private void setTripDistance(String odometer) {
+        if(odometer.isEmpty() || mPreviousTrip == null) {
+            mMiles.setText("");
+            return;
+        }
+        double newOdometer = Double.parseDouble(odometer);
+        double previousOdometer = mPreviousTrip.getOdometer();
+        double tripDistance = newOdometer - previousOdometer;
+
+        if(tripDistance < 0) {
+            mMiles.setText("");
+        }
+        else {
+            mMiles.setText(String.format(Double.toString(tripDistance), "%.1f"));
+        }
     }
 }

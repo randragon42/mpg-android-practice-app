@@ -44,7 +44,7 @@
     <string name="gallons_missing">Gallons required.</string>
     <string name="gallons_correct_format">Invalid gallons value. Must be greater than 0.</string>
     <string name="odometer_missing">Odometer reading required.</string>
-    <string name="odometer_correct_format">Invalid odometer value. Must be greater than 0.</string>
+    <string name="odometer_correct_format">Invalid odometer value. Must be greater than previous trip.</string>
     <string name="delete_trip_dialog_title">Delete Trip?</string>
     <string name="delete_trip_dialog_message">Are you sure you want to delete this trip? This action cannot be undone.</string>
     <string name="trip_deleted">Trip Deleted</string>
