@@ -137,4 +137,19 @@
     <string name="delete_vehicle_dialog_message">Are you sure you want to delete this vehicle? This action cannot be undone.</string>
     <string name="vehicle_deleted">Vehicle Deleted</string>
 
+    <!--Expense List Fragment-->
+    <string name="no_expenses">You have no expenses for this vehicle</string>
+    <string name="add_an_expense">Add an Expense</string>
+
+    <!--Expense Edit Fragment-->
+    <string name="create_expense_title">Create Expense</string>
+    <string name="edit_expense_title">Edit Expense</string>
+    <string name="category">Expense Category</string>
+    <string name="expense_info">Expense Info</string>
+    <string name="title_label">Title</string>
+    <string name="note">Note</string>
+    <string name="delete_expense">Delete Expense</string>
+    <string name="delete_expense_dialog_title">Delete Expense?</string>
+    <string name="delete_expense_dialog_message">Are you sure you want to delete this expense? This action cannot be undone.</string>
+    <string name="expense_deleted">Expense deleted.</string>
 </resources>

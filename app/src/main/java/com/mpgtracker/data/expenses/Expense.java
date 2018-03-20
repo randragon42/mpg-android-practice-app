@@ -6,6 +6,7 @@ import android.arch.persistence.room.TypeConverters;
 
 import com.mpgtracker.data.Converters;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity(tableName="expenses")
@@ -33,4 +34,6 @@ public class Expense {
         this.odometer = odometer;
     }
 
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+    public String getFormattedDate(){ return DATE_FORMAT.format(date); }
 }
