@@ -14,8 +14,15 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
+        maven { url "https://jitpack.io" }
     }
+}
+
+ext {
+    roomVersion = '1.0.0'
+    archLifecycleVersion = '1.1.0'
 }
 
 task clean(type: Delete) {

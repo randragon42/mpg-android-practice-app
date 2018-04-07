@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/settings_title">
+
+    <PreferenceCategory
+        android:title="@string/trip_creation"
+        android:key="pref_key_trip_creation_settings">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="default_tank_filled"
+            android:summary="@string/default_filled_summary"
+            android:title="@string/default_filled" />
+
+    </PreferenceCategory>
+
+</android.support.v7.preference.PreferenceScreen>

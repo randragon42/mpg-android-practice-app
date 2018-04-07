@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+    <!-- The main content view -->
+    <android.support.v7.widget.ContentFrameLayout
+        android:id="@+id/vehicleFragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/vehicle_bottom_navigation"
+        android:orientation="vertical" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/vehicle_bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:menu="@menu/vehicle_navigation_menu" />
+
+</RelativeLayout>
