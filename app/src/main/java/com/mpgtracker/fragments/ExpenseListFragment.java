@@ -141,7 +141,7 @@ public class ExpenseListFragment extends BaseFragment {
 
         // TODO: add slide-in-up and slide-down-out animations
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer, expenseEditFragment, "edit_expense")
+                .add(R.id.fragmentContainer, expenseEditFragment, "create_expense")
                 .addToBackStack(null)
                 .commit();
     }

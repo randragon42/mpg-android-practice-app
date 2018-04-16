@@ -101,10 +101,11 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
             public void onRecyclerViewClicked(View caller, int position) {
                 mVehicleViewModel.selectExpense(mAllExpenses.get(position));
 
+                //TODO: slide in up and down out animations
                 ExpenseEditFragment expenseEditFragment = new ExpenseEditFragment();
                 mActivity.getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.animator.fade_in, android.R.animator.fade_out)
-                        .replace(R.id.fragmentContainer, expenseEditFragment, "expense")
+                        .add(R.id.fragmentContainer, expenseEditFragment, "edit_expense")
                         .addToBackStack(null)
                         .commit();
             }

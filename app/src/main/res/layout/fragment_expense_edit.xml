@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/default_background"
     android:orientation="vertical"
     tools:context="com.mpgtracker.fragments.TripEditFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
+            style="@style/card_style"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/card_style">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -36,9 +38,9 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
+            style="@style/card_style"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/card_style">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/cost"
                         android:inputType="numberDecimal"
-                        android:singleLine="true"/>
+                        android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -104,9 +106,9 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
+            style="@style/card_style"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/card_style">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -131,7 +133,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/odometer_label"
                         android:inputType="numberDecimal"
-                        android:singleLine="true"/>
+                        android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
