@@ -31,6 +31,8 @@
 
                 <Spinner
                     android:id="@+id/category_spinner"
+                    android:entries="@array/expense_types"
+                    android:prompt="@string/expense_type_prompt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>

@@ -20,11 +20,11 @@ public class Expense {
     public Date date;
     public String type;
     public String title;
-    public double cost;
+    public Double cost;
     public String note;
-    public double odometer;
+    public Double odometer;
 
-    public Expense(int vehicleId, Date date, String type, String title, double cost, String note, double odometer) {
+    public Expense(int vehicleId, Date date, String type, String title, Double cost, String note, Double odometer) {
         this.vehicleId = vehicleId;
         this.date = date;
         this.type = type;

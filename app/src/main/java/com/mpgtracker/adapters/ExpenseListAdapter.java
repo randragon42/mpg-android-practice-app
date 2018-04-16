@@ -76,9 +76,14 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
         holder.mDate.setText(formatDate(expense.date, "yyyy MM dd"));
         holder.mExpenseType.setText(expense.type);
         holder.mExpenseTitle.setText(expense.title);
-        holder.mOdometer.setText(String.format("%.1f", expense.odometer));
         holder.mCost.setText(String.format("$%.2f", expense.cost));
-        holder.mNote.setText(expense.note);
+
+        if(expense.odometer != null){
+            holder.mOdometer.setText(String.format("%.1f", expense.odometer));
+        }
+        if(expense.note != null && !expense.note.isEmpty()){
+            holder.mNote.setText(expense.note);
+        }
     }
 
     @Override

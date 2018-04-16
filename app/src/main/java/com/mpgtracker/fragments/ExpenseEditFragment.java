@@ -18,6 +18,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -34,6 +36,9 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class ExpenseEditFragment extends BaseFragment {
 
@@ -69,7 +74,7 @@ public class ExpenseEditFragment extends BaseFragment {
         mVehicleViewModel = ViewModelProviders.of(getActivity()).get(VehicleViewModel.class);
 
         // Determine Create or Edit Mode
-        if (mVehicleViewModel.getSelectedTrip().getValue() == null) {
+        if (mVehicleViewModel.getSelectedExpense().getValue() == null) {
             mCreateMode = true;
         }
 
@@ -97,6 +102,7 @@ public class ExpenseEditFragment extends BaseFragment {
         mOdometer = view.findViewById(R.id.odometer);
         mNote = view.findViewById(R.id.note);
         mDeleteExpense = view.findViewById(R.id.delete_expense);
+        mCategory = view.findViewById(R.id.category_spinner);
 
         if(mCreateMode) {
             CardView deleteCard = view.findViewById(R.id.delete_expense_card);
@@ -108,7 +114,9 @@ public class ExpenseEditFragment extends BaseFragment {
 
             mTitle.setText(mExpense.title);
             mCost.setText(String.format(Double.toString(mExpense.cost), "$.2f"));
-            mOdometer.setText(String.format(Double.toString(mExpense.odometer), "%.1f"));
+            if(mExpense.odometer != null) {
+                mOdometer.setText(String.format(Double.toString(mExpense.odometer), "%.1f"));
+            }
             mDatePicker.setText(mExpense.getFormattedDate());
             mNote.setText(mExpense.note);
 
@@ -139,6 +147,16 @@ public class ExpenseEditFragment extends BaseFragment {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        // Hide the keyboard
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+        if(imm.isAcceptingText()) { // verify if the soft keyboard is open
+            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        }
     }
 
     @Override
@@ -210,15 +228,43 @@ public class ExpenseEditFragment extends BaseFragment {
     }
 
     // TODO: add validation checks as needed
+    // Require category, title, and cost
     private Expense validateExpense() {
+        boolean valid = true;
         //title cost odometer date note type
         String title = mTitle.getText().toString();
         String note = mNote.getText().toString();
         Date date = parseDate(mDatePicker.getText().toString());
-        double cost = Double.parseDouble(mCost.getText().toString());
-        double odometer = Double.parseDouble(mOdometer.getText().toString());
+        Double cost = validateEditTextDouble(mCost, getResources().getString(R.string.required));
+        Double odometer = validateEditTextDouble(mOdometer, "");
+        String category = mCategory.getSelectedItem().toString();
 
-        return new Expense(mVehicleViewModel.getVehicleId(), date, "placeholder", title, cost, note, odometer);
+        if(title.isEmpty()){
+            mTitle.setError(getResources().getString(R.string.required));
+            valid = false;
+        }
+        if(cost == null){
+            valid = false;
+        }
+
+        if(valid){
+            return new Expense(mVehicleViewModel.getVehicleId(), date, category, title, cost, note, odometer);
+        }
+        else{
+            return null;
+        }
+    }
+
+    private Double validateEditTextDouble(EditText editText, String missingMessage){
+        Double value = null;
+        try {
+            value = Double.parseDouble(editText.getText().toString());
+        } catch (java.lang.NumberFormatException e) {
+            if(missingMessage.length() > 0){
+                editText.setError(missingMessage);
+            }
+        }
+        return value;
     }
 
     private void deleteExpense(){
