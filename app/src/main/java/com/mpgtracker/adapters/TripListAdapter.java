@@ -28,11 +28,11 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView mDate;
         public TextView mYear;
-        public TextView mMpg;
+        public TextView mEfficiency;
         public TextView mCost;
-        public TextView mGallons;
-        public TextView mCostPerGallon;
-        public TextView mMiles;
+        public TextView mVolume;
+        public TextView mCostPerVolume;
+        public TextView mDistance;
         public TextView mOdometer;
         public TextView mTankFilled;
         public IViewHolderClicks mListener;
@@ -42,11 +42,11 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
             mListener = listener;
             mDate = view.findViewById(R.id.date);
             mYear = view.findViewById(R.id.year);
-            mMpg = view.findViewById(R.id.mpg);
+            mEfficiency = view.findViewById(R.id.mpg);
             mCost = view.findViewById(R.id.cost);
-            mGallons = view.findViewById(R.id.gallons);
-            mCostPerGallon = view.findViewById(R.id.costPerGallon);
-            mMiles = view.findViewById(R.id.miles);
+            mVolume = view.findViewById(R.id.volume);
+            mCostPerVolume = view.findViewById(R.id.costPerVolume);
+            mDistance = view.findViewById(R.id.distance);
             mOdometer = view.findViewById(R.id.odometer);
             mTankFilled = view.findViewById(R.id.tankFilled);
 
@@ -76,6 +76,7 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
         return vh;
     }
 
+    // TODO: handle imperial v metric
     @Override
     public void onBindViewHolder(TripListAdapter.ViewHolder holder, int position) {
         final Trip trip = mAllTrips.get(position);
@@ -83,16 +84,16 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
         holder.mDate.setText(formatDate(trip.getFormattedDate(), "MMM dd"));
         holder.mYear.setText(formatDate(trip.getFormattedDate(), "yyyy"));
         holder.mCost.setText(String.format("$%.2f", trip.getTripCost()));
-        holder.mGallons.setText(String.format("%.3f gal", trip.getGallons()));
-        holder.mCostPerGallon.setText(String.format("$%.3f/gal", trip.getCostPerGallon()));
-        holder.mMiles.setText(String.format("%.1f miles", trip.getMiles()));
+        holder.mVolume.setText(String.format("%.3f gal", trip.getVolume()));
+        holder.mCostPerVolume.setText(String.format("$%.3f/gal", trip.getCostPerVolume()));
+        holder.mDistance.setText(String.format("%.1f distance", trip.getDistance()));
         holder.mOdometer.setText(String.format("%.1f", trip.getOdometer()));
 
         if (trip.getFilledTank()) {
-            holder.mMpg.setText(String.format("%.2f mpg", trip.getMilesPerGallon()));
+            holder.mEfficiency.setText(String.format("%.2f mpg", trip.getEfficiency()));
             holder.mTankFilled.setText(mActivity.getResources().getString(R.string.tank_filled_notification));
         } else {
-            holder.mMpg.setText("");
+            holder.mEfficiency.setText("");
             holder.mTankFilled.setText("");
         }
     }

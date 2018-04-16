@@ -49,8 +49,8 @@ public class TripEditFragment extends BaseFragment {
     private boolean mCreateMode = false;
 
     private TextView mDatePicker;
-    private EditText mMiles;
-    private EditText mGallons;
+    private EditText mDistance;
+    private EditText mVolume;
     private EditText mCost;
     private EditText mOdometer;
     private CheckBox mFilledTank;
@@ -97,8 +97,8 @@ public class TripEditFragment extends BaseFragment {
         mDatePicker = view.findViewById(R.id.date_picker);
         this.initDatePicker();
 
-        mMiles = view.findViewById(R.id.miles_edit_text);
-        mGallons = view.findViewById(R.id.gallons_edit_text);
+        mDistance = view.findViewById(R.id.distance_edit_text);
+        mVolume = view.findViewById(R.id.volume_edit_text);
         mCost = view.findViewById(R.id.cost_edit_text);
         mOdometer = view.findViewById(R.id.odometer_edit_text);
         mFilledTank = view.findViewById(R.id.filled_tank_check_box);
@@ -119,8 +119,8 @@ public class TripEditFragment extends BaseFragment {
             mId = mTrip.getId();
 
             mDatePicker.setText(mTrip.getFormattedDate());
-            mMiles.setText(String.format(Double.toString(mTrip.getMiles()), "%.1f"));
-            mGallons.setText(String.format(Double.toString(mTrip.getGallons()), "%.3f"));
+            mDistance.setText(String.format(Double.toString(mTrip.getDistance()), "%.1f"));
+            mVolume.setText(String.format(Double.toString(mTrip.getVolume()), "%.3f"));
             mCost.setText(String.format(Double.toString(mTrip.getTripCost()), "%.2f"));
             mOdometer.setText(String.format(Double.toString(mTrip.getOdometer()), "%.1f"));
             mFilledTank.setChecked(mTrip.getFilledTank());
@@ -228,17 +228,17 @@ public class TripEditFragment extends BaseFragment {
 
         String dateString = mDatePicker.getText().toString();
         Date date = parseDate(dateString);
-        double miles = validateEditTextDouble(mMiles, getResources().getString(R.string.miles_missing), getResources().getString(R.string.miles_correct_format), 0);
+        double distance = validateEditTextDouble(mDistance, getResources().getString(R.string.distance_missing), getResources().getString(R.string.distance_correct_format), 0);
         double cost = validateEditTextDouble(mCost, getResources().getString(R.string.cost_missing), getResources().getString(R.string.cost_correct_format), 0);
-        double gallons = validateEditTextDouble(mGallons, getResources().getString(R.string.gallons_missing), getResources().getString(R.string.gallons_correct_format), 0);
-        double odometer = validateEditTextDouble(mOdometer, getResources().getString(R.string.odometer_missing), getResources().getString(R.string.odometer_correct_format), mPreviousTrip == null ? 0 : mPreviousTrip.getMiles());
+        double volume = validateEditTextDouble(mVolume, getResources().getString(R.string.volume_missing), getResources().getString(R.string.volume_correct_format), 0);
+        double odometer = validateEditTextDouble(mOdometer, getResources().getString(R.string.odometer_missing), getResources().getString(R.string.odometer_correct_format), mPreviousTrip == null ? 0 : mPreviousTrip.getDistance());
         boolean filledTank = mFilledTank.isChecked();
 
-        if(miles <= 0 || cost <= 0 || gallons <= 0 || odometer <= 0){
+        if(distance <= 0 || cost <= 0 || volume <= 0 || odometer <= 0){
             return null;
         }
         else{
-            return new Trip(date, gallons, miles, cost, odometer, filledTank, mVehicleViewModel.getVehicleId());
+            return new Trip(date, volume, distance, cost, odometer, filledTank, mVehicleViewModel.getVehicleId());
         }
     }
 
@@ -318,7 +318,7 @@ public class TripEditFragment extends BaseFragment {
 
     private void setTripDistance(String odometer) {
         if(odometer.isEmpty() || mPreviousTrip == null) {
-            mMiles.setText("");
+            mDistance.setText("");
             return;
         }
         double newOdometer = Double.parseDouble(odometer);
@@ -326,10 +326,10 @@ public class TripEditFragment extends BaseFragment {
         double tripDistance = newOdometer - previousOdometer;
 
         if(tripDistance < 0) {
-            mMiles.setText("");
+            mDistance.setText("");
         }
         else {
-            mMiles.setText(String.format(Double.toString(tripDistance), "%.1f"));
+            mDistance.setText(String.format(Double.toString(tripDistance), "%.1f"));
         }
     }
 }

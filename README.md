@@ -11,7 +11,7 @@ This is done by gathering information every time the user fills up their gas tan
 The information is compiled into the following information:
 - A list of all past trips
 - Graphs to show trends between trips
-  + Miles per gallon for each trip
+  + Fuel Efficiency for each trip
   + Distances for each trip
   + Costs for each trip
 - Overall trip statistics (max values, averages, and totals)
