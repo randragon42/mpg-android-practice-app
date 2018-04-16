@@ -21,6 +21,7 @@ import com.mpgtracker.adapters.ExpenseListAdapter;
 import com.mpgtracker.data.VehicleViewModel;
 import com.mpgtracker.data.expenses.Expense;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExpenseListFragment extends BaseFragment {
@@ -55,6 +56,7 @@ public class ExpenseListFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         List<Expense> expenses = mVehicleViewModel.getAllExpenses().getValue();
+        expenses = filterByVehicleId(expenses);
 
         mRecyclerView = view.findViewById(R.id.expense_list_recycler);
         mEmptyView = view.findViewById(R.id.empty_expense_list_view);
@@ -69,9 +71,9 @@ public class ExpenseListFragment extends BaseFragment {
         mVehicleViewModel.getAllExpenses().observe(this, new Observer<List<Expense>>() {
             @Override
             public void onChanged(@Nullable final List<Expense> expenses) {
-                // Update the cached copy of the words in the adapter.
-                mAdapter.updateDataSet(expenses);
-                showAndHideList(expenses);
+                List<Expense> filteredExpenses = filterByVehicleId(expenses);
+                mAdapter.updateDataSet(filteredExpenses);
+                showAndHideList(filteredExpenses);
             }
         });
 
@@ -112,12 +114,33 @@ public class ExpenseListFragment extends BaseFragment {
         }
     }
 
+    // This is obviously not ideal, however, I was unable to get a WHERE clause to work correctly
+    // on the query made in ExpenseDao for getAllExpenses(). So instead I am returning the full list
+    // of expenses and filtering them out here. Performance should not be greatly impacted because
+    // the list of expenses will not be prohibitively large. I am tabling this issue for now in order
+    // to get the rest of the app working. TODO
+    private List<Expense> filterByVehicleId(List<Expense> fullList){
+        List<Expense> expenses = new ArrayList<Expense>();
+        int vehicleId = mVehicleViewModel.getVehicleId();
+
+        if(fullList == null || fullList.size() == 0){
+            return expenses;
+        }
+
+        for(Expense expense : fullList){
+            if(expense.vehicleId == vehicleId){
+                expenses.add(expense);
+            }
+        }
+        return expenses;
+    }
+
     private void showExpenseEditFragment(Expense expense){
         ExpenseEditFragment expenseEditFragment = new ExpenseEditFragment();
         mVehicleViewModel.selectExpense(expense);
 
         // TODO: add slide-in-up and slide-down-out animations
-        getFragmentManager().beginTransaction()
+        getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, expenseEditFragment, "edit_expense")
                 .addToBackStack(null)
                 .commit();

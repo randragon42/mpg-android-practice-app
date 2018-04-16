@@ -62,6 +62,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/title_label"
+                        android:inputType="textCapWords"
                         android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -90,12 +91,12 @@
                         android:id="@+id/date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/date"
                         android:clickable="true"
-                        android:longClickable="false"
                         android:focusable="false"
+                        android:hint="@string/date"
+                        android:longClickable="false"
                         android:singleLine="true"
-                        tools:text="3/14/2018"/>
+                        tools:text="3/14/2018" />
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
@@ -144,7 +145,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/note"
-                        android:inputType="textMultiLine"
+                        android:inputType="textCapSentences|textMultiLine"
                         android:singleLine="false"
                         tools:text="Note that needs to be really long so I can see what it does when it goes to more than one line." />
                 </android.support.design.widget.TextInputLayout>

@@ -73,7 +73,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
     public void onBindViewHolder(ExpenseListAdapter.ViewHolder holder, int position) {
         final Expense expense = mAllExpenses.get(position);
 
-        holder.mDate.setText(formatDate(expense.date, "YYYY-M-d"));
+        holder.mDate.setText(formatDate(expense.date, "yyyy MM dd"));
         holder.mExpenseType.setText(expense.type);
         holder.mExpenseTitle.setText(expense.title);
         holder.mOdometer.setText(String.format("%.1f", expense.odometer));

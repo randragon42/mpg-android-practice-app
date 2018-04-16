@@ -40,7 +40,7 @@ public class Repository {
 
         // Expenses
         mExpenseDao = db.expenseDao();
-        mAllExpenses = mExpenseDao.getAllExpenses(mVehicleId);
+        mAllExpenses = mExpenseDao.getAllExpenses();
     }
 
     // Vehicles
