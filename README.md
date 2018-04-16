@@ -2,7 +2,7 @@
 MPG Tracker is an Android application for tracking vehicle fuel consumption.
 
 ## App Progress
-This app is currently under development. Once [MVP goals](https://github.com/randragon42/mpg-android-practice-app/projects/1) are met, I plan to release the app on the Google Play store.
+This app is currently under development. Once [MVP goals](https://github.com/randragon42/mpg-android-practice-app/projects/1) and a few of the [Stretch Goals](https://github.com/randragon42/mpg-tracker/projects/2) are met, I plan to release the app on the Google Play store.
 
 ## App Features
 The goal of this app is to make it easy to track and analyze vehicle fuel consumption.
