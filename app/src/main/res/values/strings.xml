@@ -28,21 +28,21 @@
     <string name="edit_trip_title">Edit Trip</string>
     <string name="create_trip_title">Add Trip</string>
     <string name="date">Date</string>
-    <string name="trip_miles_label">Trip Miles</string>
+    <string name="trip_distance_label">Trip Distance</string>
     <string name="pump_info">Pump Info</string>
     <string name="vehicle_info">Vehicle Info</string>
     <string name="total_cost_label">Total Cost</string>
-    <string name="gallons_label">Gallons</string>
+    <string name="volume_label">Fuel Volume</string>
     <string name="odometer_label">Odometer</string>
     <string name="filled_tank_label">Filled Tank</string>
     <string name="delete_trip">Delete Trip</string>
     <string name="auto_calc">Auto Calc</string>
-    <string name="miles_missing">Distance required.</string>
-    <string name="miles_correct_format">Invalid miles value. Must be greater than 0.</string>
+    <string name="distance_missing">Distance required.</string>
+    <string name="distance_correct_format">Invalid distance value. Must be greater than 0.</string>
     <string name="cost_missing">Cost required.</string>
     <string name="cost_correct_format">Invalid cost value. Must be greater than 0.</string>
-    <string name="gallons_missing">Gallons required.</string>
-    <string name="gallons_correct_format">Invalid gallons value. Must be greater than 0.</string>
+    <string name="volume_missing">Volume required.</string>
+    <string name="volume_correct_format">Invalid volume value. Must be greater than 0.</string>
     <string name="odometer_missing">Odometer reading required.</string>
     <string name="odometer_correct_format">Invalid odometer value. Must be greater than previous trip.</string>
     <string name="delete_trip_dialog_title">Delete Trip?</string>
@@ -51,7 +51,7 @@
 
     <!--Graphs Fragment-->
     <string name="graphs_title">Graphs</string>
-    <string name="mpg_over_time">Miles Per Gallon Over Time</string>
+    <string name="fuel_efficiency_over_time">Fuel Efficiency Over Time</string>
     <string name="distance_over_time">Distance Over Time</string>
     <string name="cost_over_time">Cost Over Time</string>
     <string name="one_month">1 Month</string>
@@ -63,6 +63,14 @@
     <string name="settings_title">Settings</string>
     <string name="default_filled">Default to Tank Filled</string>
     <string name="default_filled_summary">By default, tank filled property will be checked</string>
+    <string name="units">Units</string>
+    <string name="units_summary">Select the type of units for your country.</string>
+    <string name="imperial">Imperial/US</string>
+    <string name="metric">Metric</string>
+    <string-array name="units_array">
+        <item>@string/imperial</item>
+        <item>@string/metric</item>
+    </string-array>
 
     <string name="trip_creation">Trip Creation</string>
     <string name="about">About</string>
@@ -75,20 +83,24 @@
 
     <!--Stats Fragment-->
     <string name="stats_title">Stats</string>
-    <string name="mpg">MPG</string>
+    <string name="fuel_efficiency">Fuel Efficiency</string>
     <string name="cost">Cost</string>
     <string name="distance">Distance</string>
 
-    <string name="mpg_header">MPG</string>
-    <string name="average_mpg">Average MPG</string>
-    <string name="best_mpg">Best MPG</string>
-    <string name="worst_mpg">Worst MPG</string>
+    <string name="efficiency_header">Efficiency</string>
+    <string name="average_efficiency">Average Efficiency</string>
+    <string name="best_efficiency">Best Efficiency</string>
+    <string name="worst_efficiency">Worst Efficiency</string>
+
+    <string name="average">Average</string>
+    <string name="best">Best</string>
+    <string name="worst">Worst</string>
 
     <string name="distance_header">Distance</string>
-    <string name="average_distance">Average Trip Miles</string>
+    <string name="average_distance">Average Trip Distance</string>
     <string name="longest_trip">Longest Trip</string>
     <string name="shortest_trip">Shortest Trip</string>
-    <string name="total_distance">Total Miles Driven</string>
+    <string name="total_distance">Total Distance Driven</string>
 
     <string name="cost_header">Cost</string>
     <string name="average_cost">Average Trip Cost</string>
@@ -97,10 +109,10 @@
     <string name="total_cost">Total Spent On All Trips</string>
 
     <string name="fuel_header">Fuel</string>
-    <string name="average_gallons">Average Trip Gallons</string>
-    <string name="most_gallons">Most Gallons</string>
-    <string name="least_gallons">Least Gallons</string>
-    <string name="total_gallons">Total Gallons Purchased</string>
+    <string name="average_trip">Average Trip</string>
+    <string name="most">Most</string>
+    <string name="least">Least</string>
+    <string name="total">Total</string>
 
     <!--Trip List Item-->
     <string name="tank_filled_notification">Tank Filled</string>
@@ -167,5 +179,17 @@
         <item>Tuning</item>
         <item>Other</item>
     </string-array>
+
+    <!--Unit Labels and Titles-->
+    <string name="l">l</string>
+    <string name="km">km</string>
+    <string name="km_per_l">km/l</string>
+    <string name="gal">gal</string>
+    <string name="miles">miles</string>
+    <string name="mpg">mpg</string>
+    <string name="MPG">MPG</string>
+    <string name="KM_per_L">Km/L</string>
+    <string name="Gallons">Gallons</string>
+    <string name="Liters">Liters</string>
 
 </resources>

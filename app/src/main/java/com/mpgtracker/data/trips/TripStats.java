@@ -10,19 +10,19 @@ public class TripStats {
     private double mHighestCost;
     private double mLowestCost;
 
-    private double mAverageMiles;
-    private double mTotalMiles;
-    private double mMostMiles;
-    private double mLeastMiles;
+    private double mAverageDistance;
+    private double mTotalDistance;
+    private double mMostDistance;
+    private double mLeastDistance;
 
-    private double mAverageGallons;
-    private double mTotalGallons;
-    private double mMostGallons;
-    private double mLeastGallons;
+    private double mAverageVolume;
+    private double mTotalVolume;
+    private double mMostVolume;
+    private double mLeastVolume;
 
-    private double mAverageMpg;
-    private double mBestMpg;
-    private double mWorstMpg;
+    private double mAverageEfficiency;
+    private double mBestEfficiency;
+    private double mWorstEfficiency;
 
     public double getAverageCost() {
         return mAverageCost;
@@ -40,48 +40,48 @@ public class TripStats {
         return mLowestCost;
     }
 
-    public double getAverageMiles() {
-        return mAverageMiles;
+    public double getAverageDistance() {
+        return mAverageDistance;
     }
 
-    public double getTotalMiles() {
-        return mTotalMiles;
+    public double getTotalDistance() {
+        return mTotalDistance;
     }
 
-    public double getMostMiles() {
-        return mMostMiles;
+    public double getMostDistance() {
+        return mMostDistance;
     }
 
-    public double getLeastMiles() {
-        return mLeastMiles;
+    public double getLeastDistance() {
+        return mLeastDistance;
     }
 
-    public double getAverageGallons() {
-        return mAverageGallons;
+    public double getAverageVolume() {
+        return mAverageVolume;
     }
 
-    public double getTotalGallons() {
-        return mTotalGallons;
+    public double getTotalVolume() {
+        return mTotalVolume;
     }
 
-    public double getMostGallons() {
-        return mMostGallons;
+    public double getMostVolume() {
+        return mMostVolume;
     }
 
-    public double getLeastGallons() {
-        return mLeastGallons;
+    public double getLeastVolume() {
+        return mLeastVolume;
     }
 
-    public double getAverageMpg() {
-        return mAverageMpg;
+    public double getAverageEfficiency() {
+        return mAverageEfficiency;
     }
 
-    public double getBestMpg() {
-        return mBestMpg;
+    public double getBestEfficiency() {
+        return mBestEfficiency;
     }
 
-    public double getWorstMpg() {
-        return mWorstMpg;
+    public double getWorstEfficiency() {
+        return mWorstEfficiency;
     }
 
     public TripStats(List<Trip> trips) {
@@ -93,36 +93,36 @@ public class TripStats {
         double highestCost = 0;
         double lowestCost = Double.MAX_VALUE;
 
-        double totalMiles = 0;
-        double mostMiles = 0;
-        double leastMiles = Double.MAX_VALUE;
+        double totalDistance = 0;
+        double mostDistance = 0;
+        double leastDistance = Double.MAX_VALUE;
 
-        double totalGallons = 0;
-        double mostGallons = 0;
-        double leastGallons = Double.MAX_VALUE;
+        double totalVolume = 0;
+        double mostVolume = 0;
+        double leastVolume = Double.MAX_VALUE;
 
-        double bestMpg = 0;
-        double totalMpg = 0;
-        double worstMpg = Double.MAX_VALUE;
+        double bestEfficiency = 0;
+        double totalEfficiency = 0;
+        double worstEfficiency = Double.MAX_VALUE;
 
         for(int i=0; i<trips.size(); i++){
             Trip trip = trips.get(i);
             totalCost = totalCost + trip.getTripCost();
-            totalMiles = totalMiles + trip.getMiles();
-            totalGallons = totalGallons + trip.getGallons();
+            totalDistance = totalDistance + trip.getDistance();
+            totalVolume = totalVolume + trip.getVolume();
 
             highestCost = highestCost < trip.getTripCost() ? trip.getTripCost() : highestCost;
-            mostMiles = mostMiles < trip.getMiles() ? trip.getMiles() : mostMiles;
-            mostGallons = mostGallons < trip.getGallons() ? trip.getGallons() : mostGallons;
+            mostDistance = mostDistance < trip.getDistance() ? trip.getDistance() : mostDistance;
+            mostVolume = mostVolume < trip.getVolume() ? trip.getVolume() : mostVolume;
 
             lowestCost = lowestCost > trip.getTripCost() ? trip.getTripCost() : lowestCost;
-            leastMiles = leastMiles > trip.getMiles() ? trip.getMiles() : leastMiles;
-            leastGallons = leastGallons > trip.getGallons() ? trip.getGallons() : leastGallons;
+            leastDistance = leastDistance > trip.getDistance() ? trip.getDistance() : leastDistance;
+            leastVolume = leastVolume > trip.getVolume() ? trip.getVolume() : leastVolume;
 
             if(trip.filledTank){
-                totalMpg += trip.getMilesPerGallon();
-                worstMpg = worstMpg > trip.getMilesPerGallon() ? trip.getMilesPerGallon() : worstMpg;
-                bestMpg = bestMpg < trip.getMilesPerGallon() ? trip.getMilesPerGallon() : bestMpg;
+                totalEfficiency += trip.getEfficiency();
+                worstEfficiency = worstEfficiency > trip.getEfficiency() ? trip.getEfficiency() : worstEfficiency;
+                bestEfficiency = bestEfficiency < trip.getEfficiency() ? trip.getEfficiency() : bestEfficiency;
             }
         }
 
@@ -130,16 +130,16 @@ public class TripStats {
         mTotalCost = totalCost;
         mHighestCost = highestCost;
         mLowestCost = lowestCost;
-        mAverageMiles = totalMiles/trips.size();
-        mTotalMiles = totalMiles;
-        mMostMiles = mostMiles;
-        mLeastMiles = leastMiles;
-        mAverageGallons = totalGallons/trips.size();
-        mTotalGallons = totalGallons;
-        mMostGallons = mostGallons;
-        mLeastGallons = leastGallons;
-        mAverageMpg = totalMpg/trips.size();
-        mBestMpg = bestMpg;
-        mWorstMpg = worstMpg;
+        mAverageDistance = totalDistance/trips.size();
+        mTotalDistance = totalDistance;
+        mMostDistance = mostDistance;
+        mLeastDistance = leastDistance;
+        mAverageVolume = totalVolume/trips.size();
+        mTotalVolume = totalVolume;
+        mMostVolume = mostVolume;
+        mLeastVolume = leastVolume;
+        mAverageEfficiency = totalEfficiency/trips.size();
+        mBestEfficiency = bestEfficiency;
+        mWorstEfficiency = worstEfficiency;
     }
 }

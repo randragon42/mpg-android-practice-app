@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import com.mpgtracker.R;
 import com.mpgtracker.adapters.GraphPageAdapter;
 
+// TODO: This fragment is no longer used. Graphs are now shown in the StatsFragment and chosen
+// TODO: via a spinner rather than a tab layout
+
 public class GraphsFragment extends BaseFragment {
 
     @Override

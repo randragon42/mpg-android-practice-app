@@ -187,13 +187,13 @@ public class BaseGraphFragment extends Fragment {
         List<Entry> entries = new ArrayList<Entry>();
         for(Trip trip : mTripList) {
             if(this instanceof MpgGraphFragment){
-                entries.add(new Entry(trip.getDate().getTime(), (float)trip.getMilesPerGallon()));
+                entries.add(new Entry(trip.getDate().getTime(), (float)trip.getEfficiency()));
             }
             else if(this instanceof CostGraphFragment){
                 entries.add(new Entry(trip.getDate().getTime(), (float)trip.getTripCost()));
             }
             else if(this instanceof DistanceGraphFragment){
-                entries.add(new Entry(trip.getDate().getTime(), (float)trip.getMiles()));
+                entries.add(new Entry(trip.getDate().getTime(), (float)trip.getDistance()));
             }
         }
         return entries;

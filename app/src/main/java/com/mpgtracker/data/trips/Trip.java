@@ -23,9 +23,9 @@ public class Trip implements Comparable<Trip>{
 
     public Date date;
 
-    public double gallons;
+    public double volume;
 
-    public double miles;
+    public double distance;
 
     public double tripCost;
 
@@ -34,15 +34,15 @@ public class Trip implements Comparable<Trip>{
     public boolean filledTank;
 
     @Ignore
-    public Trip(int id, Date date, double gallons, double miles, double tripCost, double odometer, boolean filledTank, int carId){
-        this(date, gallons, miles, tripCost, odometer, filledTank, carId);
+    public Trip(int id, Date date, double volume, double distance, double tripCost, double odometer, boolean filledTank, int carId){
+        this(date, volume, distance, tripCost, odometer, filledTank, carId);
         this.id = id;
     }
 
-    public Trip(Date date, double gallons, double miles, double tripCost, double odometer, boolean filledTank, int vehicleId){
+    public Trip(Date date, double volume, double distance, double tripCost, double odometer, boolean filledTank, int vehicleId){
         this.date = date;
-        this.gallons = gallons;
-        this.miles = miles;
+        this.volume = volume;
+        this.distance = distance;
         this.tripCost = tripCost;
         this.odometer = odometer;
         this.filledTank = filledTank;
@@ -62,12 +62,12 @@ public class Trip implements Comparable<Trip>{
 
     public String getFormattedDate(){ return DATE_FORMAT.format(date); }
 
-    public double getGallons(){
-        return gallons;
+    public double getVolume(){
+        return volume;
     }
 
-    public double getMiles(){
-        return miles;
+    public double getDistance(){
+        return distance;
     }
 
     public double getTripCost(){
@@ -82,13 +82,13 @@ public class Trip implements Comparable<Trip>{
         return filledTank;
     }
 
-    public double getCostPerGallon(){
-        return tripCost/gallons;
+    public double getCostPerVolume(){
+        return tripCost/ volume;
     }
 
-    public double getMilesPerGallon(){
+    public double getEfficiency(){
         if (filledTank) {
-            return miles/gallons;
+            return distance / volume;
         }
         else {
             return -1;

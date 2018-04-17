@@ -3,6 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/settings_title">
 
+    <ListPreference
+        android:key="pref_units"
+        android:title="@string/units"
+        android:dialogTitle="@string/units"
+        android:summary="@string/units_summary"
+        android:entries="@array/units_array"
+        android:entryValues="@array/units_array"
+        android:defaultValue="@string/imperial" />
+
     <PreferenceCategory
         android:title="@string/trip_creation"
         android:key="pref_key_trip_creation_settings">

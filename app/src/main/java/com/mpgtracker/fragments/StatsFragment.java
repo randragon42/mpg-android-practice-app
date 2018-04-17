@@ -5,19 +5,15 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.ColorStateList;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,7 +21,6 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -35,13 +30,12 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.mpgtracker.R;
-import com.mpgtracker.adapters.GraphPageAdapter;
-import com.mpgtracker.data.MPAndroidChart.MpgMarkerView;
 import com.mpgtracker.data.MPAndroidChart.XAxisDateFormatter;
 import com.mpgtracker.data.trips.Trip;
 import com.mpgtracker.data.trips.TripStat;
 import com.mpgtracker.data.trips.TripStats;
 import com.mpgtracker.data.VehicleViewModel;
+import com.mpgtracker.helpers.UnitHelper;
 
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
@@ -62,6 +56,7 @@ public class StatsFragment extends BaseFragment {
     private TextView mHeader;
     private LineChart mChart;
     private XAxis mXAxis;
+    private UnitHelper mUnitHelper;
 
     private TripStats mTripStats;
     private boolean mNoTripData = false;
@@ -96,6 +91,8 @@ public class StatsFragment extends BaseFragment {
         mToolbar = getActivity().findViewById(R.id.toolbar);
         addSpinnerNavigationToActionBar();
 
+        mUnitHelper = new UnitHelper(getContext());
+
         return view;
     }
 
@@ -105,7 +102,7 @@ public class StatsFragment extends BaseFragment {
 
         mTripStats = mVehicleViewModel.getTripStats();
         mNoTripData = mVehicleViewModel.getAllTrips().getValue().size() == 0;
-        mNoMpgData = mTripStats.getAverageMpg() == 0;
+        mNoMpgData = mTripStats.getAverageEfficiency() == 0;
         mStatsList = compileAllStats();
 
         mHeader = view.findViewById(R.id.stat_header);
@@ -155,9 +152,11 @@ public class StatsFragment extends BaseFragment {
         List<TripStat> tripStats = new ArrayList<>();
 
         // MPG Stats (0, 2)
-        tripStats.add(new TripStat(getResources().getString(R.string.average_mpg), String.format("%.2f", mTripStats.getAverageMpg())));
-        tripStats.add(new TripStat(getResources().getString(R.string.best_mpg), String.format("%.2f", mTripStats.getBestMpg())));
-        tripStats.add(new TripStat(getResources().getString(R.string.worst_mpg), String.format("%.2f", mTripStats.getWorstMpg())));
+        String efficiencyTitle = " " + mUnitHelper.getEfficiencyTitle();
+        String efficiencyLabel = " " + mUnitHelper.getEfficiencyLabel();
+        tripStats.add(new TripStat(getResources().getString(R.string.average) + efficiencyTitle, String.format("%.2f" + efficiencyLabel, mTripStats.getAverageEfficiency())));
+        tripStats.add(new TripStat(getResources().getString(R.string.best) + efficiencyTitle, String.format("%.2f" + efficiencyLabel, mTripStats.getBestEfficiency())));
+        tripStats.add(new TripStat(getResources().getString(R.string.worst) + efficiencyTitle, String.format("%.2f" + efficiencyLabel, mTripStats.getWorstEfficiency())));
         if (mNoMpgData) {
             for(TripStat stat: tripStats){
                 stat.setStatValue("-");
@@ -165,10 +164,11 @@ public class StatsFragment extends BaseFragment {
         }
 
         // Distance Stats (3, 6)
-        tripStats.add(new TripStat(getResources().getString(R.string.average_distance), String.format("%.1f", mTripStats.getAverageMiles())));
-        tripStats.add(new TripStat(getResources().getString(R.string.longest_trip), String.format("%.1f", mTripStats.getMostMiles())));
-        tripStats.add(new TripStat(getResources().getString(R.string.shortest_trip), String.format("%.1f", mTripStats.getLeastMiles())));
-        tripStats.add(new TripStat(getResources().getString(R.string.total_distance), String.format("%.1f", mTripStats.getTotalMiles())));
+        String distanceLabel = " " + mUnitHelper.getDistanceLabel();
+        tripStats.add(new TripStat(getResources().getString(R.string.average_distance), String.format("%.1f" + distanceLabel, mTripStats.getAverageDistance())));
+        tripStats.add(new TripStat(getResources().getString(R.string.longest_trip), String.format("%.1f" + distanceLabel, mTripStats.getMostDistance())));
+        tripStats.add(new TripStat(getResources().getString(R.string.shortest_trip), String.format("%.1f" + distanceLabel, mTripStats.getLeastDistance())));
+        tripStats.add(new TripStat(getResources().getString(R.string.total_distance), String.format("%.1f" + distanceLabel, mTripStats.getTotalDistance())));
 
         // Cost Stats (7, 10)
         tripStats.add(new TripStat(getResources().getString(R.string.average_cost), String.format("$%.2f", mTripStats.getAverageCost())));
@@ -176,11 +176,12 @@ public class StatsFragment extends BaseFragment {
         tripStats.add(new TripStat(getResources().getString(R.string.lowest_cost), String.format("$%.2f", mTripStats.getLowestCost())));
         tripStats.add(new TripStat(getResources().getString(R.string.total_cost), String.format("$%.2f", mTripStats.getTotalCost())));
 
-        // Gallons Stats (11, 14)
-        tripStats.add(new TripStat(getResources().getString(R.string.average_gallons), String.format("%.3f", mTripStats.getAverageGallons())));
-        tripStats.add(new TripStat(getResources().getString(R.string.most_gallons), String.format("%.3f", mTripStats.getMostGallons())));
-        tripStats.add(new TripStat(getResources().getString(R.string.least_gallons), String.format("%.3f", mTripStats.getLeastGallons())));
-        tripStats.add(new TripStat(getResources().getString(R.string.total_gallons), String.format("%.3f", mTripStats.getTotalGallons())));
+        // Volume Stats (11, 14)
+        String volumeLabel = " " + mUnitHelper.getVolumeLabel();
+        tripStats.add(new TripStat(getResources().getString(R.string.average_trip) + volumeLabel, String.format("%.3f", mTripStats.getAverageVolume())));
+        tripStats.add(new TripStat(getResources().getString(R.string.most) + volumeLabel, String.format("%.3f", mTripStats.getMostVolume())));
+        tripStats.add(new TripStat(getResources().getString(R.string.least) + volumeLabel, String.format("%.3f", mTripStats.getLeastVolume())));
+        tripStats.add(new TripStat(getResources().getString(R.string.total) + volumeLabel, String.format("%.3f", mTripStats.getTotalVolume())));
 
         if(mNoTripData) {
             for(TripStat stat: tripStats){
@@ -199,7 +200,7 @@ public class StatsFragment extends BaseFragment {
 
             // Set chart options
             String[] chartOptions = new String[]{
-                    getResources().getString(R.string.mpg),
+                    getResources().getString(R.string.fuel_efficiency),
                     getResources().getString(R.string.cost),
                     getResources().getString(R.string.distance)
             };
@@ -245,7 +246,7 @@ public class StatsFragment extends BaseFragment {
 
     private void mpgSelected() {
         mSelected = MPG;
-        mHeader.setText(getResources().getString(R.string.mpg));
+        mHeader.setText(getResources().getString(R.string.fuel_efficiency));
         setLinearLayout(mLinearLayout, mStatsList.subList(0,3));
         checkDataSet();
     }
@@ -277,13 +278,13 @@ public class StatsFragment extends BaseFragment {
         List<Entry> entries = new ArrayList<Entry>();
         for(Trip trip : mTripList) {
             if(mSelected.equals(MPG)){
-                entries.add(new Entry(trip.getDate().getTime(), (float)trip.getMilesPerGallon()));
+                entries.add(new Entry(trip.getDate().getTime(), (float)trip.getEfficiency()));
             }
             else if(mSelected.equals(COST)){
                 entries.add(new Entry(trip.getDate().getTime(), (float)trip.getTripCost()));
             }
             else if(mSelected.equals(DISTANCE)){
-                entries.add(new Entry(trip.getDate().getTime(), (float)trip.getMiles()));
+                entries.add(new Entry(trip.getDate().getTime(), (float)trip.getDistance()));
             }
         }
         return entries;

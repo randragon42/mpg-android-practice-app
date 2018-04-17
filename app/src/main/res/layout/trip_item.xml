@@ -58,7 +58,7 @@
                 tools:text="$35.24" />
 
             <TextView
-                android:id="@+id/costPerGallon"
+                android:id="@+id/costPerVolume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cost"
@@ -81,20 +81,20 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/miles"
+                android:id="@+id/distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:maxLines="1"
                 android:textSize="16sp"
-                tools:text="400.2 miles" />
+                tools:text="400.2 distance" />
 
             <TextView
                 android:id="@+id/odometer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/miles"
+                android:layout_below="@+id/distance"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
@@ -105,7 +105,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/gallonStats"
+            android:id="@+id/volumeStats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -123,7 +123,7 @@
                 tools:text="32.4 mpg" />
 
             <TextView
-                android:id="@+id/gallons"
+                android:id="@+id/volume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/mpg"

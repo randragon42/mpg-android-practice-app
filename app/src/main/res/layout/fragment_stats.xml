@@ -32,7 +32,7 @@
                 style="@style/stats_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/mpg_header" />
+                android:text="@string/efficiency_header" />
 
             <LinearLayout
                 android:id="@+id/mpg_stats_list_view"
@@ -73,14 +73,14 @@
                 android:scrollbars="none" />
 
             <TextView
-                android:id="@+id/gallons_header"
+                android:id="@+id/volume_header"
                 style="@style/stats_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/fuel_header" />
 
             <LinearLayout
-                android:id="@+id/gallons_stats_list_view"
+                android:id="@+id/volume_stats_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
