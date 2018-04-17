@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
@@ -30,6 +32,7 @@ import android.widget.Toast;
 import com.mpgtracker.R;
 import com.mpgtracker.data.trips.Trip;
 import com.mpgtracker.data.VehicleViewModel;
+import com.mpgtracker.helpers.UnitHelper;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -45,6 +48,7 @@ public class TripEditFragment extends BaseFragment {
     private VehicleViewModel mVehicleViewModel;
     private Calendar mCalendar;
     private DatePickerDialog.OnDateSetListener mDate;
+    private UnitHelper mUnitHelper;
     private int mId = -1;
     private boolean mCreateMode = false;
 
@@ -68,6 +72,8 @@ public class TripEditFragment extends BaseFragment {
 
         // Get ViewModel
         mVehicleViewModel = ViewModelProviders.of(getActivity()).get(VehicleViewModel.class);
+
+        mUnitHelper = new UnitHelper(getContext());
 
         // Set up Navigation on action bar
         setHasOptionsMenu(true);
@@ -104,6 +110,9 @@ public class TripEditFragment extends BaseFragment {
         mFilledTank = view.findViewById(R.id.filled_tank_check_box);
         mDeleteTrip = view.findViewById(R.id.delete_trip);
 
+        TextInputLayout volumeInputLayout = view.findViewById(R.id.volume_input_layout);
+        volumeInputLayout.setHint(mUnitHelper.getVolumeTitle());
+
         //Set up fields if editing existing trip
         if(mCreateMode){
             CardView deleteCard = view.findViewById(R.id.delete_trip_card);
@@ -121,7 +130,7 @@ public class TripEditFragment extends BaseFragment {
             mDatePicker.setText(mTrip.getFormattedDate());
             mDistance.setText(String.format(Double.toString(mTrip.getDistance()), "%.1f"));
             mVolume.setText(String.format(Double.toString(mTrip.getVolume()), "%.3f"));
-            mCost.setText(String.format(Double.toString(mTrip.getTripCost()), "%.2f"));
+            mCost.setText(String.format(Double.toString(mTrip.getTripCost()), "$%.2f"));
             mOdometer.setText(String.format(Double.toString(mTrip.getOdometer()), "%.1f"));
             mFilledTank.setChecked(mTrip.getFilledTank());
 

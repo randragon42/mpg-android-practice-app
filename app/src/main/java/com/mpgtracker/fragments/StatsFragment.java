@@ -35,6 +35,7 @@ import com.mpgtracker.data.trips.Trip;
 import com.mpgtracker.data.trips.TripStat;
 import com.mpgtracker.data.trips.TripStats;
 import com.mpgtracker.data.VehicleViewModel;
+import com.mpgtracker.helpers.UnitHelper;
 
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
@@ -55,6 +56,7 @@ public class StatsFragment extends BaseFragment {
     private TextView mHeader;
     private LineChart mChart;
     private XAxis mXAxis;
+    private UnitHelper mUnitHelper;
 
     private TripStats mTripStats;
     private boolean mNoTripData = false;
@@ -88,6 +90,8 @@ public class StatsFragment extends BaseFragment {
         mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         mToolbar = getActivity().findViewById(R.id.toolbar);
         addSpinnerNavigationToActionBar();
+
+        mUnitHelper = new UnitHelper(getContext());
 
         return view;
     }
@@ -148,9 +152,11 @@ public class StatsFragment extends BaseFragment {
         List<TripStat> tripStats = new ArrayList<>();
 
         // MPG Stats (0, 2)
-        tripStats.add(new TripStat(getResources().getString(R.string.average_efficiency), String.format("%.2f", mTripStats.getAverageEfficiency())));
-        tripStats.add(new TripStat(getResources().getString(R.string.best_efficiency), String.format("%.2f", mTripStats.getBestEfficiency())));
-        tripStats.add(new TripStat(getResources().getString(R.string.worst_efficiency), String.format("%.2f", mTripStats.getWorstEfficiency())));
+        String efficiencyTitle = " " + mUnitHelper.getEfficiencyTitle();
+        String efficiencyLabel = " " + mUnitHelper.getEfficiencyLabel();
+        tripStats.add(new TripStat(getResources().getString(R.string.average) + efficiencyTitle, String.format("%.2f" + efficiencyLabel, mTripStats.getAverageEfficiency())));
+        tripStats.add(new TripStat(getResources().getString(R.string.best) + efficiencyTitle, String.format("%.2f" + efficiencyLabel, mTripStats.getBestEfficiency())));
+        tripStats.add(new TripStat(getResources().getString(R.string.worst) + efficiencyTitle, String.format("%.2f" + efficiencyLabel, mTripStats.getWorstEfficiency())));
         if (mNoMpgData) {
             for(TripStat stat: tripStats){
                 stat.setStatValue("-");
@@ -158,10 +164,11 @@ public class StatsFragment extends BaseFragment {
         }
 
         // Distance Stats (3, 6)
-        tripStats.add(new TripStat(getResources().getString(R.string.average_distance), String.format("%.1f", mTripStats.getAverageDistance())));
-        tripStats.add(new TripStat(getResources().getString(R.string.longest_trip), String.format("%.1f", mTripStats.getMostDistance())));
-        tripStats.add(new TripStat(getResources().getString(R.string.shortest_trip), String.format("%.1f", mTripStats.getLeastDistance())));
-        tripStats.add(new TripStat(getResources().getString(R.string.total_distance), String.format("%.1f", mTripStats.getTotalDistance())));
+        String distanceLabel = " " + mUnitHelper.getDistanceLabel();
+        tripStats.add(new TripStat(getResources().getString(R.string.average_distance), String.format("%.1f" + distanceLabel, mTripStats.getAverageDistance())));
+        tripStats.add(new TripStat(getResources().getString(R.string.longest_trip), String.format("%.1f" + distanceLabel, mTripStats.getMostDistance())));
+        tripStats.add(new TripStat(getResources().getString(R.string.shortest_trip), String.format("%.1f" + distanceLabel, mTripStats.getLeastDistance())));
+        tripStats.add(new TripStat(getResources().getString(R.string.total_distance), String.format("%.1f" + distanceLabel, mTripStats.getTotalDistance())));
 
         // Cost Stats (7, 10)
         tripStats.add(new TripStat(getResources().getString(R.string.average_cost), String.format("$%.2f", mTripStats.getAverageCost())));
@@ -169,11 +176,12 @@ public class StatsFragment extends BaseFragment {
         tripStats.add(new TripStat(getResources().getString(R.string.lowest_cost), String.format("$%.2f", mTripStats.getLowestCost())));
         tripStats.add(new TripStat(getResources().getString(R.string.total_cost), String.format("$%.2f", mTripStats.getTotalCost())));
 
-        // Gallons Stats (11, 14)
-        tripStats.add(new TripStat(getResources().getString(R.string.average_volume), String.format("%.3f", mTripStats.getAverageVolume())));
-        tripStats.add(new TripStat(getResources().getString(R.string.most_volume), String.format("%.3f", mTripStats.getMostVolume())));
-        tripStats.add(new TripStat(getResources().getString(R.string.least_volume), String.format("%.3f", mTripStats.getLeastVolume())));
-        tripStats.add(new TripStat(getResources().getString(R.string.total_volume), String.format("%.3f", mTripStats.getTotalVolume())));
+        // Volume Stats (11, 14)
+        String volumeLabel = " " + mUnitHelper.getVolumeLabel();
+        tripStats.add(new TripStat(getResources().getString(R.string.average_trip) + volumeLabel, String.format("%.3f", mTripStats.getAverageVolume())));
+        tripStats.add(new TripStat(getResources().getString(R.string.most) + volumeLabel, String.format("%.3f", mTripStats.getMostVolume())));
+        tripStats.add(new TripStat(getResources().getString(R.string.least) + volumeLabel, String.format("%.3f", mTripStats.getLeastVolume())));
+        tripStats.add(new TripStat(getResources().getString(R.string.total) + volumeLabel, String.format("%.3f", mTripStats.getTotalVolume())));
 
         if(mNoTripData) {
             for(TripStat stat: tripStats){
@@ -192,7 +200,7 @@ public class StatsFragment extends BaseFragment {
 
             // Set chart options
             String[] chartOptions = new String[]{
-                    getResources().getString(R.string.efficiency),
+                    getResources().getString(R.string.fuel_efficiency),
                     getResources().getString(R.string.cost),
                     getResources().getString(R.string.distance)
             };
@@ -238,7 +246,7 @@ public class StatsFragment extends BaseFragment {
 
     private void mpgSelected() {
         mSelected = MPG;
-        mHeader.setText(getResources().getString(R.string.efficiency));
+        mHeader.setText(getResources().getString(R.string.fuel_efficiency));
         setLinearLayout(mLinearLayout, mStatsList.subList(0,3));
         checkDataSet();
     }

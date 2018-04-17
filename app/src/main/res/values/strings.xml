@@ -83,7 +83,7 @@
 
     <!--Stats Fragment-->
     <string name="stats_title">Stats</string>
-    <string name="efficiency">Efficiency</string>
+    <string name="fuel_efficiency">Fuel Efficiency</string>
     <string name="cost">Cost</string>
     <string name="distance">Distance</string>
 
@@ -91,6 +91,10 @@
     <string name="average_efficiency">Average Efficiency</string>
     <string name="best_efficiency">Best Efficiency</string>
     <string name="worst_efficiency">Worst Efficiency</string>
+
+    <string name="average">Average</string>
+    <string name="best">Best</string>
+    <string name="worst">Worst</string>
 
     <string name="distance_header">Distance</string>
     <string name="average_distance">Average Trip Distance</string>
@@ -105,10 +109,10 @@
     <string name="total_cost">Total Spent On All Trips</string>
 
     <string name="fuel_header">Fuel</string>
-    <string name="average_volume">Average Trip Gallons</string>
-    <string name="most_volume">Most Volume</string>
-    <string name="least_volume">Least Volume</string>
-    <string name="total_volume">Total Volume Purchased</string>
+    <string name="average_trip">Average Trip</string>
+    <string name="most">Most</string>
+    <string name="least">Least</string>
+    <string name="total">Total</string>
 
     <!--Trip List Item-->
     <string name="tank_filled_notification">Tank Filled</string>
@@ -175,5 +179,17 @@
         <item>Tuning</item>
         <item>Other</item>
     </string-array>
+
+    <!--Unit Labels and Titles-->
+    <string name="l">l</string>
+    <string name="km">km</string>
+    <string name="km_per_l">km/l</string>
+    <string name="gal">gal</string>
+    <string name="miles">miles</string>
+    <string name="mpg">mpg</string>
+    <string name="MPG">MPG</string>
+    <string name="KM_per_L">Km/L</string>
+    <string name="Gallons">Gallons</string>
+    <string name="Liters">Liters</string>
 
 </resources>

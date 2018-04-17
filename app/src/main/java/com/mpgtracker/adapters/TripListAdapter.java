@@ -2,6 +2,7 @@ package com.mpgtracker.adapters;
 
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.res.Resources;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.mpgtracker.R;
 import com.mpgtracker.data.VehicleViewModel;
 import com.mpgtracker.data.trips.Trip;
 import com.mpgtracker.fragments.TripEditFragment;
+import com.mpgtracker.helpers.UnitHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,6 +26,7 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
     private List<Trip> mAllTrips;
     private VehicleViewModel mVehicleViewModel;
     private FragmentActivity mActivity;
+    private UnitHelper mUnitHelper;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView mDate;
@@ -67,6 +70,7 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
         mAllTrips = allTrips;
         mActivity = activity;
         mVehicleViewModel = ViewModelProviders.of(activity).get(VehicleViewModel.class);
+        mUnitHelper = new UnitHelper(activity.getApplicationContext());
     }
 
     @Override
@@ -76,21 +80,26 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.ViewHo
         return vh;
     }
 
-    // TODO: handle imperial v metric
+    // TODO: fix string usage - use string resources and locale
     @Override
     public void onBindViewHolder(TripListAdapter.ViewHolder holder, int position) {
         final Trip trip = mAllTrips.get(position);
 
         holder.mDate.setText(formatDate(trip.getFormattedDate(), "MMM dd"));
         holder.mYear.setText(formatDate(trip.getFormattedDate(), "yyyy"));
+
+        String volume = mUnitHelper.getVolumeLabel();
+        String distance = mUnitHelper.getDistanceLabel();
+        String efficiency = mUnitHelper.getEfficiencyLabel();
+
         holder.mCost.setText(String.format("$%.2f", trip.getTripCost()));
-        holder.mVolume.setText(String.format("%.3f gal", trip.getVolume()));
-        holder.mCostPerVolume.setText(String.format("$%.3f/gal", trip.getCostPerVolume()));
-        holder.mDistance.setText(String.format("%.1f distance", trip.getDistance()));
+        holder.mVolume.setText(String.format("%.3f " + volume, trip.getVolume()));
+        holder.mCostPerVolume.setText(String.format("$%.3f/" + volume, trip.getCostPerVolume()));
+        holder.mDistance.setText(String.format("%.1f " + distance, trip.getDistance()));
         holder.mOdometer.setText(String.format("%.1f", trip.getOdometer()));
 
         if (trip.getFilledTank()) {
-            holder.mEfficiency.setText(String.format("%.2f mpg", trip.getEfficiency()));
+            holder.mEfficiency.setText(String.format("%.2f " + efficiency, trip.getEfficiency()));
             holder.mTankFilled.setText(mActivity.getResources().getString(R.string.tank_filled_notification));
         } else {
             holder.mEfficiency.setText("");
