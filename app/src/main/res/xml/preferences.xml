@@ -7,7 +7,7 @@
         android:key="pref_units"
         android:title="@string/units"
         android:dialogTitle="@string/units"
-        android:summary="@string/units_summary"
+        android:summary="%s"
         android:entries="@array/units_array"
         android:entryValues="@array/units_array"
         android:defaultValue="@string/imperial" />
